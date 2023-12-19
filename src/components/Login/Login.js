@@ -1,12 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate  } from 'react-router-dom';
+import './Login.css';
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import { login } from "../actions/auth";
+import { login } from "../../actions/auth";
 
 const required = (value) => {
   if (!value) {
@@ -26,6 +27,8 @@ const Login = (props) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { isLoggedIn } = useSelector(state => state.auth);
@@ -69,8 +72,48 @@ const Login = (props) => {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
+    
+    <div>
+      <div className="login-form">
+      <h1>Sign In</h1>
+      <form onSubmit={handleLogin}>
+        <div className='input'>
+          <label htmlFor="username">Username</label>
+          <input
+            type="username"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className='input'>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="rm-fp">
+            <div className='input remember-me'>
+              <input
+                type="checkbox"
+                id="remember-me"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="remember-me">Remember me</label>
+            </div>
+            <a href="/fpassword" className="forgot-password">Forgot Password?</a>
+        </div>
+        <button type="submit">Sign In</button>
+        <div className="sign-up-link">
+          or <a href="/signup">Sign Up</a>
+        </div>
+      </form>
+    </div>
+      {/* <div className="card card-container">
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
@@ -120,7 +163,7 @@ const Login = (props) => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      </div>
+      </div> */}
     </div>
   );
 };
