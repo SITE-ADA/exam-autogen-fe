@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./LoginForm.css";
-import { jwtDecode } from "jwt-decode";
 import { FaLock, FaUserAlt } from "react-icons/fa";
+import '../LoginForm/LoginForm.css';
 
 const LoginForm = () => {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,15 +19,27 @@ const LoginForm = () => {
           password,
         }
       );
+      console.log(response.data);
+
       const { token } = response.data; // Assuming the response includes only the token
       localStorage.setItem("token", token); // Storing the token in localStorage
 
       const { user } = response.data;
       const user_type_id = user.userTypeId;
+      localStorage.setItem("user", JSON.stringify(response.data));
 
-      if (user_type_id === "2") {
+      if (user_type_id === 2) {
         window.location.href = "/InstitutionRepresentative";
-      } // Add more conditions for other user types if needed
+      } else if(user_type_id === 1){
+        window.location.href = "/Admin";
+      } else if(user_type_id === 5){
+        window.location.href = "/Instructor";
+      } else if(user_type_id === 4){
+        window.location.href = "Student";
+      }
+      
+
+      // Add more conditions for other user types if needed
     } catch (error) {
       console.error("Login error", error);
       // Handle login error (e.g., showing an alert or message)

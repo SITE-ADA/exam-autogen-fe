@@ -1,0 +1,125 @@
+body {
+    display: flex;
+    align-items: unset;
+    justify-content: unset;
+}
+
+.admin {
+    height: 100vh;
+}
+
+.admin .sidebar
+{
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    width: 200px;
+    height: 100%;
+    background-color: #F1F1F1;
+}
+
+.sidebar .user-info {
+    padding: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 9px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.user-info img
+{
+    border-radius: 50%;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Align items horizontally */
+    padding: 12px 15px;
+    height: 50px;
+    width: 125px;
+    border-radius: 10px;
+    font-style: normal;
+    background-color: #F1F1F1;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    column-gap: 10px;
+    font-size: 16px;
+}
+
+.tabs a {
+    text-decoration: none;
+    color: #343434;
+}
+
+.tabs img {
+    fill: #343434;
+}
+
+.tabs a.active {
+    background-color: #0832DE;
+    color: #F1F1F1;
+}
+
+.tab-default {
+    background-color: #0832DE;
+    color: #F1F1F1;;
+}
+
+.active {
+    background-color: #0832DE;
+    color: #F1F1F1;
+}
+
+.sidebar .tabs {
+    height: 100%;
+    padding-right: 20px;
+    width: 100%;
+    background-color: #F1F1F1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+}
+
+.signout
+{
+    display: flex;
+    margin-left: 32px;
+    margin-right: 32px;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    column-gap: 10px;
+    width: 125px;
+    height: 50px;
+    border-radius: 10px;
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 15px;
+}
+
+.signout:hover {
+    cursor: pointer;
+    background-color: #0832DE;
+    color: #F1F1F1;
+}
+
+.signout img {
+    width: 24px;
+    height: 24px;
+}
+
+.signout .btn {
+    cursor: pointer;
+    border: none;
+    color: #343434;
+    font-size: 16px;
+    background-color: inherit;
+    color: inherit;
+    text-wrap: nowrap;
+}
