@@ -7,7 +7,6 @@ import HouseBlackIcon from "../../icons/tab-icons/houseblack.svg";
 import SettingsBlackIcon from "../../icons/tab-icons/settingsblack.svg";
 import SignOutIcon from "../../icons/signout.svg";
 import { NavLink, useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
@@ -36,6 +35,7 @@ export default function Sidebar() {
 
   return (
     <div className="admin">
+
       <div className="sidebar">
 
         <div className="user-info">
@@ -44,6 +44,7 @@ export default function Sidebar() {
         </div>
 
         <div className="tabs">
+
           <NavLink
             to="/Admin/General"
             className={`tab ${(activeTab === "/Admin/General" || activeTab === "/Admin") ? "active" : ""}`}
@@ -58,6 +59,7 @@ export default function Sidebar() {
             />
             <span className="name">General</span>
           </NavLink>
+
           <NavLink
             to="/Admin/Settings"
             className={`tab ${activeTab === "/Admin/Settings" ? "active" : ""}`}
@@ -80,6 +82,7 @@ export default function Sidebar() {
         </div>
 
       </div>
+
     </div>
   );
 }

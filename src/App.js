@@ -1,11 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm/LoginForm";
 import Admin from "./components/Admin/Admin";
-import RequireAuth from "./components/PrivateRoute/RequireAuth";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AdminGeneral from "./components/Admin-General/AdminGeneral";
 import AdminSettings from "./components/Admin-Settings/AdminSettings";
-import Sidebar from "./components/SideBar/SideBar";
 
 function App() {
 

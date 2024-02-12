@@ -1,0 +1,122 @@
+body{
+    width: 100vh;
+}
+img {
+    -webkit-user-drag: none;
+}
+.general-main-content
+{
+    width: 100%;
+    height: 100%;
+}
+
+.list-view-toggle
+{
+    margin-top: 30px;
+    padding-left: 10px;
+}
+
+.list-view-toggle span
+{
+    font-weight: 200;
+    line-height: 130%;
+    letter-spacing: 0.1px;
+}
+
+.switchClickDiv{
+    cursor: pointer;
+}
+
+.institution-representatives-container{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+    max-width: 1000px;
+    min-width: 500px;
+}
+
+.institution-representatives-container > .cards {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    row-gap: 30px;
+    flex-wrap: wrap;
+}
+
+.cards > .info-card {
+    display: flex;
+    flex-direction: column;
+    width: 170px;
+    min-height: 220px;
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    padding: 10px;
+    padding-bottom: 40px;
+}
+
+.info-card > .delete {
+    direction: rtl;
+    height: 20px;
+}
+
+
+.delete > .delete_btn {
+    height: 20px;
+    width: 20px;
+}
+
+.person-image {
+    width: 100%;
+    text-align: center;
+}
+
+.info-card > .person-image > img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.person-fullname {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    line-height: 130%   ;
+}
+
+.info-card > .school_name
+{
+    margin-top: 15px;
+    text-align: center;
+    color: #747474;
+}
+
+.create-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    min-height: 220px;
+    border-radius: 8px;
+    padding: 10px;
+    padding-bottom: 40px;
+    border: 1px solid #0832DE;
+    color: #0832DE;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.plus-sign {
+    margin-top: 5px;
+}
+
+.create-card > .plus-sign > img{
+    width: 32px;
+    height: 32px;
+}
