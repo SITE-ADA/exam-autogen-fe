@@ -14,12 +14,13 @@ const Modal = ({ open, onClose }) => {
           <p className='closeBtn' onClick={onClose}>
             X
           </p>
+          <form action="">
           <div className='content'>
 
             <div className='add-inst-rep-hg'>
               <p>Add Institution Representative</p>
             </div>
-
+            
             <div className='input-area'>
 
               <div className='username'>
@@ -60,6 +61,7 @@ const Modal = ({ open, onClose }) => {
             </button>
 
           </div>
+          </form>
         </div>
       </div>
     </div>

@@ -135,5 +135,116 @@ label {
 }
 
 .input:active{
-  border: 1px solid red;
+  border: 1px solid #1050F2;
+}
+
+.input:focus{
+  border: 1px solid #1050F2;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+td{
+  vertical-align: middle;
+}
+
+tbody tr {
+  padding: 8px 9px;
+  height: 40px;
+}
+
+tbody tr:hover {
+  background-color: #F0F0F5;
+}
+
+th:not(:last-child) {
+  min-width: 120px;
+  color: #7D7D7D;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid #EBEFF2;
+}
+
+tfoot {
+  background-color: #4a524a;
+  color: white;
+}
+
+th:first-child
+{
+  min-width: 20px;
+}
+
+th:nth-child(3){
+  min-width: 50px;
+}
+
+.user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+td:not(:first-child) {
+  color: #7D7D7D;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+td:last-child:hover{
+  cursor: pointer;
+}
+
+td:nth-child(2){
+  color: #323C47;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+input.checksingle {
+    border: 1px solid #0832DE;
+    border-radius: 8px;
+}
+    
+.triple-dots {
+  position: relative;
+  display: inline-block;
+}
+
+.triple-dots .buttons-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  display: none; /* Initially hide the buttons */
+}
+
+.buttons-container img
+{
+  width: 20px;
+  height: 20px;
+}
+
+.triple-dots:hover .buttons-container {
+  display: flex;
+  justify-content: flex-start;
+  column-gap: 3px; /* Show the buttons when triple dots are hovered */
 }

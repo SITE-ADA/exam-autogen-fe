@@ -17,6 +17,7 @@ body {
     width: 200px;
     height: 100%;
     background-color: #F1F1F1;
+    position: sticky;
 }
 
 .sidebar .user-info {
@@ -129,5 +130,5 @@ body {
 {
     width: 100%;
     height: 100%;
-    padding: 60px;
+    padding: 40px;
 }

@@ -1,9 +1,7 @@
-body{
-    width: 100vh;
-}
 img {
     -webkit-user-drag: none;
 }
+
 .general-main-content
 {
     width: 100%;
@@ -64,8 +62,8 @@ img {
 
 
 .delete > .delete_btn {
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
 }
 
 .person-image {
