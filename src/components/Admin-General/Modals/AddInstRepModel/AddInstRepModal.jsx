@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../Modals/AddInstRepModal.css';
+import '../AddInstRepModel/AddInstRepModal.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { useNavigate } from 'react-router-dom';
 
 const baseURL = "http://localhost:8080/api/v1/auth/";
 
@@ -16,9 +15,9 @@ const AddInstRepModal = ({ open, onClose }) => {
     const [password, setPassword] = useState("");
     const [repPassword, setRepPassword] = useState("");
     const [visible, setVisible] = useState(false);
-    const navigate = useNavigate();
 
-    const addInstRepHandler = async () => {
+    const addInstRepHandler = async (e) => {
+        e.preventDefault();
         var confirm_password = document.getElementById("rep-password");
         if (password !== repPassword) {
             confirm_password.setCustomValidity("Passwords Don't Match");
@@ -47,7 +46,7 @@ const AddInstRepModal = ({ open, onClose }) => {
                 }
             } catch (error) {
                 if (error.response.status === 401) {
-                    error();
+                    errorT();
                 }
             }
         }
@@ -70,7 +69,7 @@ const AddInstRepModal = ({ open, onClose }) => {
         });
     }
 
-    const error = () => {
+    const errorT = () => {
         toast.error('Try entering different username, email address, or phone number', {
             position: "top-right",
             autoClose: 2500,
@@ -90,10 +89,12 @@ const AddInstRepModal = ({ open, onClose }) => {
         <div onClick={onClose} className={visible ? 'overlay' : 'overlay hidden'}>
             <div className='modalContainer' onClick={stopPropagation}>
                 <div className='modalRight'>
+                    <form onSubmit={addInstRepHandler}>
                     <div className='add-inst-rep-hg'>
                         <span>Add Institution Representative</span>
                     </div>
                     <div className='content'>
+                       
                         <div className='input-area'>
                             <div className='group-usr-email'>
                                 <div className='username-area'>
@@ -168,20 +169,24 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        name='rep-password'
                                        id='rep-password'
                                        value={repPassword}
-                                       onChange={(e) => setRepPassword(e.target.value)}
+                                       onChange={(e) => {
+                                        console.log(repPassword)
+                                        setRepPassword(e.target.value)
+                                    }}
                                        required
                                        autoComplete="off"/>
                             </div>
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <button onClick={() => addInstRepHandler()} className='add_btn'>
+                        <button type='submit' className='add_btn'>
                             <span>Add</span>
                         </button>
                         <button onClick={onClose} className='cancel_btn'>
                             <span>Cancel</span>
                         </button>
                     </div>
+                    </form>
                 </div>
 
             </div>

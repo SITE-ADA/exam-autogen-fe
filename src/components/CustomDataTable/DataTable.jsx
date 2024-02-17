@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Aslan from '../images/aslan.jpg';
 import TripleDots from '../../icons/buttons-icons/tripledots.svg';
 import RowDeleteBtn from '../../icons/buttons-icons/rowdelete.svg';
 import RowEditBtn from '../../icons/buttons-icons/rowedit.svg';

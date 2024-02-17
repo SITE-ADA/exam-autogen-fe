@@ -5,13 +5,8 @@ import Switchoff from '../../icons/buttons-icons/switchoff.svg';
 import Aslan from '../images/aslan.jpg';
 import DeleteBtn from '../../icons/buttons-icons/delete.svg'
 import Plus from '../../icons/buttons-icons/plus.svg';
-import AddInstRepModal from "./Modals/AddInstRepModal";
+import AddInstRepModal from "./Modals/AddInstRepModel/AddInstRepModal";
 import DataTable from "../CustomDataTable/DataTable";
-import Aslan2 from "../images/aslan2.jpg";
-import Melek from "../images/melek.jpg";
-import Melek1 from "../images/melek1.jpg";
-import Melek3 from "../images/melek3.jpg";
-import { useEffect } from "react";
 
 const AdminGeneral = () =>
 {
@@ -23,24 +18,10 @@ const AdminGeneral = () =>
         setListView(listView => !listView);
     }
 
-
-    useEffect(() => {
-        setListView(JSON.parse(window.localStorage.getItem('listView')));
-      }, []);
-    
-      useEffect(() => {
-        window.localStorage.setItem('listView', listView);
-      }, [listView]);
-
-    const columns = [
-        {name: "Full Name", isResizable: true},
-        {name: "Institution", isResizable: true},
-        {name: "Username", isResizable: true},
-        {name: "Password", isResizable: true},
-        {name: "Status", isResizable: true},
-        {name: "Phone Number", isResizable: true},
-        {name: "Email", isResizable: true},
-    ];
+    const deleteUser = async() =>
+    {
+        // TO DO
+    }
 
     const data = [
         {image: Aslan, fullname: "Aslan Ibadullayev", status: "Active", institution: "ADA University", username: "leon_master", password: "dscmsdeopwefocsdlkansdvka", email: "aibadullayev14824@ada.edu.az", phone: "+994501234567"},
@@ -69,15 +50,25 @@ const AdminGeneral = () =>
         </div>
 
         {listView == false ? (
-            <div>
+            <div >
         <div className="institution-representatives-container">
             <div className="institution-rep-heading">
                 <h2>Institution Representatives</h2>
             </div>
 
             <div className="cards">
+                <div className="create-card" onClick={() =>{ 
+                        setOpenModal(true)
+                    }}>
+                        <div className="plus-sign"><img src={Plus} alt="" /></div>
+                        <div className="add-label">
+                            <span>Add</span>
+                            <br />
+                            <span>Representative</span>
+                        </div>
+                </div>
                 <div className="info-card">
-                    <div className="delete"><img className="delete_btn" src={DeleteBtn} alt="" /></div>
+                    <div onClick={deleteUser} className="delete"><img className="delete_btn" src={DeleteBtn} alt="" /></div>
                     <div className="person-image">
                         <img src={Aslan} alt="Me" />
                     </div>
@@ -89,17 +80,7 @@ const AdminGeneral = () =>
                     <div className="school_name">
                         <span>ADA University</span>
                     </div>
-                </div>
-                <div className="create-card" onClick={() =>{ 
-                    setOpenModal(true)
-                }}>
-                    <div className="plus-sign"><img src={Plus} alt="" /></div>
-                    <div className="add-label">
-                        <span>Add</span>
-                        <br />
-                        <span>Representative</span>
-                    </div>
-                </div>
+                </div>  
             </div>
         </div>
 
@@ -110,9 +91,10 @@ const AdminGeneral = () =>
             </div>
             )
             : (
-                <DataTable checkBoxForAll={true} columns={columns} data={data} />
+                <DataTable checkBoxForAll={true} data={data} />
                 )
         }
+
     </div>
     )
 }

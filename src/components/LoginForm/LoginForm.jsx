@@ -3,7 +3,7 @@ import axios from "axios";
 import "./LoginForm.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import '../LoginForm/LoginForm.css';
-
+import { ToastContainer, toast } from 'react-toastify';
 const LoginForm = () => {
 
   const [username, setUsername] = useState("");
@@ -41,8 +41,16 @@ const LoginForm = () => {
 
       // Add more conditions for other user types if needed
     } catch (error) {
-      console.error("Login error", error);
-      // Handle login error (e.g., showing an alert or message)
+      toast.error('Username or password entered is incorrect', {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+    });
     }
   };
 
@@ -80,6 +88,7 @@ const LoginForm = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+
     </div>
   );
 };

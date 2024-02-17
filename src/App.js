@@ -3,7 +3,7 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import Admin from "./components/Admin/Admin";
 import AdminGeneral from "./components/Admin-General/AdminGeneral";
 import AdminSettings from "./components/Admin-Settings/AdminSettings";
-
+import { ToastContainer, toast } from "react-toastify";
 function App() {
 
   const UserTypes = 
@@ -32,6 +32,18 @@ function App() {
           </Route>
           <Route path="/InstitutionRepresentative" element={<div>Institution Representative Page</div>} />
         </Routes>
+        <ToastContainer
+                position="top-right"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
       </div>
   );
 }
