@@ -20,7 +20,7 @@ body {
     position: sticky;
 }
 
-.sidebar .user-info {
+.sidebar .user_info {
     padding: 32px;
     display: flex;
     flex-direction: row;
@@ -29,7 +29,7 @@ body {
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.user-info img
+.user_info img
 {
     border-radius: 50%;
     border: 1px solid #000000;
@@ -65,7 +65,7 @@ body {
     color: #F1F1F1;
 }
 
-.tab-default {
+.tab_default {
     background-color: #0832DE;
     color: #F1F1F1;;
 }
@@ -126,7 +126,7 @@ body {
     text-wrap: nowrap;
 }
 
-.general-main-content
+.general_main_content
 {
     width: 100%;
     height: 100%;

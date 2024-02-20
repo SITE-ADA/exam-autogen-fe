@@ -20,14 +20,14 @@ body {
   text-align: center;
 }
 
-.wrapper .input-box {
+.wrapper .input_box {
   position: relative;
   width: 100%;
   height: 50px;
   margin: 30px 0;
 }
 
-.input-box input {
+.input_box input {
   width: 100%;
   height: 100%;
   outline: none;
@@ -37,7 +37,7 @@ body {
   padding: 20px 45px 20px 20px;
 }
 
-.input-box input::placeholder {
+.input_box input::placeholder {
   color: #c4c4c4;
   /* base/body 2 */
   font-family: Roboto;
@@ -48,7 +48,7 @@ body {
   letter-spacing: 0.1px;
 }
 
-.input-box .icon {
+.input_box .icon {
   position: absolute;
   right: 20px;
   top: 50%;
@@ -56,19 +56,19 @@ body {
   font-size: 16px;
 }
 
-.wrapper .remember-forgot {
+.wrapper .remember_forgot {
   display: flex;
   justify-content: space-between;
   font-size: 14.5px;
   margin: -15px 0 15px;
 }
 
-.remember-forgot label input {
+.remember_forgot label input {
   accent-color: #343434;
   margin-right: 4px;
 }
 
-.remember-forgot a {
+.remember_forgot a {
   color: #c4c4c4;
 
   /* base/body 2 */
@@ -82,7 +82,7 @@ body {
   text-decoration: none;
 }
 
-.remember-forgot a:hover {
+.remember_forgot a:hover {
   text-decoration: underline;
 }
 

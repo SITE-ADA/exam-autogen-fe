@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./SideBar.css";
+import styles from "./SideBar.module.css";
 import Img from "../../icons/azerbaijan-flag.jpg";
 import HouseWhiteIcon from "../../icons/tab-icons/housewhite.svg";
 import SettingsWhiteIcon from "../../icons/tab-icons/settingswhite.svg";
@@ -34,51 +34,51 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="admin">
+    <div className={styles.admin}>
 
-      <div className="sidebar">
+      <div className={styles.sidebar}>
 
-        <div className="user-info">
+        <div className={styles.user_info}>
           <img src={Img} alt="aze-flag" width={39} height={39} />
-          <span className="admin-name">Admin</span>
+          <span className={styles.admin_name}>Admin</span>
         </div>
 
-        <div className="tabs">
+        <div className={styles.tabs}>
 
           <NavLink
             to="/Admin/General"
-            className={`tab ${(activeTab === "/Admin/General" || activeTab === "/Admin") ? "active" : ""}`}
+            className={`${styles.tab} ${(activeTab === "/Admin/General" || activeTab === "/Admin") ? styles.active : ""}`}
             onClick={() => handleTabClick("/Admin/General")}
           >
             <img
-              className="icon"
+              className={styles.icon}
               src={(activeTab === "/Admin/General" || activeTab === "/Admin") ? HouseWhiteIcon : HouseBlackIcon}
               alt="General"
               width={24}
               height={24}
             />
-            <span className="name">General</span>
+            <span className={styles.name}>General</span>
           </NavLink>
 
           <NavLink
             to="/Admin/Settings"
-            className={`tab ${activeTab === "/Admin/Settings" ? "active" : ""}`}
+            className={`${styles.tab} ${activeTab === "/Admin/Settings" ? styles.active : ""}`}
             onClick={() => handleTabClick("/Admin/Settings")}
           >
             <img
-              className="icon"
+              className={styles.icon}
               src={activeTab === "/Admin/Settings" ? SettingsWhiteIcon : SettingsBlackIcon}
               alt="Settings"
               width={24}
               height={24}
             />
-            <span className="name">Settings</span>
+            <span className={styles.name}>Settings</span>
           </NavLink>
         </div>
 
-        <div className="signout" onClick={handleLogOutBtn}>
+        <div className={styles.signout} onClick={handleLogOutBtn}>
             <img src={SignOutIcon} alt="signout" />
-            <button className="btn">Sign Out</button>
+            <button className={styles.btn}>Sign Out</button>
         </div>
 
       </div>

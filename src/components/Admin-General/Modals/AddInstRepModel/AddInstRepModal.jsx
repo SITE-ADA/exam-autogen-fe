@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../AddInstRepModel/AddInstRepModal.css';
+import styles from "./AddInstRepModal.module.css";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -86,20 +86,20 @@ const AddInstRepModal = ({ open, onClose }) => {
         return null;
 
     return (
-        <div onClick={onClose} className={visible ? 'overlay' : 'overlay hidden'}>
-            <div className='modalContainer' onClick={stopPropagation}>
-                <div className='modalRight'>
+        <div onClick={onClose}>
+            <div className={styles.modalContainer} onClick={stopPropagation}>
+                <div className={styles.modalRight}>
                     <form onSubmit={addInstRepHandler}>
-                    <div className='add-inst-rep-hg'>
+                    <div className={styles.add_inst_rep_hg}>
                         <span>Add Institution Representative</span>
                     </div>
-                    <div className='content'>
+                    <div className={styles.content}>
                        
-                        <div className='input-area'>
-                            <div className='group-usr-email'>
-                                <div className='username-area'>
+                        <div className={styles.inpu_area}>
+                            <div className={styles.group_usr_email}>
+                                <div className={styles.username_area}>
                                     <label htmlFor=''>Username</label>
-                                    <input className='input'
+                                    <input className={styles.input}
                                            placeholder="Username"
                                            type="text"
                                            name='username'
@@ -109,10 +109,10 @@ const AddInstRepModal = ({ open, onClose }) => {
                                            required
                                            autoComplete="off"/>
                                 </div>
-                                <div className='email-area'>
+                                <div className={styles.email_area}>
                                     <label htmlFor='email'>Email</label>
                                     <input placeholder="Email"
-                                           className='input'
+                                           className={styles.input}
                                            type="email"
                                            name='email'
                                            id='email'
@@ -122,10 +122,10 @@ const AddInstRepModal = ({ open, onClose }) => {
                                            autoComplete="off"/>
                                 </div>
                             </div>
-                            <div className='area'>
+                            <div className={styles.area}>
                                 <label htmlFor="phonenumber">Phone Number</label>
                                 <input placeholder="Phone number"
-                                       className='input'
+                                       className={styles.input}
                                        type="tel"
                                        name='phonenumber'
                                        id='phonenumber'
@@ -134,10 +134,10 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        required
                                        autoComplete="off"/>
                             </div>
-                            <div className='area'>
+                            <div className={styles.area}>
                                 <label htmlFor="institution">Institution</label>
                                 <input placeholder="Institution"
-                                       className='input'
+                                       className={styles.input}
                                        type="text"
                                        name='institution'
                                        id='institution'
@@ -146,10 +146,10 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        required
                                        autoComplete="off"/>
                             </div>
-                            <div className='area'>
+                            <div className={styles.area}>
                                 <label htmlFor="password">Password</label>
                                 <input placeholder="Password"
-                                       className='input'
+                                       className={styles.input}
                                        type="password"
                                        name='password'
                                        id='password'
@@ -161,10 +161,10 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        required
                                        autoComplete="off"/>
                             </div>
-                            <div className='area'>
+                            <div className={styles.area}>
                                 <label htmlFor="rep-password">Repeat Password</label>
                                 <input placeholder="Repeat password"
-                                       className='input'
+                                       className={styles.input}
                                        type="password"
                                        name='rep-password'
                                        id='rep-password'
@@ -178,11 +178,11 @@ const AddInstRepModal = ({ open, onClose }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='btn-container'>
-                        <button type='submit' className='add_btn'>
+                    <div className={styles.btn_container}>
+                        <button type='submit' className={styles.add_btn}>
                             <span>Add</span>
                         </button>
-                        <button onClick={onClose} className='cancel_btn'>
+                        <button onClick={onClose} className={styles.cancel_btn}>
                             <span>Cancel</span>
                         </button>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../Admin-General/AdminGeneral.css';
+import styles from "./AdminGeneral.module.css";
 import Switchon from '../../icons/buttons-icons/switchon.svg';
 import Switchoff from '../../icons/buttons-icons/switchoff.svg';
 import Aslan from '../images/aslan.jpg';
@@ -32,18 +32,18 @@ const AdminGeneral = () =>
     ];
 
     return (
-    <div className="general-main-content">
+    <div className={styles.general_main_content}>
 
-        <div className="heading">
-            <h1 className="admin-panel-heading">Admin Panel</h1>
+        <div className={styles.heading}>
+            <h1 className={styles.admin_panel_heading}>Admin Panel</h1>
         </div>
 
-        <div className="list-view-toggle">
+        <div className={styles.list_view_toggle}>
 
             <div>
                 <span>List/View</span>
                 <br />
-                <div className="switchClickDiv" onClick={() => disableListView()}>
+                <div className={styles.switchClickDiv} onClick={() => disableListView()}>
                     <img src={listView ? Switchon : Switchoff} alt="" />
                 </div>
             </div>
@@ -51,33 +51,33 @@ const AdminGeneral = () =>
 
         {listView == false ? (
             <div >
-        <div className="institution-representatives-container">
-            <div className="institution-rep-heading">
+        <div className={styles.institution_representatives_container}>
+            <div className={styles.institution_rep_heading}>
                 <h2>Institution Representatives</h2>
             </div>
 
-            <div className="cards">
-                <div className="create-card" onClick={() =>{ 
+            <div className={styles.cards}>
+                <div className={styles.create_card} onClick={() =>{ 
                         setOpenModal(true)
                     }}>
-                        <div className="plus-sign"><img src={Plus} alt="" /></div>
-                        <div className="add-label">
+                        <div className={styles.plus_sign}><img src={Plus} alt="" /></div>
+                        <div className={styles.add_label}>
                             <span>Add</span>
                             <br />
                             <span>Representative</span>
                         </div>
                 </div>
-                <div className="info-card">
-                    <div onClick={deleteUser} className="delete"><img className="delete_btn" src={DeleteBtn} alt="" /></div>
-                    <div className="person-image">
+                <div className={styles.info_card}>
+                    <div onClick={deleteUser} className={styles.delete}><img className={styles.delete_btn} src={DeleteBtn} alt="" /></div>
+                    <div className={styles.person_image}>
                         <img src={Aslan} alt="Me" />
                     </div>
-                    <div className="person-fullname">
-                        <span className="first_name">Aslan</span>
+                    <div className={styles.person_fullname}>
+                        <span className={styles.first_name}>Aslan</span>
                         <br />
-                        <span className="last_name">Ibadullayev</span>
+                        <span className={styles.last_name}>Ibadullayev</span>
                     </div>
-                    <div className="school_name">
+                    <div className={styles.school_name}>
                         <span>ADA University</span>
                     </div>
                 </div>  

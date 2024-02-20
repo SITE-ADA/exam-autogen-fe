@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./LoginForm.css";
+import styles from "./LoginForm.module.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
-import '../LoginForm/LoginForm.css';
 import { ToastContainer, toast } from 'react-toastify';
 const LoginForm = () => {
 
@@ -55,10 +54,10 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="wrapper">
+    <div className={styles.wrapper}>
       <form onSubmit={handleSubmit}>
         <h1>Sign In</h1>
-        <div className="input-box">
+        <div className={styles.input_box}>
           <input
             type="text"
             placeholder="Username"
@@ -66,9 +65,9 @@ const LoginForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <FaUserAlt className="icon" />
+          <FaUserAlt className={styles.icon} />
         </div>
-        <div className="input-box">
+        <div className={styles.input_box}>
           <input
             type="password"
             placeholder="Password"
@@ -76,10 +75,10 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <FaLock className="icon" />
+          <FaLock className={styles.icon}/>
         </div>
 
-        <div className="remember-forgot">
+        <div className={styles.remember_forgot}>
           <label>
             <input type="checkbox" />
             Remember me
