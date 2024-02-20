@@ -2,12 +2,6 @@ img {
     -webkit-user-drag: none;
 }
 
-.general_main_content
-{
-    width: 100%;
-    height: 100%;
-}
-
 .list_view_toggle
 {
     margin-top: 30px;

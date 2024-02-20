@@ -37,6 +37,26 @@
     top: 20%;
 }
 
+.input {
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    border: 1px solid #c4c4c4;
+    font-size: 15px;
+    padding: 10px 10px 10px 10px;
+}
+
+.input::placeholder {
+    color: #c4c4c4;
+    /* base/body 2 */
+    font-family: Roboto;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
+    letter-spacing: 0.1px;
+  }
+
 .input_area{
     display: flex;
     flex-direction: column;

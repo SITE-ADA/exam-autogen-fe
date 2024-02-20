@@ -7,7 +7,7 @@ const Admin = () =>
 {
     return (
         <div className={styles.admin_layout}>
-            <SideBar />
+            <SideBar className={styles.SideBar}/>
             <div className={styles.main_content}>
                 <Outlet />
             </div>

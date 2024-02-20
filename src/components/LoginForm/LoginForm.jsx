@@ -54,41 +54,43 @@ const LoginForm = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <form onSubmit={handleSubmit}>
-        <h1>Sign In</h1>
-        <div className={styles.input_box}>
-          <input
-            type="text"
-            placeholder="Username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <FaUserAlt className={styles.icon} />
-        </div>
-        <div className={styles.input_box}>
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <FaLock className={styles.icon}/>
-        </div>
+    <body className={styles.body_login}>
+      <div className={styles.wrapper}>
+        <form onSubmit={handleSubmit}>
+          <h1>Sign In</h1>
+          <div className={styles.input_box}>
+            <input
+              type="text"
+              placeholder="Username"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <FaUserAlt className={styles.icon} />
+          </div>
+          <div className={styles.input_box}>
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <FaLock className={styles.icon}/>
+          </div>
 
-        <div className={styles.remember_forgot}>
-          <label>
-            <input type="checkbox" />
-            Remember me
-          </label>
-          <a href="#">Forgot password?</a>
-        </div>
-        <button type="submit">Login</button>
-      </form>
+          <div className={styles.remember_forgot}>
+            <label>
+              <input type="checkbox" />
+              Remember me
+            </label>
+            <a href="#">Forgot password?</a>
+          </div>
+          <button type="submit">Login</button>
+        </form>
 
-    </div>
+      </div>
+    </body>
   );
 };
 

@@ -50,7 +50,7 @@ const DataTable = (props) => {
                 {instReps.map((instRep) => (
                     <tr key={instRep.id}>
                         <td><input checked={instRep.checked} onChange={() => handleCheckboxChange(instRep.id)} type="checkbox" name="checkboxAll" id={`checkbox-${instRep.id}`} /></td>
-                        <td className="user"><img src={instRep.image} alt="" /><span>{instRep.fullname}</span></td>
+                        <td className="user"><span>{instRep.fullname}</span></td>
                         <td className="status">{instRep.status}</td>
                         <td className="institution">{instRep.institution}</td>
                         <td className="username">{instRep.username}</td>
