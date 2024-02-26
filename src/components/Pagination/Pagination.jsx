@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Pagination.module.css';
 
 const Pagination = ({totalItems, itemsPerPage, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const [totalPages, setTotalPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const pageNumbersToShow = 5; // Number of page numbers to show before and after the current page
+
+  useEffect(() =>
+  {
+    console.log("Pagination component " + totalItems)
+    setTotalPages(Math.ceil(totalItems / itemsPerPage))
+  }, [totalItems])
 
   const goToPage = (page) => {
     setCurrentPage(page);

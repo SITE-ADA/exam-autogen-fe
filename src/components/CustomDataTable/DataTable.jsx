@@ -8,7 +8,7 @@ import DeleteModal from "../Admin-General/Modals/DeleteModal/DeleteModal";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const DataTable = ({checkBoxForAll}) => {
+const DataTable = ({totalItems, checkBoxForAll}) => {
     const checkBoxForAllRows = checkBoxForAll;
     const [selectAll, setSelectAll] = useState(checkBoxForAllRows);
     const [currentPage, setCurrentPage] = useState(1);
@@ -104,7 +104,7 @@ const DataTable = ({checkBoxForAll}) => {
             </tfoot>
         </table>
         <Pagination
-                totalItems={data?.length}
+                totalItems={totalItems}
                 itemsPerPage={itemsPerPage}
                 onPageChange={onPageChange}
             />
