@@ -1,4 +1,4 @@
-.admin_layout {
+.layout {
     display: grid;
     grid-template-columns: 0.15fr 0.85fr;
     grid-template-rows: 1fr;

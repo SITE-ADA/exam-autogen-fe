@@ -7,6 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import RequireAuth from "./components/PrivateRoute/RequireAuth";
 import { MyContext } from "./components/MyContext";
 import { useState } from "react";
+import InstitutionRepresentative from "./components/InstitutionRepresentative/InstitutionRepresentative";
+import InstRepInstructor from "./components/InstRep-Instructors/InstRepInstructor";
+import InstRepSubject from "./components/InstRep-Subjects/InstRepSubject";
 
 function App() {
 
@@ -26,8 +29,10 @@ function App() {
       <div className="App">
         <MyContext.Provider value={{ user, setUser }}>
         <Routes>
+
           <Route path="/" index element={<LoginForm />} />
           <Route path="/Login" element={<LoginForm />} />
+
           <Route element={<RequireAuth allowedRole={UserTypes.ADMIN}/>} >
           <Route path="/Admin" element={<Admin/>}> 
               <Route path="" element={<AdminGeneral/>}/>
@@ -35,7 +40,15 @@ function App() {
               <Route path="Settings" element={<AdminSettings />} />
           </Route>
           </Route>
-          <Route path="/InstitutionRepresentative" element={<div>Institution Representative Page</div>} />
+
+          <Route element={<RequireAuth allowedRole={UserTypes.INSTITUTION_REPRESENTATIVE}/>}>
+          <Route path="/InstitutionRepresentative" element={<InstitutionRepresentative />} >
+              <Route path="" element={<InstRepInstructor/>}/>
+              <Route path="Instructors" element={<InstRepInstructor />}/>
+              <Route path="Subjects" element={<InstRepSubject />} />
+          </Route>
+          </Route>
+
         </Routes>
         <ToastContainer
                 position="top-right"

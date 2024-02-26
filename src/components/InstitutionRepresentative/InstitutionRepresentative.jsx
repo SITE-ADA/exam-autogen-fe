@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./Layout.module.css";
+import styles from "../Admin/Layout.module.css";
 import SideBar from "../SideBar/SideBar";
 import { Outlet} from "react-router-dom";
 
-const Admin = () =>
+const InstitutionRepresentative = () =>
 {
     return (
         <div className={styles.layout}>
-            <SideBar className={styles.SideBar}/>
+           <SideBar className={styles.SideBar}/>
             <div className={styles.main_content}>
                 <Outlet />
             </div>
@@ -15,4 +15,4 @@ const Admin = () =>
     )
 }
 
-export default Admin;
+export default InstitutionRepresentative;

@@ -4,10 +4,10 @@ import styles from "./LoginForm.module.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import { MyContext } from "../MyContext";
-
+import { useUser } from "../../Context/UserContext";
 const LoginForm = () => {
 
-  const {user, setUser} = useContext(MyContext);
+  const { user, updateUser } = useUser();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ const LoginForm = () => {
       const user_type_id = user.userTypeId;
       localStorage.setItem("user", JSON.stringify(response.data));
 
-      setUser(JSON.parse(localStorage.getItem("user")));
+      updateUser(response.data);
 
       if (user_type_id === 2) {
         window.location.href = "/InstitutionRepresentative";

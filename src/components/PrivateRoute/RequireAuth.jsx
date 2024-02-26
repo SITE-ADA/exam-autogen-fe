@@ -9,7 +9,7 @@ const RequireAuth = ({ allowedRole, children }) => {
    const user = JSON.parse(localStorage.getItem("user"));
    const userTypeId = user?.user.userTypeId;
 
-    if (userTypeId === 1) {
+    if (userTypeId === allowedRole) {
       return <Outlet />;
     } else {
       // Redirect to login page if the user is not authenticated or does not have the required role

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./AdminGeneral.module.css";
 import Switchon from '../../icons/buttons-icons/switchon.svg';
 import Switchoff from '../../icons/buttons-icons/switchoff.svg';
@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Pagination from "../Pagination/Pagination";
 import { ToastContainer, toast } from "react-toastify";
-
+import { useUser } from "../../Context/UserContext";
 const AdminGeneral = () => {
     const [listView, setListView] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -20,7 +20,6 @@ const AdminGeneral = () => {
     const [userToDelete, setUserToDelete] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // Set items per page as you need
-
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
