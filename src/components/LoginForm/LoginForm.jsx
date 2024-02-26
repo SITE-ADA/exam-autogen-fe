@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import styles from "./LoginForm.module.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
+import { MyContext } from "../MyContext";
+
 const LoginForm = () => {
+
+  const {user, setUser} = useContext(MyContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +30,8 @@ const LoginForm = () => {
       const { user } = response.data;
       const user_type_id = user.userTypeId;
       localStorage.setItem("user", JSON.stringify(response.data));
+
+      setUser(JSON.parse(localStorage.getItem("user")));
 
       if (user_type_id === 2) {
         window.location.href = "/InstitutionRepresentative";
@@ -54,7 +60,7 @@ const LoginForm = () => {
   };
 
   return (
-    <body className={styles.body_login}>
+    <main className={styles.body_login}>
       <div className={styles.wrapper}>
         <form onSubmit={handleSubmit}>
           <h1>Sign In</h1>
@@ -90,7 +96,7 @@ const LoginForm = () => {
         </form>
 
       </div>
-    </body>
+    </main>
   );
 };
 

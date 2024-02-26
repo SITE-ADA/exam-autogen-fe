@@ -4,8 +4,13 @@ import Admin from "./components/Admin/Admin";
 import AdminGeneral from "./components/Admin-General/AdminGeneral";
 import AdminSettings from "./components/Admin-Settings/AdminSettings";
 import { ToastContainer, toast } from "react-toastify";
+import RequireAuth from "./components/PrivateRoute/RequireAuth";
+import { MyContext } from "./components/MyContext";
+import { useState } from "react";
+
 function App() {
 
+  const [user, setUser] = useState(null)
   const UserTypes = 
   {
     'ADMIN' : 1,
@@ -19,16 +24,16 @@ function App() {
 
   return (
       <div className="App">
+        <MyContext.Provider value={{ user, setUser }}>
         <Routes>
           <Route path="/" index element={<LoginForm />} />
           <Route path="/Login" element={<LoginForm />} />
-          <Route path="/Admin" element={<Admin/>}>
-          {/*<Route element={<RequireAuth allowedRole={UserTypes.ADMIN} />}>
-            <Route path="/Admin" element={<Admin />} />
-  </Route> */}
-            <Route path="" element={<AdminGeneral/>}/>
-            <Route path="General" element={<AdminGeneral />}/>
-            <Route path="Settings" element={<AdminSettings />} />
+          <Route element={<RequireAuth allowedRole={UserTypes.ADMIN}/>} >
+          <Route path="/Admin" element={<Admin/>}> 
+              <Route path="" element={<AdminGeneral/>}/>
+              <Route path="General" element={<AdminGeneral />}/>
+              <Route path="Settings" element={<AdminSettings />} />
+          </Route>
           </Route>
           <Route path="/InstitutionRepresentative" element={<div>Institution Representative Page</div>} />
         </Routes>
@@ -44,6 +49,8 @@ function App() {
                 pauseOnHover
                 theme="light"
             />
+
+          </MyContext.Provider>
       </div>
   );
 }

@@ -1,6 +1,7 @@
 .admin {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: inherit;
 }
 
 .admin .sidebar
@@ -83,6 +84,8 @@
 .signout
 {
     display: flex;
+    position: fixed;
+    bottom: 0%;
     margin-left: 32px;
     margin-right: 32px;
     margin-bottom: 50px;

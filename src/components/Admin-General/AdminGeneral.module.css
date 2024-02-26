@@ -38,11 +38,11 @@ img {
     flex-wrap: wrap;
 }
 
-.cards > .info-card {
+.cards > .info_card {
     display: flex;
     flex-direction: column;
     width: 170px;
-    min-height: 150px;
+    min-height: 120px;
     background-color: #F9F9F9;
     border-radius: 8px;
     padding: 10px;

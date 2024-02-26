@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import styles from "./AddInstRepModal.module.css";
+import styles from './AddInstRepModal.module.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { useMutation } from '@tanstack/react-query';
 
 const baseURL = "http://localhost:8080/api/v1/auth/";
 
-const AddInstRepModal = ({ open, onClose }) => {
+const AddInstRepModal = ({ open, onClose, refetch }) => {
+
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
@@ -16,24 +18,33 @@ const AddInstRepModal = ({ open, onClose }) => {
     const [repPassword, setRepPassword] = useState("");
     const [visible, setVisible] = useState(false);
 
-    const addInstRepHandler = async (e) => {
-        e.preventDefault();
+    const addNewInstitutionRepresentative = async() =>
+    {
+        const response = await axios.post(baseURL + "register", {
+            "username": username,
+            "email": email,
+            "phone": phonenumber,
+            "password": password
+        });
+
+        return response;
+    }
+
+    const mutation = useMutation({mutationFn: addNewInstitutionRepresentative})
+
+    const handleAddInstitutionRep = async(event) =>
+    {
+        event.preventDefault();
         var confirm_password = document.getElementById("rep-password");
         if (password !== repPassword) {
             confirm_password.setCustomValidity("Passwords Don't Match");
         } else {
-            confirm_password.setCustomValidity('');
-            try {
-                const response = await axios.post(baseURL + "register", {
-                    "username": username,
-                    "email": email,
-                    "phone": phonenumber,
-                    "password": password
-                });
-
+        try {
+            const response = await mutation.mutateAsync({username, email, phonenumber, password})
                 if (response.status === 200 || response.status === 201) {
                     success();
                     setVisible(true);
+                    refetch();
                     setTimeout(() => {
                         setVisible(false);
                     }, 3000); // Keep modal visible for 5 seconds
@@ -44,12 +55,15 @@ const AddInstRepModal = ({ open, onClose }) => {
                     setRepPassword("")
                     setUsername("");
                 }
-            } catch (error) {
-                if (error.response.status === 401) {
-                    errorT();
-                }
+            }
+        catch(error)
+        {
+            if (error) {
+                console.log(error)
+                errorT();
             }
         }
+    }
     }
 
     const stopPropagation = (e) => {
@@ -86,19 +100,19 @@ const AddInstRepModal = ({ open, onClose }) => {
         return null;
 
     return (
-        <div onClick={onClose}>
+        <div onClick={onClose} className={visible ? 'overlay' : 'overlay hidden'}>
             <div className={styles.modalContainer} onClick={stopPropagation}>
                 <div className={styles.modalRight}>
-                    <form onSubmit={addInstRepHandler}>
+                    <form onSubmit={handleAddInstitutionRep}>
                     <div className={styles.add_inst_rep_hg}>
                         <span>Add Institution Representative</span>
                     </div>
                     <div className={styles.content}>
                        
-                        <div className={styles.inpu_area}>
+                        <div className={styles.input_area}>
                             <div className={styles.group_usr_email}>
                                 <div className={styles.username_area}>
-                                    <label htmlFor=''>Username</label>
+                                    <label htmlFor={styles.username}>Username</label>
                                     <input className={styles.input}
                                            placeholder="Username"
                                            type="text"
@@ -110,7 +124,7 @@ const AddInstRepModal = ({ open, onClose }) => {
                                            autoComplete="off"/>
                                 </div>
                                 <div className={styles.email_area}>
-                                    <label htmlFor='email'>Email</label>
+                                    <label htmlFor={styles.email}>Email</label>
                                     <input placeholder="Email"
                                            className={styles.input}
                                            type="email"
@@ -123,11 +137,11 @@ const AddInstRepModal = ({ open, onClose }) => {
                                 </div>
                             </div>
                             <div className={styles.area}>
-                                <label htmlFor="phonenumber">Phone Number</label>
+                                <label htmlFor={styles.phonenumber}>Phone Number</label>
                                 <input placeholder="Phone number"
                                        className={styles.input}
                                        type="tel"
-                                       name='phonenumber'
+                                       name='phonenumber' 
                                        id='phonenumber'
                                        value={phonenumber}
                                        onChange={(e) => setPhonenumber(e.target.value)}
@@ -135,7 +149,7 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        autoComplete="off"/>
                             </div>
                             <div className={styles.area}>
-                                <label htmlFor="institution">Institution</label>
+                                <label htmlFor={styles.institution}>Institution</label>
                                 <input placeholder="Institution"
                                        className={styles.input}
                                        type="text"
@@ -147,7 +161,7 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        autoComplete="off"/>
                             </div>
                             <div className={styles.area}>
-                                <label htmlFor="password">Password</label>
+                                <label htmlFor={styles.password}>Password</label>
                                 <input placeholder="Password"
                                        className={styles.input}
                                        type="password"
@@ -162,7 +176,7 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        autoComplete="off"/>
                             </div>
                             <div className={styles.area}>
-                                <label htmlFor="rep-password">Repeat Password</label>
+                                <label htmlFor={styles.rep_password}>Repeat Password</label>
                                 <input placeholder="Repeat password"
                                        className={styles.input}
                                        type="password"

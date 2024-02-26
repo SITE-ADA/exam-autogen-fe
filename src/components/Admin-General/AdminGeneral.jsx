@@ -6,30 +6,46 @@ import Aslan from '../images/aslan.jpg';
 import DeleteBtn from '../../icons/buttons-icons/delete.svg'
 import Plus from '../../icons/buttons-icons/plus.svg';
 import AddInstRepModal from "./Modals/AddInstRepModel/AddInstRepModal";
+import DeleteModal from "./Modals/DeleteModal/DeleteModal";
 import DataTable from "../CustomDataTable/DataTable";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Pagination from "../Pagination/Pagination";
+import { ToastContainer, toast } from "react-toastify";
 
 const AdminGeneral = () =>
 {
     const [listView, setListView] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5; // Set items per page as you need
+
+    const onPageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // Calculate the current items to display based on pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const {isLoading, error, data, refetch} = useQuery({
+        queryKey: ["users"],
+        queryFn: async() => 
+        {
+            const response = await axios.get("http://localhost:8080/api/v1/auth/user")
+            console.log(response)
+            return response.data
+        },
+    })
+
+    const users = data?.slice(indexOfFirstItem+1, indexOfLastItem+1);
 
     const disableListView = () =>
     {
         setListView(listView => !listView);
     }
-
-    const deleteUser = async() =>
-    {
-        // TO DO
-    }
-
-    const data = [
-        {image: Aslan, fullname: "Aslan Ibadullayev", status: "Active", institution: "ADA University", username: "leon_master", password: "dscmsdeopwefocsdlkansdvka", email: "aibadullayev14824@ada.edu.az", phone: "+994501234567"},
-        {image: Aslan, fullname: "Aslan Ibadullayev", status: "Deactive", institution: "ADA University", username: "leon_master", password: "23roeiwfedcergfegmdc", email: "aibadullayev14824@ada.edu.az", phone: "+994501234567"},
-        {image: Aslan, fullname: "Aslan Ibadullayev", status: "Active", institution: "ADA University", username: "leon_master", password: "efefjaslfj", email: "aibadullayev14824@ada.edu.az", phone: "+994501234567"},
-        {image: Aslan, fullname: "Aslan Ibadullayev", status: "Deactive", institution: "ADA University", username: "leon_master", password: "fwwef", email: "aibadullayev14824@ada.edu.az", phone: "+994501234567"},
-        {image: Aslan, fullname: "Aslan Ibadullayev", status: "Active", institution: "ADA University", username: "leon_master", password: "ewfewfwef", email: "aibadullayev14824@ada.edu.az", phone: "+994501234567"},
-    ];
 
     return (
     <div className={styles.general_main_content}>
@@ -67,34 +83,50 @@ const AdminGeneral = () =>
                             <span>Representative</span>
                         </div>
                 </div>
-                <div className={styles.info_card}>
-                    <div onClick={deleteUser} className={styles.delete}><img className={styles.delete_btn} src={DeleteBtn} alt="" /></div>
+                {users?.filter(user => user.userTypeId === 2).map((user, index) => (
+                <div key={user.id} className={styles.info_card}>
+                    <div onClick={() => {
+                        setUserToDelete(user)
+                        setOpenDeleteModal(true)
+                        }} className={styles.delete}><img className={styles.delete_btn} src={DeleteBtn} alt="" /></div>
                     <div className={styles.person_image}>
                         <img src={Aslan} alt="Me" />
                     </div>
                     <div className={styles.person_fullname}>
-                        <span className={styles.first_name}>Aslan</span>
+                        <span className={styles.first_name}>{user.username}</span>
                         <br />
-                        <span className={styles.last_name}>Ibadullayev</span>
+                        <span className={styles.last_name}>{index}</span>
                     </div>
                     <div className={styles.school_name}>
                         <span>ADA University</span>
                     </div>
-                </div>  
+                </div> 
+                ))}
             </div>
+            <Pagination
+                totalItems={users?.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={onPageChange}
+            />
         </div>
+
+        <DeleteModal 
+            open={openDeleteModal}
+            user={userToDelete}
+            onClose={() => setOpenDeleteModal(false)}/>
 
         <AddInstRepModal 
             open={openModal} 
             onClose={() => setOpenModal(false)} 
+            refetch={refetch}
             />
             </div>
             )
             : (
-                <DataTable checkBoxForAll={true} data={data} />
+                <DataTable checkBoxForAll={true}/>
                 )
         }
-
+    
     </div>
     )
 }
