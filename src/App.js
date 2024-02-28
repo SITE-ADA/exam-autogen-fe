@@ -10,9 +10,12 @@ import { useState } from "react";
 import InstitutionRepresentative from "./components/InstitutionRepresentative/InstitutionRepresentative";
 import InstRepInstructor from "./components/InstRep-Instructors/InstRepInstructor";
 import InstRepSubject from "./components/InstRep-Subjects/InstRepSubject";
+import AdminInstitution from "./components/Admin-Institutions/AdminInstitution";
+import NotAuthorized from "./components/NotAuthorized/NotAuthorized";
 
 function App() {
 
+  
   const [user, setUser] = useState(null)
   const UserTypes = 
   {
@@ -38,6 +41,7 @@ function App() {
               <Route path="" element={<AdminGeneral/>}/>
               <Route path="General" element={<AdminGeneral />}/>
               <Route path="Settings" element={<AdminSettings />} />
+              <Route path="Institutions" element={<AdminInstitution />} />
           </Route>
           </Route>
 
@@ -48,6 +52,7 @@ function App() {
               <Route path="Subjects" element={<InstRepSubject />} />
           </Route>
           </Route>
+          <Route path="/NotAuthorized" element={<NotAuthorized />} />
 
         </Routes>
         <ToastContainer

@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from "react";
 import styles from "./SideBar.module.css";
 import Img from "../../icons/azerbaijan-flag.jpg";
+import SubjectsBlackIcon from "../../icons/tab-icons/subject_black.svg";
+import SubjectsWhiteIcon from "../../icons/tab-icons/subject_white.svg";
+import UsersBlackIcon from "../../icons/tab-icons/users_black.svg";
+import UsersWhiteIcon from "../../icons/tab-icons/users_white.svg";
 import HouseWhiteIcon from "../../icons/tab-icons/housewhite.svg";
-import SettingsWhiteIcon from "../../icons/tab-icons/settingswhite.svg";
 import HouseBlackIcon from "../../icons/tab-icons/houseblack.svg";
 import SettingsBlackIcon from "../../icons/tab-icons/settingsblack.svg";
-import SignOutIcon from "../../icons/signout.svg";
+import SettingsWhiteIcon from "../../icons/tab-icons/settingswhite.svg";
+import SignOutBlackIcon from "../../icons/signout_black.svg";
+import SignOutWhiteIcon from "../../icons/signout_white.svg";
+import InstitutionBlackIcon from "../../icons/tab-icons/institution_black1.png";
+
 import { NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../Context/UserContext";
-import { useContext } from "react";
-export default function Sidebar() {
 
+
+export default function Sidebar() {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   const location = useLocation();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user")).user;
@@ -49,7 +64,7 @@ export default function Sidebar() {
         <div className={styles.tabs}>
 
         {(user && userTypeId === 1) && (
-          <div className="admin_tabs">
+          <>
           <NavLink
             to="/Admin/General"
             className={`${styles.tab} ${(activeTab === "/Admin/General" || activeTab === "/Admin") ? styles.active : ""}`}
@@ -66,6 +81,21 @@ export default function Sidebar() {
           </NavLink>
 
           <NavLink
+            to="/Admin/Institutions"
+            className={`${styles.tab} ${activeTab === "/Admin/Institutions" ? styles.active : ""}`}
+            onClick={() => handleTabClick("/Admin/Institutions")}
+          >
+            <img
+              className={styles.icon}
+              src={activeTab === "/Admin/Institutions" ? InstitutionBlackIcon : InstitutionBlackIcon}
+              alt="Institutions"
+              width={24}
+              height={24}
+            />
+            <span className={styles.name}>Institutions</span>
+          </NavLink>
+
+          <NavLink
             to="/Admin/Settings"
             className={`${styles.tab} ${activeTab === "/Admin/Settings" ? styles.active : ""}`}
             onClick={() => handleTabClick("/Admin/Settings")}
@@ -79,11 +109,12 @@ export default function Sidebar() {
             />
             <span className={styles.name}>Settings</span>
           </NavLink>
-        </div>
+
+        </>
         )}
 
         {(user && userTypeId === 2) && (
-          <div className="inst_rep_tabs">
+          <>
             <NavLink
             to="/InstitutionRepresentative/Instructors"
             className={`${styles.tab} ${(activeTab === "/InstitutionRepresentative/Instructors" || activeTab === "/InstitutionRepresentative") ? styles.active : ""}`}
@@ -91,7 +122,7 @@ export default function Sidebar() {
           >
             <img
               className={styles.icon}
-              src={(activeTab === "/InstitutionRepresentative/Instructors" || activeTab === "/InstitutionRepresentative") ? HouseWhiteIcon : HouseBlackIcon}
+              src={(activeTab === "/InstitutionRepresentative/Instructors" || activeTab === "/InstitutionRepresentative") ? UsersWhiteIcon : UsersBlackIcon}
               alt="Instructors"
               width={24}
               height={24}
@@ -106,19 +137,21 @@ export default function Sidebar() {
           >
             <img
               className={styles.icon}
-              src={activeTab === "/InstitutionRepresentative/Subjects" ? SettingsWhiteIcon : SettingsBlackIcon}
+              src={activeTab === "/InstitutionRepresentative/Subjects" ? SubjectsWhiteIcon : SubjectsBlackIcon}
               alt="Subjects"
               width={24}
               height={24}
             />
             <span className={styles.name}>Subjects</span>
           </NavLink>
-          </div>
+
+          
+          </>
 
         )
         }
-        <div className={styles.signout} onClick={handleLogOutBtn}>
-            <img src={SignOutIcon} alt="signout" />
+        <div className={styles.signout} onClick={handleLogOutBtn} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <img src={isHovered ? SignOutWhiteIcon : SignOutBlackIcon} alt="signout" />
             <button className={styles.btn}>Sign Out</button>
         </div>
 
