@@ -58,6 +58,7 @@ img {
 .delete > .delete_btn {
     height: 15px;
     width: 15px;
+    cursor: pointer;
 }
 
 .person_image {

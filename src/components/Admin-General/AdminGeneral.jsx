@@ -89,10 +89,12 @@ const AdminGeneral = () => {
                             </div>
                             {users?.filter(us => us.userTypeId == 2).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
                                 <div key={user.id} className={styles.info_card}>
-                                    <div onClick={() => {
+                                    <div className={styles.delete}>
+                                        <img onClick={() => {
                                         setUserToDelete(user);
                                         setOpenDeleteModal(true);
-                                    }} className={styles.delete}><img className={styles.delete_btn} src={DeleteBtn} alt="" /></div>
+                                    }}  className={styles.delete_btn} src={DeleteBtn} alt="" />
+                                        </div>
                                     <div className={styles.person_image}>
                                         <img src={Aslan} alt="Me" />
                                     </div>
