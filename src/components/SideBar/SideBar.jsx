@@ -12,7 +12,6 @@ import SettingsWhiteIcon from "../../icons/tab-icons/settingswhite.svg";
 import SignOutBlackIcon from "../../icons/signout_black.svg";
 import SignOutWhiteIcon from "../../icons/signout_white.svg";
 import InstitutionBlackIcon from "../../icons/tab-icons/institution_black1.png";
-
 import { NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +44,11 @@ export default function Sidebar() {
   })
 
   const [activeTab, setActiveTab] = useState(location.pathname);
+
+  useEffect(() =>
+  {
+    setActiveTab(location.pathname);
+  }, [location.pathname])
 
   const handleTabClick = (tabName) => {
     console.log(location.pathname)

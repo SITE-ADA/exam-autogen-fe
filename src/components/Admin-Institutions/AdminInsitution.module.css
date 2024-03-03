@@ -1,92 +1,152 @@
-img {
-    -webkit-user-drag: none;
-}
-
-.list_view_toggle
-{
-    margin-top: 30px;
-    padding-left: 10px;
-}
-
-.list_view_toggle span
-{
-    font-weight: 200;
-    line-height: 130%;
-    letter-spacing: 0.1px;
-}
-
-.switchClickDiv{
-    cursor: pointer;
-}
-
-.institution_representatives_container{
-    margin-top: 20px;
+.admin_institution_page {
     display: flex;
     flex-direction: column;
     row-gap: 25px;
-    max-width: 1000px;
-    min-width: 500px;
-}
-
-.institution_representatives_container > .cards {
     width: 100%;
     height: 100%;
+}
+
+.admin_institution_page > .institution_header {
     display: flex;
     flex-direction: row;
-    column-gap: 20px;
-    row-gap: 30px;
-    flex-wrap: wrap;
+    width: 100%;
+    height: 100px;
 }
 
-.cards > .info_card {
+.institution_count {
+    width: 110px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: 0.15px;
+}
+
+.institution_count > span {
+    font-weight: 500;
+    font-size: 15px;
+    color: #C4C4C4;
+    letter-spacing: 0.15px;
+}
+
+
+.search_panel {
+    margin-top: 20px;
+    margin-left: 50px;
+    width: 580px;
     display: flex;
     flex-direction: column;
-    width: 170px;
-    min-height: 120px;
-    background-color: #F9F9F9;
-    border-radius: 8px;
-    padding: 10px;
-    padding-bottom: 40px;
+    row-gap: 15px;
 }
 
-.info_card > .delete {
-    direction: rtl;
+.search_panel > .search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    column-gap: 10px;
+    height: 40px;
+
+}
+
+.search_icon {
+    width: 20px;
     height: 20px;
 }
 
-
-.delete > .delete_btn {
-    height: 15px;
-    width: 15px;
-}
-
-.person_image {
-    width: 100%;
-    text-align: center;
-}
-
-.info_card > .person_image > img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-}
-
-.person_fullname {
-    margin-top: 20px;
-    text-align: center;
+.input {
+    width: 80%;
+    outline: none;
+    border: none;
     font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    line-height: 130%   ;
 }
 
-
-
-.plus_sign {
-    margin-top: 5px;
+.dropdown_list{
+    margin-left: 10px;
 }
 
-.create_card > .plus_sign > img{
-    width: 32px;
-    height: 32px;
-}
+/* Style the container if desired */
+select {
+    background-color: #F6F6F6;
+    width: 90px; /* Adjust as needed */
+    padding: 7px 12px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    /* Hide the default arrow */
+
+  }
+  
+  /* Adding a custom arrow */
+  select::after {
+    content: url('../../icons/vector.svg'); /* Unicode character for a down arrow */
+    position: absolute;
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Make the arrow unclickable */
+    color: #0832DE;
+  }
+
+  select:hover {
+    cursor: pointer;
+  }
+
+  .add_institution_btn {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    width: 190px;
+    padding-left: 32px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: #4340DA;
+    color: #FFFFFF;
+    column-gap: 10px;
+    transition: transform 0.1s ease-in-out;
+  }
+
+  .add_institution_btn:hover
+  {
+    cursor: pointer;
+  }
+
+  .add_institution_btn:active
+  {
+    transform: scale(0.95);
+  }
+
+  .add_institution_btn .user_icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .triple_dots {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #F6F6F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .triple_dots:hover{
+    cursor: pointer;
+  }
+
+  .triple_dots_icon {
+    width: 25px;
+    height: 25px;
+  }

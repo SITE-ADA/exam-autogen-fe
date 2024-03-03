@@ -1,0 +1,10 @@
+.layout {
+    display: flex;
+    flex-direction: row;
+}
+
+.main_content {
+    padding-left: 60px;
+    padding-top: 25px;
+    padding-right: 60px;
+}

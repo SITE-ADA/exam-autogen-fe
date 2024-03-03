@@ -1,10 +1,78 @@
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styles from "../Admin-Institutions/AdminInsitution.module.css";
+import SearchIcon from '../../icons/icon_search.svg';
+import UserIcon from '../../icons/usericon.svg';
+import TripleDots from '../../icons/dots_1.svg';
+import AddInstitutionModal from "./AddInstitutionModal/AddInsitutionModal";
+import { useQuery } from "@tanstack/react-query";
+import { getAllInstitutions } from "../../Services/InstitutionService";
+import AdminInstitutionDataTable from "./AdminInstitutionTable";
 
-const AdminInstitution = () =>
-{
+const AdminInstitution = () => {
+    const [institutions, setInstitutions] = useState([]);
+    const [openAddModal, setOpenAddModal] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getAllInstitutions();
+            setInstitutions(response.data);
+        };
+
+        fetchData();
+    }, [institutions]);
+
+    // Memoize the totalItems value to avoid unnecessary recalculations
+    const totalItems = useMemo(() => institutions?.length, [institutions]);
+
     return (
-        <></>
+        <div className={styles.admin_institution_page}>
+            <div className={styles.institution_header}>
+                <div className={styles.institution_count}>
+                    <h1 className={styles.count}>{totalItems}</h1>
+                    <span>Institutions</span>
+                </div>
+
+                <div className={styles.search_panel}>
+                    <div className={styles.search} >
+                        <img src={SearchIcon} alt="Search Icon" className="search_icon" />
+                        <input placeholder="Search"
+                            className={styles.input}
+                            type="text"
+                            name='search'
+                            id='search'
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            required
+                            autoComplete="off"/>
+                    </div>
+                    <div className={styles.dropdown_list}>
+                        <select>
+                            <option value="">All</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                        </select>
+                    </div>
+                </div>
+                <button className={styles.add_institution_btn} onClick={() => setOpenAddModal(true)}>
+                    <img className="user_icon" alt="" />
+                    <span>Add Institution</span>
+                </button>
+
+                <span className={styles.triple_dots}><img className={styles.triple_dots_icon} src={TripleDots} alt="TripleDots" /></span>
+            </div>
+            <main>
+                <div className={styles.institution_container}>
+                    <AdminInstitutionDataTable data={institutions} refetch={getAllInstitutions} totalItems={totalItems} updateInstitutions={setInstitutions} />
+                </div>
+            </main>
+            <AddInstitutionModal
+                open={openAddModal}
+                onClose={() => setOpenAddModal(false)}
+                refetch={getAllInstitutions}
+
+            />
+        </div>
     )
 }
 

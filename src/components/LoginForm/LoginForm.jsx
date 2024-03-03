@@ -3,7 +3,7 @@ import axios from "axios";
 import styles from "./LoginForm.module.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
-import { MyContext } from "../MyContext";
+import { login } from "../../Services/UserService";
 import { useUser } from "../../Context/UserContext";
 const LoginForm = () => {
 
@@ -15,13 +15,7 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
-        {
-          username,
-          password,
-        }
-      );
+      const response = await login(username, password);
       console.log(response.data);
 
       const { token } = response.data; // Assuming the response includes only the token

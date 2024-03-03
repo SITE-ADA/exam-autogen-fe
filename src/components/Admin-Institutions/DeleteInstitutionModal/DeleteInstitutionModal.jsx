@@ -1,26 +1,21 @@
-import React from "react";
-import styles from './DeleteModal.module.css';
+import React, {useEffect} from "react";
+import styles from '../../Admin-General/Modals/DeleteModal/DeleteModal.module.css';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { deleteInstitution } from "../../../Services/InstitutionService";
 
-const DeleteModal = ({open, user, onClose, refetch, onConfirm}) => {
+const DeleteInstitutionModal = ({open, institution, onClose, refetch, onConfirm}) => {
 
     const [visible, setVisible] = useState(false); 
-    const username = user?.username;
-    const userId = user?.id;
+    const institutionName = institution?.institutionName;
+    const id = institution?.id;
 
-    const deleteUser = async() =>{
-        const link = "http://localhost:8080/api/v1/auth/user/" + `${userId}`;
+    const deleteInst = async() => await deleteInstitution(id);
 
-        console.log(link);
-        return await axios.delete("http://localhost:8080/api/v1/auth/user/" + `${userId}`)
-};
+    const mutation = useMutation({mutationFn: deleteInst})
 
-    const mutation = useMutation({mutationFn: deleteUser})
-
-    const handleDeleteUser = async() =>
+    const handleDeleteInst = async() =>
     {
         try {
             const code = await mutation.mutateAsync()
@@ -45,13 +40,10 @@ const DeleteModal = ({open, user, onClose, refetch, onConfirm}) => {
 
     }
 
-    const stopPropagation = (e) =>
-    {
-        e.stopPropagation();
-    }
+    const stopPropagation = (e) => e.stopPropagation();
 
     const success = () => {
-        toast.success('User has successfully been deleted!', {
+        toast.success('Institution has successfully been deleted!', {
             position: "top-right",
             autoClose: 2500,
             hideProgressBar: true,
@@ -84,12 +76,12 @@ const DeleteModal = ({open, user, onClose, refetch, onConfirm}) => {
             <div className={styles.modalContainer} onClick={stopPropagation}>
                 <div className={styles.modalRight}>
                     <div className={styles.delete_inst_rep_hg}>
-                        <span>Are you sure to delete the user <span className={styles.red_text}>{username}</span> ?</span>
+                        <span>Are you sure to delete the institution <span className={styles.red_text}>{institutionName}</span> ?</span>
                     </div>
                     
                     <div className={styles.btn_container}>
             
-                        <button onClick={() => handleDeleteUser()} className={styles.add_btn}>
+                        <button onClick={() => handleDeleteInst()} className={styles.add_btn}>
                             <span>Confirm</span>
                         </button>
                         <button onClick={onClose} className={styles.cancel_btn}>
@@ -116,5 +108,4 @@ const DeleteModal = ({open, user, onClose, refetch, onConfirm}) => {
     );
 }
 
-
-export default DeleteModal;
+export default DeleteInstitutionModal;
