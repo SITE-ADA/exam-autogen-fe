@@ -2,46 +2,35 @@ import React, { useState } from "react";
 import TripleDots from '../../../icons/buttons-icons/tripledots.svg';
 import RowDeleteBtn from '../../../icons/buttons-icons/rowdelete.svg';
 import RowEditBtn from '../../../icons/buttons-icons/rowedit.svg';
-import styles from '../InstructorsDataTable/InstructorsDataTable.module.css';
 import Pagination from '../../Pagination/Pagination';
 import DeleteModal from "../../Admin-General/Modals/DeleteModal/DeleteModal";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useUserContext } from "../../../Context/UsersContext";
 
-const InstructorDataTable = ({totalItems, checkBoxForAll}) =>
+const InstructorDataTable = ({checkBoxForAll}) =>
 {
     const checkBoxForAllRows = checkBoxForAll;
     const [selectAll, setSelectAll] = useState(checkBoxForAllRows);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Set items per page as you need
+    const itemsPerPage = 5;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null)
 
-    const {data, refetch, isLoading, error} = useQuery({
-        queryKey: ['instructors'],
-        queryFn: async() =>
-        {
-            const response = await axios.get('http://localhost:8080/api/v1/auth/user')
-            return response.data;
-        }
-    })
-
-    const [users, setUsers] = useState(data);
+    const {users, refetchUsers} = useUserContext();
 
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const handleSelectAll = () => {
+    /* const handleSelectAll = () => {
         setSelectAll(!selectAll);
         const updatedInstReps = users.map(user => ({
             ...user,
             checked: !selectAll
         }));
         setUsers(updatedInstReps);
-    };
+    }; */
 
     const handleCheckboxChange = (id) => {
         const updatedInstReps = users.map(user => {
@@ -53,7 +42,7 @@ const InstructorDataTable = ({totalItems, checkBoxForAll}) =>
             }
             return user;
         });
-        setUsers(updatedInstReps);
+        // setUsers(updatedInstReps);
         setSelectAll(updatedInstReps.every(user => user.checked));
     };
 
@@ -64,7 +53,7 @@ const InstructorDataTable = ({totalItems, checkBoxForAll}) =>
         <table>
             <thead>
                 <tr>
-                    <th><input checked={selectAll} onChange={handleSelectAll} type="checkbox" name="checkboxAll" id="checkboxAll" /></th>
+                    <th><input checked={selectAll} type="checkbox" name="checkboxAll" id="checkboxAll" /></th>
                     <th>Full Name</th>
                     <th>Username</th>
                     <th>Status</th>
@@ -74,9 +63,9 @@ const InstructorDataTable = ({totalItems, checkBoxForAll}) =>
                 </tr>
             </thead>
             <tbody>
-                {data?.filter(user => user.userTypeId === 5).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
+                {users?.filter(user => user.userTypeId === 5).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
                     <tr key={user.id}>
-                        <td><input checked={user.checked} onChange={() => handleCheckboxChange(user.id)} type="checkbox" name="checkboxAll" id={`checkbox-${user.id}`} /></td>
+                        <td><input checked={user.checked} type="checkbox" name="checkboxAll" id={`checkbox-${user.id}`} /></td>
                         <td className="full_name">{user.fullname == null ? ("no data") : (user.fullname)}</td>
                         <td className="username">{user.username == null ? ("no data") : user.username}</td>
                         <td className="status">{user.status == null ? ("no data") : (user.status)}</td>
@@ -105,7 +94,7 @@ const InstructorDataTable = ({totalItems, checkBoxForAll}) =>
         </table>
 
         <Pagination
-                totalItems={totalItems}
+                totalItems={users.length}
                 itemsPerPage={itemsPerPage}
                 onPageChange={onPageChange}
             />
@@ -114,8 +103,7 @@ const InstructorDataTable = ({totalItems, checkBoxForAll}) =>
             open={openDeleteModal}
             user={userToDelete}
             onClose={() => setOpenDeleteModal(false)}
-            onConfirm={refetch}
-            refetch={refetch} />
+        />
         </div>
     );
 }

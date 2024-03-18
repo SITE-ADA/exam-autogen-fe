@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './AddInstRepModal.module.css';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { useMutation } from '@tanstack/react-query';
+import { useUserContext } from '../../../../Context/UsersContext';
+import { createUser } from '../../../../Services/ms_auth/UserService';
 
-const baseURL = "http://localhost:8080/api/v1/auth/";
-
-const AddInstRepModal = ({ open, onClose, refetch }) => {
+const AddInstRepModal = ({ open, onClose }) => {
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -18,19 +16,7 @@ const AddInstRepModal = ({ open, onClose, refetch }) => {
     const [repPassword, setRepPassword] = useState("");
     const [visible, setVisible] = useState(false);
 
-    const addNewInstitutionRepresentative = async() =>
-    {
-        const response = await axios.post(baseURL + "register", {
-            "username": username,
-            "email": email,
-            "phone": phonenumber,
-            "password": password
-        });
-
-        return response;
-    }
-
-    const mutation = useMutation({mutationFn: addNewInstitutionRepresentative})
+    const {refetchUsers} = useUserContext();
 
     const handleAddInstitutionRep = async(event) =>
     {
@@ -40,11 +26,11 @@ const AddInstRepModal = ({ open, onClose, refetch }) => {
             confirm_password.setCustomValidity("Passwords Don't Match");
         } else {
         try {
-            const response = await mutation.mutateAsync({username, email, phonenumber, password})
+            const response = await createUser(username, email, phonenumber, password, 2);
                 if (response.status === 200 || response.status === 201) {
                     success();
                     setVisible(true);
-                    refetch();
+                    refetchUsers();
                     setTimeout(() => {
                         setVisible(false);
                     }, 3000); // Keep modal visible for 5 seconds
@@ -59,6 +45,7 @@ const AddInstRepModal = ({ open, onClose, refetch }) => {
         catch(error)
         {
             if (error) {
+                console.log(error);
                 console.log(error)
                 errorT();
             }

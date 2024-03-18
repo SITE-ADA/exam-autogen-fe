@@ -12,6 +12,10 @@ import SettingsWhiteIcon from "../../icons/tab-icons/settingswhite.svg";
 import SignOutBlackIcon from "../../icons/signout_black.svg";
 import SignOutWhiteIcon from "../../icons/signout_white.svg";
 import InstitutionBlackIcon from "../../icons/tab-icons/institution_black1.png";
+import QuestionPoolWhite from "../../icons/tab-icons/questionpoolswhite.svg";
+import QuestionPoolBlack from "../../icons/tab-icons/questionpoolsblack.svg";
+import ArrowDownBlack from '../../icons/tab-icons/arrow_down_black.svg';
+import ArrowDownWhite from '../../icons/tab-icons/arrow_down_white.svg';
 import { NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -52,6 +56,7 @@ export default function Sidebar() {
 
   const handleTabClick = (tabName) => {
     console.log(location.pathname)
+    console.log(activeTab.includes("/Instructor/QuestionPools"))
     setActiveTab(tabName);
   };
 
@@ -149,11 +154,55 @@ export default function Sidebar() {
             <span className={styles.name}>Subjects</span>
           </NavLink>
 
-          
           </>
 
-        )
-        }
+        )}
+
+        {(user && user.userTypeId === 5) && (
+          <>
+        
+          <NavLink
+            to="/Instructor/QuestionPools"
+            className={`${styles.tab} ${styles.question_pool_tab} ${(activeTab.includes("/Instructor/QuestionPools") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? styles.active : ""}`}
+            onClick={() => handleTabClick("/Instructor/QuestionPools")}
+          >
+              <img
+                className={styles.icon}
+                src={(activeTab.includes("/Instructor/QuestionPools") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? QuestionPoolWhite : QuestionPoolBlack}
+                alt="QuestionsPool"
+                width={24}
+                height={24}
+              />
+              <span className={styles.name}>Question Pools</span>
+              <img
+                className={styles.arrow}
+                src={(activeTab.includes("/Instructor/QuestionPools") || activeTab === "/Instructor/" || activeTab === "/Instructor") ?  ArrowDownWhite : ArrowDownBlack}
+                alt="QuestionsPool"
+                width={20}
+                height={20}
+              />
+              
+          </NavLink>
+
+          <NavLink
+            to="/Instructor/Subjects"
+            className={`${styles.tab} ${activeTab === "/Instructor/Subjects" ? styles.active : ""}`}
+            onClick={() => handleTabClick("/Instructor/Subjects")}
+          >
+              <img
+                className={styles.icon}
+                src={activeTab === "/Instructor/Subjects" ? SubjectsWhiteIcon : SubjectsBlackIcon}
+                alt="Subjects"
+                width={24}
+                height={24}
+              />
+              <span className={styles.name}>Subjects</span>
+          </NavLink>
+
+          </>
+          
+        )}
+
         <div className={styles.signout} onClick={handleLogOutBtn} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <img src={isHovered ? SignOutWhiteIcon : SignOutBlackIcon} alt="signout" />
             <button className={styles.btn}>Sign Out</button>

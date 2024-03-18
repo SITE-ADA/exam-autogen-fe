@@ -4,33 +4,27 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { useUserContext } from "../../../../Context/UsersContext";
+import { deleteUser } from "../../../../Services/ms_auth/UserService";
 
-const DeleteModal = ({open, user, onClose, refetch, onConfirm}) => {
+const DeleteModal = ({open, user, onClose}) => {
 
     const [visible, setVisible] = useState(false); 
     const username = user?.username;
     const userId = user?.id;
-
-    const deleteUser = async() =>{
-        const link = "http://localhost:8080/api/v1/auth/user/" + `${userId}`;
-
-        console.log(link);
-        return await axios.delete("http://localhost:8080/api/v1/auth/user/" + `${userId}`)
-};
-
-    const mutation = useMutation({mutationFn: deleteUser})
+    const {refetchUsers} = useUserContext();
 
     const handleDeleteUser = async() =>
     {
         try {
-            const code = await mutation.mutateAsync()
+            const code = await deleteUser(userId);
             console.log(code.status)
             if(code.status === 204)
             {
                 success();
                 setTimeout(() =>
             {
-                refetch();
+                refetchUsers();
                 onClose();
             }, 1300);
             }

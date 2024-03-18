@@ -1,0 +1,12 @@
+table {
+    width: 1000px;
+}
+
+thead tr th:not(:nth-child(1)):not(:nth-child(2))
+{
+    text-align: center;
+}
+
+tbody tr > td:not(:nth-child(1)):not(:nth-child(2)) {
+    text-align: center;
+  }

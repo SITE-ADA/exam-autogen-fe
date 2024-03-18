@@ -1,35 +1,25 @@
 import React, { useState, useEffect, useMemo } from "react";
 import styles from "../Admin-Institutions/AdminInsitution.module.css";
 import SearchIcon from '../../icons/icon_search.svg';
-import UserIcon from '../../icons/usericon.svg';
 import TripleDots from '../../icons/dots_1.svg';
 import AddInstitutionModal from "./AddInstitutionModal/AddInsitutionModal";
-import { useQuery } from "@tanstack/react-query";
-import { getAllInstitutions } from "../../Services/InstitutionService";
 import AdminInstitutionDataTable from "./AdminInstitutionTable";
+import { useInstitutionContext } from "../../Context/InstitutionsContext";
 
 const AdminInstitution = () => {
-    const [institutions, setInstitutions] = useState([]);
     const [openAddModal, setOpenAddModal] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await getAllInstitutions();
-            setInstitutions(response.data);
-        };
-
-        fetchData();
-    }, [institutions]);
+    const {institutions, refetchInstitutions} = useInstitutionContext();
 
     // Memoize the totalItems value to avoid unnecessary recalculations
-    const totalItems = useMemo(() => institutions?.length, [institutions]);
+    const totalItems = institutions ? institutions?.length : 0;
 
     return (
         <div className={styles.admin_institution_page}>
             <div className={styles.institution_header}>
                 <div className={styles.institution_count}>
-                    <h1 className={styles.count}>{totalItems}</h1>
+                    <h1 className={styles.count}>{institutions.length}</h1>
                     <span>Institutions</span>
                 </div>
 
@@ -63,14 +53,12 @@ const AdminInstitution = () => {
             </div>
             <main>
                 <div className={styles.institution_container}>
-                    <AdminInstitutionDataTable data={institutions} refetch={getAllInstitutions} totalItems={totalItems} updateInstitutions={setInstitutions} />
+                    <AdminInstitutionDataTable  />
                 </div>
             </main>
             <AddInstitutionModal
                 open={openAddModal}
                 onClose={() => setOpenAddModal(false)}
-                refetch={getAllInstitutions}
-
             />
         </div>
     )

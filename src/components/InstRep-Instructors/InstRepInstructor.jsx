@@ -4,16 +4,18 @@ import SearchIcon from '../../icons/icon_search.svg';
 import UserIcon from '../../icons/usericon.svg';
 import TripleDots from '../../icons/dots_1.svg';
 import InstructorDataTable from "./InstructorsDataTable/InstructorsDataTable";
+import { useUserContext } from "../../Context/UsersContext";
 const InstRepInstructor = () =>
 {
     const [searchValue, setSearchValue] = useState("");
-    
+    const {users} = useUserContext();
+    const instructorCount = users?.filter(user => user.userTypeId === 5).length;
     return (
 
         <div className={styles.instructors_page}>
             <div className={styles.instructor_header}>
                 <div className={styles.instructor_count}>
-                    <h1 className={styles.count}>12</h1>
+                    <h1 className={styles.count}>{instructorCount}</h1>
                     <span>Instructors</span>
                 </div>
 

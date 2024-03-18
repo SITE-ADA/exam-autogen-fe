@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AdminGeneral.module.css";
 import Switchon from '../../icons/buttons-icons/switchon.svg';
 import Switchoff from '../../icons/buttons-icons/switchoff.svg';
@@ -8,12 +8,10 @@ import Plus from '../../icons/buttons-icons/plus.svg';
 import AddInstRepModal from "./Modals/AddInstRepModel/AddInstRepModal";
 import DeleteModal from "./Modals/DeleteModal/DeleteModal";
 import DataTable from "../CustomDataTable/DataTable";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Pagination from "../Pagination/Pagination";
-import { ToastContainer, toast } from "react-toastify";
-import { useUser } from "../../Context/UserContext";
+import { useUserContext } from "../../Context/UsersContext";
 const AdminGeneral = () => {
+
     const [listView, setListView] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -24,33 +22,18 @@ const AdminGeneral = () => {
         setCurrentPage(pageNumber);
     };
 
-    const { isLoading, error, data, refetch } = useQuery({
-        queryKey: ["users"],
-        queryFn: async () => {
-            try {
-                const response = await axios.get("http://localhost:8080/api/v1/auth/user");
-                console.log(response);
-                return response.data;
-            } catch (error) {
-                console.error("Error fetching users:", error);
-                return []; // Return empty array in case of error
-            }
-        },
-    });
-
+    const {users, refetchUsers} = useUserContext();
+    console.log(users);
     useEffect(() => {
-        refetch();
+        refetchUsers();
     }, [listView]); // Empty dependency array ensures this effect runs only once on component mount
 
     // Calculate the total number of items for pagination
-    const totalItems = data ? data.length : 0; // 5
+    const totalItems = users ? users.length : 0; // 5
 
     // Calculate the range of items to display for the current page
     const indexOfLastItem = currentPage * (itemsPerPage); // 1 * 5 = 5
     const indexOfFirstItem = indexOfLastItem - itemsPerPage; // 5 - 5 = 0
-
-    // Slice the data based on pagination
-    const users = data;
 
     const toggleListView = () => {
         setListView((prevListView) => !prevListView);
@@ -119,12 +102,10 @@ const AdminGeneral = () => {
                         open={openDeleteModal}
                         user={userToDelete}
                         onClose={() => setOpenDeleteModal(false)}
-                        refetch={refetch}
                     />
                     <AddInstRepModal 
                         open={openModal} 
                         onClose={() => setOpenModal(false)} 
-                        refetch={refetch}
                     />
                 </div>
             )}

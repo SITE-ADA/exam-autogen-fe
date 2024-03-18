@@ -5,20 +5,18 @@ import RowEditBtn from '../../icons/buttons-icons/rowedit.svg';
 import styles from '../Admin-Institutions/AdminInstitutionTable.module.css';
 import Pagination from '../Pagination/Pagination';
 import DeleteInstitutionModal from "./DeleteInstitutionModal/DeleteInstitutionModal";
+import { useInstitutionContext } from "../../Context/InstitutionsContext";
 
-const AdminInstitutionDataTable = ({ totalItems, checkBoxForAll, data, refetch, updateInstitutions }) => {
+const AdminInstitutionDataTable = ({ checkBoxForAll,}) => {
     const checkBoxForAllRows = checkBoxForAll;
     const [selectAll, setSelectAll] = useState(checkBoxForAllRows);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // Set items per page as you need
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [institutionToDelete, setInstitutionToDelete] = useState(null);
-
+    const {institutions} = useInstitutionContext();
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-    // Memoize the sliced data array
-    const slicedData = useMemo(() => data?.slice(indexOfFirstItem, indexOfLastItem), [data, indexOfFirstItem, indexOfLastItem]);
 
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -38,7 +36,7 @@ const AdminInstitutionDataTable = ({ totalItems, checkBoxForAll, data, refetch, 
                     </tr>
                 </thead>
                 <tbody>
-                    {slicedData?.map((inst) => (
+                    {institutions?.slice(indexOfFirstItem, indexOfLastItem).map((inst) => (
                         <tr key={inst.id}>
                             <td><input type="checkbox" name="checkboxAll" id={`checkbox-${inst.id}`} /></td>
                             
@@ -68,7 +66,7 @@ const AdminInstitutionDataTable = ({ totalItems, checkBoxForAll, data, refetch, 
                 </tfoot>
             </table>
             <Pagination
-                totalItems={totalItems}
+                totalItems={institutions.length}
                 itemsPerPage={itemsPerPage}
                 onPageChange={onPageChange}
             />
@@ -77,7 +75,6 @@ const AdminInstitutionDataTable = ({ totalItems, checkBoxForAll, data, refetch, 
                 open={openDeleteModal}
                 institution={institutionToDelete}
                 onClose={() => setOpenDeleteModal(false)}
-                refetch={updateInstitutions}
             />
         </div>
     );

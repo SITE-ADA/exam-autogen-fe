@@ -7,29 +7,19 @@ import Pagination from '../Pagination/Pagination';
 import DeleteModal from "../Admin-General/Modals/DeleteModal/DeleteModal";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useUserContext } from "../../Context/UsersContext";
 
 const DataTable = ({totalItems, checkBoxForAll}) => {
     const checkBoxForAllRows = checkBoxForAll;
     const [selectAll, setSelectAll] = useState(checkBoxForAllRows);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Set items per page as you need
+    const itemsPerPage = 5;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null)
 
-    const {isLoading, error, data, refetch} = useQuery({
-        queryKey: ["users1"],
-        queryFn: async() => 
-        {
-            const response = await axios.get("http://localhost:8080/api/v1/auth/user")
-            console.log(response)
-            return response.data
-        },
-    })
-
-    const [users, setUsers] = useState(data);
-
+    const {users, setUsers} = useUserContext();
 
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -74,7 +64,7 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
                 </tr>
             </thead>
             <tbody>
-                {data?.filter(user => user.userTypeId === 2).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
+                {users?.filter(user => user.userTypeId === 2).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
                     <tr key={user.id}>
                         <td><input checked={user.checked} onChange={() => handleCheckboxChange(user.id)} type="checkbox" name="checkboxAll" id={`checkbox-${user.id}`} /></td>
                         <td className="user">{user.fullname == null ? ("no data") : (user.fullname)}</td>
@@ -113,8 +103,7 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
             open={openDeleteModal}
             user={userToDelete}
             onClose={() => setOpenDeleteModal(false)}
-            onConfirm={refetch}
-            refetch={refetch} />
+            />
         </div>
     );
 }

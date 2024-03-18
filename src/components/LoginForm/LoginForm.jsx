@@ -1,13 +1,9 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import styles from "./LoginForm.module.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
-import { ToastContainer, toast } from 'react-toastify';
-import { login } from "../../Services/UserService";
-import { useUser } from "../../Context/UserContext";
+import { toast } from 'react-toastify';
+import { login } from "../../Services/ms_auth/UserService";
 const LoginForm = () => {
-
-  const { user, updateUser } = useUser();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +12,18 @@ const LoginForm = () => {
     event.preventDefault();
     try {
       const response = await login(username, password);
+      if(response.status === 400 || response.status === 401)
+        toast.error('Username or password entered is incorrect', {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+      });
+      else {
       console.log(response.data);
 
       const { token } = response.data; // Assuming the response includes only the token
@@ -25,19 +33,17 @@ const LoginForm = () => {
       const user_type_id = user.userTypeId;
       localStorage.setItem("user", JSON.stringify(response.data));
 
-      updateUser(response.data);
-
       if (user_type_id === 2) {
         window.location.href = "/InstitutionRepresentative";
       } else if(user_type_id === 1){
         window.location.href = "/Admin";
       } else if(user_type_id === 5){
-        window.location.href = "/Instructor";
+        window.location.href = "/Instructor/QuestionPools";
       } else if(user_type_id === 4){
-        window.location.href = "Student";
+        window.location.href = "/Student";
       }
       
-
+    }
       // Add more conditions for other user types if needed
     } catch (error) {
       toast.error('Username or password entered is incorrect', {

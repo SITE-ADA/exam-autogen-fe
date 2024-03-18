@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import styles from '../AddInstitutionModal/AddInstitutionModal.module.css';
 import { authApi } from "../../../Services/AxiosService";
 import { ToastContainer, toast } from "react-toastify";
-import { addContact, getContact, getContacts } from "../../../Services/ContactService";
-import { addInstitution, getAllInstitutions } from "../../../Services/InstitutionService";
-import { getAllAddresses } from "../../../Services/AddressService";
+import { addContact, getContact, getContacts } from "../../../Services/ms_auth/ContactService";
+import { addInstitution, getAllInstitutions } from "../../../Services/ms_auth/InstitutionService";
+import { getAllAddresses } from "../../../Services/ms_auth/AddressService";
+import { useInstitutionContext } from "../../../Context/InstitutionsContext";
 
-const  AddInstitutionModal = ({ open, onClose, refetch, data }) =>
+const  AddInstitutionModal = ({ open, onClose }) =>
 {
     const [institutionName, setInstitutionName] = useState(null);
     const [primaryEmail, setPrimaryEmail] = useState(null);
@@ -22,6 +23,8 @@ const  AddInstitutionModal = ({ open, onClose, refetch, data }) =>
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
+
+    const {refetchInstitutions} = useInstitutionContext();
 
     const handleAddInstitution = async (e) => 
     {

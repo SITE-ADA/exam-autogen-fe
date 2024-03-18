@@ -3,29 +3,26 @@ import styles from '../../Admin-General/Modals/DeleteModal/DeleteModal.module.cs
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { deleteInstitution } from "../../../Services/InstitutionService";
+import { deleteInstitution } from "../../../Services/ms_auth/InstitutionService";
+import { useInstitutionContext } from "../../../Context/InstitutionsContext";
 
-const DeleteInstitutionModal = ({open, institution, onClose, refetch, onConfirm}) => {
+const DeleteInstitutionModal = ({open, institution, onClose}) => {
 
     const [visible, setVisible] = useState(false); 
     const institutionName = institution?.institutionName;
     const id = institution?.id;
-
-    const deleteInst = async() => await deleteInstitution(id);
-
-    const mutation = useMutation({mutationFn: deleteInst})
-
+    const {refetchInstitutions} = useInstitutionContext();
     const handleDeleteInst = async() =>
     {
         try {
-            const code = await mutation.mutateAsync()
+            const code = await deleteInstitution(id);
             console.log(code.status)
             if(code.status === 204)
             {
                 success();
                 setTimeout(() =>
             {
-                refetch();
+                refetchInstitutions();
                 onClose();
             }, 1300);
             }

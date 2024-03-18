@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Pagination.module.css';
+import { useUserContext } from '../../Context/UsersContext';
 
 const Pagination = ({totalItems, itemsPerPage, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
