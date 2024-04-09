@@ -42,7 +42,7 @@ img {
     display: flex;
     flex-direction: column;
     width: 170px;
-    min-height: 120px;
+    height: 230px;
     background-color: #F9F9F9;
     border-radius: 8px;
     padding: 10px;
@@ -94,7 +94,7 @@ img {
     justify-content: center;
     align-items: center;
     width: 170px;
-    min-height: 150px;
+    height: 230px;
     border-radius: 8px;
     padding: 10px;
     padding-bottom: 40px;
