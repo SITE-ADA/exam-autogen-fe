@@ -7,7 +7,7 @@ import SearchIcon from '../../../icons/icon_search.svg';
 import QuestionPoolWhite from "../../../icons/tab-icons/questionpoolswhite.svg";
 import PoolTable from "./QuestionPoolsDataTable/PoolTable";
 import CreateEditPoolModal from "./CreateQuestionPool/CreateEditPoolModal";
-import { getAllPools } from "../../../Services/ms_question/QuestionService";
+import { getAllPools, getQuestionCountByPool, questionCountByPool } from "../../../Services/ms_question/QuestionPoolService";
 import { useQuery } from "@tanstack/react-query";
 import { ToastContainer, toast } from 'react-toastify';
 import { msQuestionApi } from "../../../Services/AxiosService";
@@ -23,11 +23,29 @@ const QuestionPools = () =>
     const {subjects} = useSubjectContext();
     const poolCount = pools.length;
     const subjectCount = subjects.length;
+    const [questionCount, setQuestionCount] = useState(0);
 
-    useEffect(() =>
+    useEffect(() => 
     {
+        const getQuestionCounts = async() =>
+        {
+            const response = await getQuestionCountByPool();
+            const questionCounts = response.data;
+            console.log(response.data);
+            let sum = 0;
+ 
+            for (let i = 0; i < questionCounts.length; i++)
+            {
+                if(questionCounts[i].questionPoolId !== null)
+                    sum += parseInt(questionCounts[i].count);
+            }
+            setQuestionCount(sum);
+
+        }
+        getQuestionCounts();
+        console.log("wefwfeewf" + questionCount);
         console.log("QuestionPool.jsx component fired.");
-    }, []);
+    });
 
     return (
         <div>
@@ -45,7 +63,7 @@ const QuestionPools = () =>
                     <p>Subjects</p>
                 </div>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>60</span></h1>
+                    <h1 className="count"><span>{questionCount}</span></h1>
                     <br />
                     <p>Total Questions</p>
                 </div>

@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect, createContext } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { getQuestionByPool } from "../Services/ms_question/QuestionService";
 
 const QuestionContext = createContext();
 
@@ -10,12 +11,13 @@ export const QuestionProvider = ({children}) => {
 
     const {data, refetch, isLoading, error} = useQuery({
        queryKey: ['questions'],
-       queryFn: async() => {
-                
+       queryFn: async(poolId) => {
+        const response = await getQuestionByPool(poolId);
+        return response.data;
        } 
     });
 
-    const refetchQuestions = () => refetch();
+    const refetchQuestions = (id) => refetch(id);
 
     useEffect(() =>
     {
