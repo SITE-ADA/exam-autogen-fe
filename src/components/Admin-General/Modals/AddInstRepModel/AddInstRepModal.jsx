@@ -5,18 +5,96 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useUserContext } from '../../../../Context/UsersContext';
 import { createUser } from '../../../../Services/ms_auth/UserService';
+import AsyncSelect from 'react-select/async';
+import { useInstitutionContext } from '../../../../Context/InstitutionsContext';
+import { getAllInstitutions } from '../../../../Services/ms_auth/InstitutionService';
+import { msAuthApi } from '../../../../Services/AxiosService';
 
 const AddInstRepModal = ({ open, onClose }) => {
+
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
     const [institution, setInstitution] = useState("");
+    const [institutions, setInstituions] = useState([])
     const [password, setPassword] = useState("");
     const [repPassword, setRepPassword] = useState("");
     const [visible, setVisible] = useState(false);
 
     const {refetchUsers} = useUserContext();
+
+    const [inputValue, setValue] = useState('');
+    const [selectedValue, setSelectedValue] = useState(null);
+    // handle input change event
+    const handleInputChange = value => {
+        setValue(value);
+    };
+
+    const fetchInstitutions = () => 
+    {
+      return msAuthApi.get('/institution').then((response) =>
+      {
+        const res = response.data;
+        return res;
+      });
+    }
+
+  // handle selection
+    const handleChange = value => {
+        setInstitution(value);
+        setSelectedValue(value);
+    }
+
+    const customStyles = {
+        menu: provided => ({
+            ...provided,
+            maxHeight: '100px', // Set max height for scrolling
+            overflowY: 'auto', // Enable vertical scrolling
+          }),
+        control: (provided, state) => ({
+          ...provided,
+          width: '100%', // Set width to 100%,
+          marginTop: '5px',
+          border: '1px solid #ced4da',
+          borderRadius: '8px',
+          borderColor: state.isFocused || state.isActive ? '#f6f6f6 !important' : '#f6f6f6 !important',
+          borderWidth: '0px !important', // Set border width to 1px
+          padding: '0',
+          backgroundColor: '#f6f6f6 !important',
+          color: '#747474',
+          fontSize: '15px'
+        }),
+        option: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isSelected ? '#80bdff !important' : 'transparent',
+          color: '#343434',
+          fontSize: '15px'
+        }),
+        valueContainer: (provided) => ({
+          ...provided,
+          padding: '10px', // Adjust padding as needed
+        }),
+        input: (provided) => ({
+          ...provided,
+          margin: '0', // Remove default margin
+          padding: '0', // Remove default padding
+          fontSize: 'inherit', // Inherit font size from parent
+          fontFamily: 'inherit', // Inherit font family from parent
+          color: '#343434',
+          backgroundColor: 'transparent',
+          border: 'none',
+          boxShadow: 'none',
+          outline: 'none',
+          lineHeight: 'normal',
+          fontSize: '15px'
+        }),
+        singleValue: (provided) => ({
+          ...provided,
+          color: '#212529',
+        }),
+        indicatorSeparator: () => ({ display: 'none' }), // Remove the indicator separator
+      };
 
     const handleAddInstitutionRep = async(event) =>
     {
@@ -26,7 +104,7 @@ const AddInstRepModal = ({ open, onClose }) => {
             confirm_password.setCustomValidity("Passwords Don't Match");
         } else {
         try {
-            const response = await createUser(username, email, phonenumber, password, 2);
+            const response = await createUser(username, email, phonenumber, password, 2, institution.id);
                 if (response.status === 200 || response.status === 201) {
                     success();
                     setVisible(true);
@@ -46,7 +124,6 @@ const AddInstRepModal = ({ open, onClose }) => {
         {
             if (error) {
                 console.log(error);
-                console.log(error)
                 errorT();
             }
         }
@@ -97,7 +174,7 @@ const AddInstRepModal = ({ open, onClose }) => {
                     <div className={styles.content}>
                        
                         <div className={styles.input_area}>
-                            <div className={styles.group_usr_email}>
+                    
                                 <div className={styles.username_area}>
                                     <label htmlFor={styles.username}>Username</label>
                                     <input className={styles.input}
@@ -110,43 +187,24 @@ const AddInstRepModal = ({ open, onClose }) => {
                                            required
                                            autoComplete="off"/>
                                 </div>
-                                <div className={styles.email_area}>
-                                    <label htmlFor={styles.email}>Email</label>
-                                    <input placeholder="Email"
-                                           className={styles.input}
-                                           type="email"
-                                           name='email'
-                                           id='email'
-                                           value={email}
-                                           onChange={(e) => setEmail(e.target.value)}
-                                           required
-                                           autoComplete="off"/>
-                                </div>
-                            </div>
+                       
                             <div className={styles.area}>
-                                <label htmlFor={styles.phonenumber}>Phone Number</label>
-                                <input placeholder="Phone number"
-                                       className={styles.input}
-                                       type="tel"
-                                       name='phonenumber' 
-                                       id='phonenumber'
-                                       value={phonenumber}
-                                       onChange={(e) => setPhonenumber(e.target.value)}
-                                       required
-                                       autoComplete="off"/>
+                                <label>Institution</label>
+                                <AsyncSelect
+                                    defaultOptions
+                                    value={institution}
+                                    getOptionLabel={e => e.institutionName}
+                                    getOptionValue={e => e.id}
+                                    loadOptions={fetchInstitutions}
+                                    onInputChange={handleInputChange}
+                                    onChange={handleChange}
+                                    styles={customStyles}
+                                    menuPortalTarget={document.body}
+                                    isClearable={true}
+                                    isRequired={true} 
+                                    />
                             </div>
-                            <div className={styles.area}>
-                                <label htmlFor={styles.institution}>Institution</label>
-                                <input placeholder="Institution"
-                                       className={styles.input}
-                                       type="text"
-                                       name='institution'
-                                       id='institution'
-                                       value={institution}
-                                       onChange={(e) => setInstitution(e.target.value)}
-                                       required
-                                       autoComplete="off"/>
-                            </div>
+
                             <div className={styles.area}>
                                 <label htmlFor={styles.password}>Password</label>
                                 <input placeholder="Password"
@@ -157,7 +215,6 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        value={password}
                                        onChange={(e) => {
                                            setPassword(e.target.value);
-                                           console.log(password)
                                        }}
                                        required
                                        autoComplete="off"/>
@@ -171,7 +228,6 @@ const AddInstRepModal = ({ open, onClose }) => {
                                        id='rep-password'
                                        value={repPassword}
                                        onChange={(e) => {
-                                        console.log(repPassword)
                                         setRepPassword(e.target.value)
                                     }}
                                        required

@@ -8,8 +8,10 @@ import DeleteModal from "../Admin-General/Modals/DeleteModal/DeleteModal";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useUserContext } from "../../Context/UsersContext";
+import CreateEditInstRepModal from "../Admin-General/Modals/CreateEditInstRepModal/CreateEditInstRepModal";
 
 const DataTable = ({totalItems, checkBoxForAll}) => {
+    const [openCreateEditModal, setOpenCreateEditModal] = useState(false);
     const checkBoxForAllRows = checkBoxForAll;
     const [selectAll, setSelectAll] = useState(checkBoxForAllRows);
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,8 +20,9 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null)
-
+    const [mode, setMode] = useState(0);
     const {users, setUsers} = useUserContext();
+    const [userId, setUserId] = useState(0);
 
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -77,13 +80,8 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />
                                 <div className="buttons-container">
-                                    <span onClick={() =>
-                                    {
-                                        setUserToDelete(user);
-                                        setOpenDeleteModal(true)
-                                    }
-                                    }><img src={RowDeleteBtn} alt="" /></span>
-                                    <span><img src={RowEditBtn} alt="" /></span>
+                                    <span onClick={() =>{setUserToDelete(user);setOpenDeleteModal(true)}}><img src={RowDeleteBtn} alt="" /></span>
+                                    <span onClick={() => {setOpenCreateEditModal(true); setMode(1); setUserId(user.id); }}><img src={RowEditBtn} alt="" /></span>
                                 </div>
                             </div>
                         </td>
@@ -104,6 +102,8 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
             user={userToDelete}
             onClose={() => setOpenDeleteModal(false)}
             />
+
+        <CreateEditInstRepModal open={openCreateEditModal} onClose={() => setOpenCreateEditModal(false)} mode={mode} id={userId}  />
         </div>
     );
 }
