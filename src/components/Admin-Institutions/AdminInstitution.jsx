@@ -5,11 +5,12 @@ import TripleDots from '../../icons/dots_1.svg';
 import AddInstitutionModal from "./AddInstitutionModal/AddInsitutionModal";
 import AdminInstitutionDataTable from "./AdminInstitutionTable";
 import { useInstitutionContext } from "../../Context/InstitutionsContext";
+import CreateEditInstitutionModal from "./CreateEditInstitutionModal/CreateEditInstitutionModal";
 
 const AdminInstitution = () => {
     const [openAddModal, setOpenAddModal] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-
+    const [mode, setMode] = useState(0);
     const {institutions, refetchInstitutions} = useInstitutionContext();
 
     // Memoize the totalItems value to avoid unnecessary recalculations
@@ -46,7 +47,7 @@ const AdminInstitution = () => {
                 </div>
                 <button className={styles.add_institution_btn} onClick={() => setOpenAddModal(true)}>
                     <img className="user_icon" alt="" />
-                    <span>Add Institution</span>
+                    <span>New Institution</span>
                 </button>
 
                 <span className={styles.triple_dots}><img className={styles.triple_dots_icon} src={TripleDots} alt="TripleDots" /></span>
@@ -56,9 +57,10 @@ const AdminInstitution = () => {
                     <AdminInstitutionDataTable  />
                 </div>
             </main>
-            <AddInstitutionModal
+            <CreateEditInstitutionModal
                 open={openAddModal}
                 onClose={() => setOpenAddModal(false)}
+                mode={0}
             />
         </div>
     )

@@ -6,18 +6,22 @@ import styles from '../Admin-Institutions/AdminInstitutionTable.module.css';
 import Pagination from '../Pagination/Pagination';
 import DeleteInstitutionModal from "./DeleteInstitutionModal/DeleteInstitutionModal";
 import { useInstitutionContext } from "../../Context/InstitutionsContext";
+import CreateEditInstRepModal from "../Admin-General/Modals/CreateEditInstRepModal/CreateEditInstRepModal";
+import CreateEditInstitutionModal from "./CreateEditInstitutionModal/CreateEditInstitutionModal";
 
-const AdminInstitutionDataTable = ({ checkBoxForAll,}) => {
+const AdminInstitutionDataTable = ({ checkBoxForAll}) => {
     const checkBoxForAllRows = checkBoxForAll;
     const [selectAll, setSelectAll] = useState(checkBoxForAllRows);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // Set items per page as you need
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openCreateEditModal, setOpenCreateEditModal] = useState(false);
     const [institutionToDelete, setInstitutionToDelete] = useState(null);
     const {institutions} = useInstitutionContext();
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
+    const [mode, setMode] = useState(0);
+    const [instToEdit, setInsToEdit] = useState(0);
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -39,9 +43,8 @@ const AdminInstitutionDataTable = ({ checkBoxForAll,}) => {
                     {institutions?.slice(indexOfFirstItem, indexOfLastItem).map((inst) => (
                         <tr key={inst.id}>
                             <td><input type="checkbox" name="checkboxAll" id={`checkbox-${inst.id}`} /></td>
-                            
                             <td className="institution">{inst.institutionName}</td>
-                            <td className="status">{inst.status}</td>
+                            <td className="status">{inst.status == 0 ? 'Inactive' : 'Active'}</td>
                             <td className="address">{inst.address.city}, {inst.address.country} {inst.address.street}</td>
                             <td className="primary_phone">{inst.contact.primaryPhone}</td>
                             <td className="primary_email">{inst.contact.primaryEmail}</td>
@@ -55,7 +58,7 @@ const AdminInstitutionDataTable = ({ checkBoxForAll,}) => {
                                             }}>
                                             <img src={RowDeleteBtn} alt="" />
                                         </span>
-                                        <span><img src={RowEditBtn} alt="" /></span>
+                                        <span onClick={() =>{ console.log("Hello") ;setOpenCreateEditModal(true);setInsToEdit(inst.id); setMode(1);}}><img src={RowEditBtn} alt="" /></span>
                                     </div>
                                 </div>
                             </td>
@@ -65,6 +68,7 @@ const AdminInstitutionDataTable = ({ checkBoxForAll,}) => {
                 <tfoot>
                 </tfoot>
             </table>
+
             <Pagination
                 totalItems={institutions.length}
                 itemsPerPage={itemsPerPage}
@@ -76,6 +80,11 @@ const AdminInstitutionDataTable = ({ checkBoxForAll,}) => {
                 institution={institutionToDelete}
                 onClose={() => setOpenDeleteModal(false)}
             />
+            <CreateEditInstitutionModal 
+                open={openCreateEditModal} 
+                onClose={setOpenCreateEditModal} 
+                mode={mode} 
+                id={instToEdit} />
         </div>
     );
 }

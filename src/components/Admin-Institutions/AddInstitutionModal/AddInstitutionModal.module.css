@@ -1,6 +1,6 @@
 .modalContainer {
     width: 900px;
-    height: 600px;
+    height: 630px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -89,7 +89,7 @@
 }
 
 .btn_container{
-    margin-top: 30px;
+    margin-top: 20px;
     width: 100%;
     display: flex;
     flex-direction: row;

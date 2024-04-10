@@ -1,13 +1,14 @@
 import React, {useState} from "react";
 import styles from '../AddInstitutionModal/AddInstitutionModal.module.css';
 import { ToastContainer, toast } from "react-toastify";
-import { addContact, getContacts } from "../../../Services/ms_auth/ContactService";
-import { addInstitution, getAllInstitutions } from "../../../Services/ms_auth/InstitutionService";
-import { createAddress, getAllAddresses } from "../../../Services/ms_auth/AddressService";
+import { addContact, getContacts, updateContactPatch } from "../../../Services/ms_auth/ContactService";
+import { addInstitution, getAllInstitutions, getInstitution, updateInstitution } from "../../../Services/ms_auth/InstitutionService";
+import { createAddress, getAllAddresses, updateAddressPatch } from "../../../Services/ms_auth/AddressService";
 import { useInstitutionContext } from "../../../Context/InstitutionsContext";
 import { useEffect } from "react";
-
-const  AddInstitutionModal = ({ open, onClose }) =>
+import { useQuery } from "@tanstack/react-query";
+import { useRef } from "react";
+const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
 {
     const [institutionName, setInstitutionName] = useState("");
     const [primaryEmail, setPrimaryEmail] = useState("");
@@ -20,7 +21,35 @@ const  AddInstitutionModal = ({ open, onClose }) =>
     const [street, setStreet] = useState("");
     const [status, setStatus] = useState(1);
     const [visible, setVisible] = useState(false);
-    
+    const [addressId, setAddressId] = useState(0);
+    const [contactId, setContactId] = useState(0);
+
+    const errorT = (message) => {
+        toast.error(message, {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
+    const success = (message) => {
+        toast.success(message, {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
@@ -38,20 +67,66 @@ const  AddInstitutionModal = ({ open, onClose }) =>
         setStatus(1);
     }
 
+
+    const {data, isLoading, error, refetch} = useQuery({
+        queryKey: ['institution'],
+        queryFn: async() => {
+            try {
+                if(mode === 1){
+                    const response = await getInstitution(id);
+                    setInstitutionName(response.data.institutionName);
+                    setCountry(response.data.address.country);
+                    setCity(response.data.address.city);
+                    setStreet(response.data.address.street);
+                    setZip(response.data.address.zip);
+                    setPrimaryEmail(response.data.contact.primaryEmail);
+                    setPrimaryPhone(response.data.contact.primaryPhone);
+                    setSecondaryEmail(response.data.contact.secondaryEmail);
+                    setSecondaryPhone(response.data.contact.secondaryPhone);
+                    setAddressId(response.data.address.id);
+                    setContactId(response.data.contact.id);
+                    setStatus(response.data.status)
+                }
+            }catch(e){
+                errorT("Error occurred");
+            }
+        }
+    })
+
+    const prevIdRef = useRef();
+
     useEffect(() => {
-        setInstitutionName("");
-        setPrimaryEmail("");
-        setPrimaryPhone("");
-        setSecondaryEmail("");
-        setSecondaryPhone("");
-        setCity("");
-        setCountry("");
-        setStreet("");
-        setZip("");
-        
-    }, []);
+        clearFields();
+        if(prevIdRef.current !== id)
+        {
+            prevIdRef.current = id;
+            refetch();
+        }
+    }, [id, refetch]);
 
     const {refetchInstitutions} = useInstitutionContext();
+
+    const handleEditInstitution = async (e) => {
+        e.preventDefault();
+                try {
+                const r1 = await updateContactPatch(contactId, primaryEmail, primaryPhone, secondaryEmail, secondaryPhone);
+                const r2 = await updateAddressPatch(addressId, country, city, street, zip);
+
+                console.log(r1);
+                console.log(r2);
+                console.log(addressId + " " + contactId)
+                const responseInstitution = (await updateInstitution(id, institutionName, addressId, contactId, status))
+                if(responseInstitution.status === 200)
+                {
+                    refetchInstitutions();
+                    success("Institution successfully updated!");
+                }
+                }catch(e)
+                {
+                    errorT("Error occurred while updating...")
+                }
+    
+}
 
     const handleAddInstitution = async (e) => 
     {
@@ -75,7 +150,7 @@ const  AddInstitutionModal = ({ open, onClose }) =>
                 let newContactId, newAddressId;
                 try {
                 newContactId = (await addContact(primaryEmail, primaryPhone, secondaryEmail, secondaryPhone)).data.id;
-                newAddressId = (await createAddress(country, city, street, zip)).data.id;
+                newAddressId = (await updateAddressPatch(country, city, street, zip)).data.id;
                 const responseInstitution = (await addInstitution(institutionName, newAddressId, newContactId, 'active'))
                 if(responseInstitution.status === 200)
                 {
@@ -146,32 +221,7 @@ const  AddInstitutionModal = ({ open, onClose }) =>
         }
     }
 
-    const errorT = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 2500,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light"
-        });
-    }
-
-    const success = (message) => {
-        toast.success(message, {
-            position: "top-right",
-            autoClose: 2500,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light"
-        });
-    }
-
+    console.log(open)
     if (!open)
         return null;
 
@@ -182,10 +232,10 @@ const  AddInstitutionModal = ({ open, onClose }) =>
 
                 <div className={styles.modalRight}>
 
-                    <form onSubmit={(e) => handleAddInstitution(e)}>
+                    <form onSubmit={mode === 0 ? handleAddInstitution : handleEditInstitution}>
 
                         <div className={styles.add_inst_rep_hg}>
-                            <span>Add Institution</span>
+                            <span>{mode === 0 ? 'Add Institution' : 'Edit Institution'}</span>
                         </div>
 
                         <div className={styles.content}>
@@ -317,7 +367,7 @@ const  AddInstitutionModal = ({ open, onClose }) =>
                                 <div className={styles.area}>
                                     <label htmlFor="">Status</label>
                                     <div className={styles.dropdown_list}>
-                                        <select onChange={(e) => setStatus(e.target.value)} >
+                                        <select value={status} onChange={(e) =>{ setStatus(e.target.value); console.log(status)}} >
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
@@ -329,7 +379,7 @@ const  AddInstitutionModal = ({ open, onClose }) =>
                             <button type='submit' className={styles.add_btn}>
                                 <span>Add</span>
                             </button>
-                            <button onClick={() => {onClose(); clearFields()}} className={styles.cancel_btn}>
+                            <button onClick={() => { onClose();}} className={styles.cancel_btn}>
                                 <span>Cancel</span>
                             </button>
                         </div>
@@ -353,4 +403,4 @@ const  AddInstitutionModal = ({ open, onClose }) =>
     );
 }
 
-export default AddInstitutionModal;
+export default CreateEditInstitutionModal;
