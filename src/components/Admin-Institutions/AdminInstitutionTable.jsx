@@ -22,6 +22,7 @@ const AdminInstitutionDataTable = ({ checkBoxForAll}) => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [mode, setMode] = useState(0);
     const [instToEdit, setInsToEdit] = useState(0);
+    const [rerender, setRerender] = useState(false);
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -58,7 +59,7 @@ const AdminInstitutionDataTable = ({ checkBoxForAll}) => {
                                             }}>
                                             <img src={RowDeleteBtn} alt="" />
                                         </span>
-                                        <span onClick={() =>{ console.log("Hello") ;setOpenCreateEditModal(true);setInsToEdit(inst.id); setMode(1);}}><img src={RowEditBtn} alt="" /></span>
+                                        <span onClick={() =>{ setRerender(true); setOpenCreateEditModal(true);setInsToEdit(inst.id); setMode(1);}}><img src={RowEditBtn} alt="" /></span>
                                     </div>
                                 </div>
                             </td>
@@ -84,7 +85,10 @@ const AdminInstitutionDataTable = ({ checkBoxForAll}) => {
                 open={openCreateEditModal} 
                 onClose={setOpenCreateEditModal} 
                 mode={mode} 
-                id={instToEdit} />
+                id={instToEdit} 
+                rerender={rerender}
+                setRerender={setRerender}
+                />
         </div>
     );
 }

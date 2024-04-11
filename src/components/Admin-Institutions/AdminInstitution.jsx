@@ -12,7 +12,7 @@ const AdminInstitution = () => {
     const [searchValue, setSearchValue] = useState("");
     const [mode, setMode] = useState(0);
     const {institutions, refetchInstitutions} = useInstitutionContext();
-
+    const [rerender, setRerender] = useState(false);
     // Memoize the totalItems value to avoid unnecessary recalculations
     const totalItems = institutions ? institutions?.length : 0;
 
@@ -60,6 +60,7 @@ const AdminInstitution = () => {
             <CreateEditInstitutionModal
                 open={openAddModal}
                 onClose={() => setOpenAddModal(false)}
+                setRerender={setRerender}
                 mode={0}
             />
         </div>

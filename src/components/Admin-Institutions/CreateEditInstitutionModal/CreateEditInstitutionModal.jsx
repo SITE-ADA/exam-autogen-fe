@@ -8,7 +8,8 @@ import { useInstitutionContext } from "../../../Context/InstitutionsContext";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRef } from "react";
-const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
+import { msAuthApi } from "../../../Services/AxiosService";
+const  CreateEditInstitutionModal = ({ open, onClose, mode, id, rerender, setRerender }) =>
 {
     const [institutionName, setInstitutionName] = useState("");
     const [primaryEmail, setPrimaryEmail] = useState("");
@@ -23,7 +24,7 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
     const [visible, setVisible] = useState(false);
     const [addressId, setAddressId] = useState(0);
     const [contactId, setContactId] = useState(0);
-
+    const [shouldRefetch, setShouldRefetch] = useState(false);
     const errorT = (message) => {
         toast.error(message, {
             position: "top-right",
@@ -49,7 +50,7 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
             theme: "light"
         });
     }
-
+    const institutionId = id;
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
@@ -68,41 +69,45 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
     }
 
 
-    const {data, isLoading, error, refetch} = useQuery({
+    const {data, error, isLoading, refetch} = useQuery({
         queryKey: ['institution'],
-        queryFn: async() => {
+        queryFn: async() =>
+        {
             try {
-                if(mode === 1){
-                    const response = await getInstitution(id);
-                    setInstitutionName(response.data.institutionName);
-                    setCountry(response.data.address.country);
-                    setCity(response.data.address.city);
-                    setStreet(response.data.address.street);
-                    setZip(response.data.address.zip);
-                    setPrimaryEmail(response.data.contact.primaryEmail);
-                    setPrimaryPhone(response.data.contact.primaryPhone);
-                    setSecondaryEmail(response.data.contact.secondaryEmail);
-                    setSecondaryPhone(response.data.contact.secondaryPhone);
-                    setAddressId(response.data.address.id);
-                    setContactId(response.data.contact.id);
-                    setStatus(response.data.status)
-                }
-            }catch(e){
-                errorT("Error occurred");
-            }
-        }
-    })
+                const response = await getInstitution(id);
+                const data = response.data;
+                setInstitutionName(data.institutionName);
+                setPrimaryEmail(data.contact.primaryEmail);
+                setPrimaryPhone(data.contact.primaryPhone);
+                setSecondaryEmail(data.contact.secondaryEmail);
+                setSecondaryPhone(data.contact.secondaryPhone);
+                setCity(data.address.city);
+                setCountry(data.address.country);
+                setStreet(data.address.street);
+                setZip(data.address.zip);
+                setStatus(data.status);
+                return response.data;
+            }catch(e)
+            {
 
-    const prevIdRef = useRef();
+            }
+        },
+        enabled: shouldRefetch
+    });
+
 
     useEffect(() => {
-        clearFields();
-        if(prevIdRef.current !== id)
+        if(rerender)
         {
-            prevIdRef.current = id;
             refetch();
+        
+        } 
+        if(data)
+        {
+            setShouldRefetch(false);
         }
-    }, [id, refetch]);
+
+    }, [rerender]);
 
     const {refetchInstitutions} = useInstitutionContext();
 
@@ -126,7 +131,7 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
                     errorT("Error occurred while updating...")
                 }
     
-}
+    }
 
     const handleAddInstitution = async (e) => 
     {
@@ -150,8 +155,10 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
                 let newContactId, newAddressId;
                 try {
                 newContactId = (await addContact(primaryEmail, primaryPhone, secondaryEmail, secondaryPhone)).data.id;
-                newAddressId = (await updateAddressPatch(country, city, street, zip)).data.id;
-                const responseInstitution = (await addInstitution(institutionName, newAddressId, newContactId, 'active'))
+                newAddressId = (await createAddress(country, city, street, zip)).data.id;
+                console.log(newContactId + " " + newAddressId);
+                const responseInstitution = (await addInstitution(institutionName, newAddressId, newContactId, status))
+
                 if(responseInstitution.status === 200)
                 {
                     success("Institution successfully created!");
@@ -379,7 +386,7 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id }) =>
                             <button type='submit' className={styles.add_btn}>
                                 <span>Add</span>
                             </button>
-                            <button onClick={() => { onClose();}} className={styles.cancel_btn}>
+                            <button onClick={() => {clearFields();setRerender(false);onClose(); }} className={styles.cancel_btn}>
                                 <span>Cancel</span>
                             </button>
                         </div>
