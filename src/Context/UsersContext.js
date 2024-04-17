@@ -8,13 +8,15 @@ export const useUserContext = () => useContext(UserContext);
 
 export const UserProvider = ({children}) => {
     const [users, setUsers] = useState([]);
-    
+    const [shouldRefetch, setShouldRefetch] = useState(false);
+
     const {data, refetch, isLoading, error} = useQuery({
         queryKey: ['users'],
         queryFn: async() => {
             const response = await getAllUsers();
             return response.data;
-        }
+        },
+        enabled: shouldRefetch
     });
 
     const refetchUsers = () => refetch();
@@ -27,7 +29,7 @@ export const UserProvider = ({children}) => {
     }, [data])
 
     return (
-        <UserContext.Provider value={{users, setUsers, isLoading, error, refetchUsers}}>
+        <UserContext.Provider value={{users, setUsers, isLoading, error, refetchUsers, shouldRefetch, setShouldRefetch}}>
             {children}
         </UserContext.Provider>
     )
