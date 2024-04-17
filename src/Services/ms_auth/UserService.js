@@ -15,4 +15,12 @@ export const deleteUser = async(id) =>
 export const getUser = async(id) =>
                     await msAuthApi.get(`/user/${id}`);
 
+export const getUsersByInstitution = async(id, userTypeId) =>
+                    await msAuthApi.get(`/user/instructors?institutionId=${id}&userTypeId=${userTypeId}`);
+
+export const patchUser = async(id, username, institution_id) => 
+                    await msAuthApi.patch(`/user/${id}`, {username, institution_id});
+
+export const getUserDetails = async(id) => 
+                    await msAuthApi.get(`/user-details/${id}`)
         

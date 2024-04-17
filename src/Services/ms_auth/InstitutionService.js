@@ -1,7 +1,7 @@
 import { msAuthApi } from "../AxiosService";
 
-export const addInstitution = async (institutionName, addressId, contactId, instStatus) =>
-                                    await msAuthApi.post("/institution", {institutionName, addressId, contactId, instStatus})
+export const addInstitution = async (institutionName, addressId, contactId, status) =>
+                                    await msAuthApi.post("/institution", {institutionName, addressId, contactId, status})
 
 export const getAllInstitutions = async () => await msAuthApi.get('/institution');
 
