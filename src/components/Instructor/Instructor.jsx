@@ -1,7 +1,8 @@
 import React from "react";
-import styles from '../Admin/Layout.module.css';
+import styles from './Instructor.module.css';
 import SideBar from "../SideBar/SideBar";
 import { Outlet} from "react-router-dom";
+import Breadcrumbs from "../Breadcrumb/Breadcrumbs";
 
 const Instructor = () =>
 {
