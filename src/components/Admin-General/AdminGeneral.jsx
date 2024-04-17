@@ -21,9 +21,8 @@ const AdminGeneral = () => {
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+    const [rerender, setRerender] = useState(false);
     const {users, refetchUsers} = useUserContext();
-    console.log(users);
     useEffect(() => {
         refetchUsers();
     }, [listView]); // Empty dependency array ensures this effect runs only once on component mount
@@ -87,7 +86,7 @@ const AdminGeneral = () => {
                                         <span className={styles.last_name}>{user.id}</span>
                                     </div>
                                     <div className={styles.school_name}>
-                                        <span>ADA University</span>
+                                        <span>{user.institution.institutionName}</span>
                                     </div>
                                 </div>
                             ))}

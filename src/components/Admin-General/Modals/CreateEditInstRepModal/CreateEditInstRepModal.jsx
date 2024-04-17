@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../AddInstRepModel/AddInstRepModal.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useUserContext } from '../../../../Context/UsersContext';
-import { createUser, getUser } from '../../../../Services/ms_auth/UserService';
+import { createUser, getUser, patchUser } from '../../../../Services/ms_auth/UserService';
 import AsyncSelect from 'react-select/async';
 import { msAuthApi } from '../../../../Services/AxiosService';
 import { useQuery } from '@tanstack/react-query';
-const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
+const CreateEditInstRepModal = ({ open, onClose, mode, id, rerender, setRerender  }) => {
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
     const {refetchUsers} = useUserContext();
     const [inputValue, setValue] = useState('');
     const [selectedValue, setSelectedValue] = useState(null);
-    
+    const [shouldRefetch, setShouldRefetch] = useState(false);
     // handle input change event
     const handleInputChange = value => {
         setValue(value);
@@ -37,7 +37,7 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
       });
     }
 
-
+    
 
   // handle selection
     const handleChange = value => {
@@ -99,25 +99,51 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
         queryKey: ['user'],
         queryFn: async() =>
         {
+            
             try {
-                const responseUser = await getUser(id);
+               const responseUser = await getUser(id);
                 if(responseUser.status === 401 || responseUser.status === 400 || responseUser.status === 403 || responseUser.status === 404)
                 {
-                    errorT("Error while retrieving the question pool information");
+                    errorT("Error while retrieving the institution representative information");
                 } else {
                     setUsername(responseUser.data.username);
-                    const institutionId = responseUser.data.institutionId;
+                    setInstitution(responseUser.data.institution);
                 }
             }catch(e)
             {
-
+                
             }
+        },
+        enabled: shouldRefetch
+    });
+
+    useEffect(() => {
+        if(rerender)
+        {
+            refetch();
+        } 
+        if(data)
+        {
+            setShouldRefetch(false);
         }
-    })
+
+    }, [rerender]);
 
     const handleEditInstitutionRep = async(event) =>
     {
+        event.preventDefault();
 
+        try {
+            const response = await patchUser(id, username, institution.id);
+            if(response.status === 200)
+            {
+                success("Institution Representative successfully updated!")
+                refetchUsers();
+            }
+        } catch(e)
+        {
+            errorT("Error occurred while updating");
+        }
     }
 
     const handleAddInstitutionRep = async(event) =>
@@ -128,7 +154,7 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
             confirm_password.setCustomValidity("Passwords Don't Match");
         } else {
         try {
-            const response = await createUser(username, email, phonenumber, password, 2, institution.id);
+            const response = await createUser(username, password, 2, institution.id);
                 if (response.status === 200 || response.status === 201) {
                     success();
                     setVisible(true);
@@ -183,6 +209,7 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
             theme: "light"
         });
     }
+
 
     if (!open)
         return null;
@@ -269,9 +296,8 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
                                         onChange={(e) => {
                                             setResetPassword(e.target.value)
                                         }}
-                                        required
                                         autoComplete="off"/>
-                                    <label className={styles.reset_password} htmlFor={'reset-password'}>Reset Password</label>
+                                    <label className={styles.reset_password} htmlFor={'reset-password'} >Reset Password</label>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +305,7 @@ const CreateEditInstRepModal = ({ open, onClose, mode, id  }) => {
                             <button type='submit' className={styles.add_btn}>
                                 <span>Add</span>
                             </button>
-                            <button onClick={onClose} className={styles.cancel_btn}>
+                            <button onClick={() => {onClose(); setRerender(false);}} className={styles.cancel_btn}>
                                 <span>Cancel</span>
                             </button>
                         </div>

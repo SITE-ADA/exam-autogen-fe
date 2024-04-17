@@ -189,6 +189,36 @@ const AddInstRepModal = ({ open, onClose }) => {
                                 </div>
                        
                             <div className={styles.area}>
+                                <label htmlFor={styles.email}>Email</label>
+                                <input placeholder="Email address"
+                                       className={styles.input}
+                                       type="email"
+                                       name='email'
+                                       id='email'
+                                       value={email}
+                                       onChange={(e) => {
+                                           setEmail(e.target.value);
+                                       }}
+                                       required
+                                       autoComplete="off"/>
+                            </div>
+
+                            <div className={styles.area}>
+                                <label htmlFor={styles.phone}>Phone Number</label>
+                                <input placeholder="Phone number"
+                                       className={styles.input}
+                                       type="text"
+                                       name='phonenumber'
+                                       id='phonenumber'
+                                       value={[phonenumber]}
+                                       onChange={(e) => {
+                                           setPhonenumber(e.target.value);
+                                       }}
+                                       required
+                                       autoComplete="off"/>
+                            </div>
+
+                            <div className={styles.area}>
                                 <label>Institution</label>
                                 <AsyncSelect
                                     defaultOptions
