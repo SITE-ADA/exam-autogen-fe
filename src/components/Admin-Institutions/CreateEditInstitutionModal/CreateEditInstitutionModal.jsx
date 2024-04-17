@@ -81,6 +81,8 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id, rerender, setRer
                 setPrimaryPhone(data.contact.primaryPhone);
                 setSecondaryEmail(data.contact.secondaryEmail);
                 setSecondaryPhone(data.contact.secondaryPhone);
+                setContactId(data.contact.id);
+                setAddressId(data.address.id);
                 setCity(data.address.city);
                 setCountry(data.address.country);
                 setStreet(data.address.street);
@@ -114,6 +116,7 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id, rerender, setRer
     const handleEditInstitution = async (e) => {
         e.preventDefault();
                 try {
+                    console.log(contactId + " " + addressId);
                 const r1 = await updateContactPatch(contactId, primaryEmail, primaryPhone, secondaryEmail, secondaryPhone);
                 const r2 = await updateAddressPatch(addressId, country, city, street, zip);
 
@@ -121,6 +124,7 @@ const  CreateEditInstitutionModal = ({ open, onClose, mode, id, rerender, setRer
                 console.log(r2);
                 console.log(addressId + " " + contactId)
                 const responseInstitution = (await updateInstitution(id, institutionName, addressId, contactId, status))
+                console.log(responseInstitution);
                 if(responseInstitution.status === 200)
                 {
                     refetchInstitutions();
