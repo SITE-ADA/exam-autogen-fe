@@ -14,6 +14,7 @@
     justify-content: center;
   }
 
+
 .content {
     margin: 0;
     display: flex;
@@ -21,6 +22,7 @@
     justify-content: center;
     text-align: center;
 }
+
 
 .add_inst_rep_hg {
     margin-top: 30px;
@@ -60,6 +62,12 @@
   }
 
 .input_area{
+    display: flex;
+    flex-direction: column;
+}
+
+.input_area_in_edit{
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
 }

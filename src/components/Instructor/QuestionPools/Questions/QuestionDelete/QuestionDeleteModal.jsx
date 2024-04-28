@@ -1,39 +1,28 @@
 import React from "react";
-import styles from './PoolDeleteModal.module.css';
-import '../../../GlobalStyles/deleteModal.css';
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import axios from "axios";
+import styles from './QuestionDeleteModal.module.css';
+import { deleteQuestionById } from "../../../../../Services/ms_question/QuestionService";
+import { useMutation } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
-import { deleteQuestionPool } from "../../../../Services/ms_question/QuestionPoolService";
-import { usePoolContext } from "../../../../Context/PoolsContext";
-
-const PoolDeleteModal = ({open, pool, onClose, onConfirm}) =>
+import { useState } from "react";
+export const QuestionDeleteModal = ({open, question, onClose}) => 
 {
-    const [visible, setVisible] = useState(false); 
-    const poolname = pool?.name;
-    const poolId = pool?.id;
+    const [visible, setVisible] = useState(false);
+    const questionName = question?.text;
+    const questionId = question?.Id;
+    console.log(questionId);
 
-    const deletePool = async() =>{
-        return await deleteQuestionPool(poolId);
-};
 
-    const {refetchPools} = usePoolContext();
-
-    const mutation = useMutation({mutationFn: deletePool})
-
-    const handleDeletePool = async() =>
+    const handleDeleteQuestion = async() =>
     {
         try {
-            const code = await mutation.mutateAsync()
-            console.log("DELETE POOL")
+            const code = await deleteQuestionById(questionId);
+            console.log("DELETE Question")
             console.log(code.status)
             if(code.status === 204)
             {
                 success();
                 setTimeout(() =>
             {
-                refetchPools();
                 onClose();
             }, 1300);
             }
@@ -45,7 +34,6 @@ const PoolDeleteModal = ({open, pool, onClose, onConfirm}) =>
             }, 2000);
 
         }
-
     }
 
     const stopPropagation = (e) =>
@@ -87,12 +75,12 @@ const PoolDeleteModal = ({open, pool, onClose, onConfirm}) =>
             <div className="modalContainer" onClick={stopPropagation}>
                 <div className="modalRight">
                     <div className="delete_inst_rep_hg">
-                        <span>Are you sure to delete the pool <span className="red_text">{poolname}</span> ?</span>
+                        <span>Are you sure to delete the question <span className="red_text">{questionName}</span> ?</span>
                     </div>
                     
                     <div className="btn_container">
             
-                        <button onClick={() => handleDeletePool()} className="add_btn">
+                        <button onClick={() => handleDeleteQuestion()} className="add_btn">
                             <span>Confirm</span>
                         </button>
                         <button onClick={onClose} className="cancel_btn">
@@ -118,5 +106,3 @@ const PoolDeleteModal = ({open, pool, onClose, onConfirm}) =>
         </div>
     );
 }
-
-export default PoolDeleteModal;

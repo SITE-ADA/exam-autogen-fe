@@ -9,11 +9,12 @@ import DeleteModal from "../../../Admin-General/Modals/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import PoolDeleteModal from "../QuestionPoolDeleteModal/PoolDeleteModal";
 import { msQuestionApi } from "../../../../Services/AxiosService";
-import { getAllPools } from "../../../../Services/ms_question/QuestionService";
+import { getAllPools } from "../../../../Services/ms_question/QuestionPoolService";
 import { useQuery } from "@tanstack/react-query";
 import CreateEditPoolModal from "../CreateQuestionPool/CreateEditPoolModal";
 import { ToastContainer, toast } from 'react-toastify';
 import { usePoolContext } from "../../../../Context/PoolsContext";
+import Breadcrumbs from "../../../Breadcrumb/Breadcrumbs";
 
 const PoolTable = ({checkBoxForAll}) =>
 {
@@ -78,7 +79,8 @@ const PoolTable = ({checkBoxForAll}) =>
         setPools(updatedInstReps);
     };
 
-    const handleCheckboxChange = (id) => {
+    const handleCheckboxChange = (event, id) => {
+        event.stopPropagation();
         const updatedInstReps = pools.map(pool => {
             if (pool.id === id) {
                 return {
@@ -95,9 +97,15 @@ const PoolTable = ({checkBoxForAll}) =>
     const GoEditPage = (poolId) =>
         navigate(`/Instructor/QuestionPools/EditQuestionPool/${poolId}`)
     
+
+    const GoQuestionsPage = (event, poolId) =>{
+        if (event.target.tagName !== 'INPUT') {
+            navigate(`/Instructor/QuestionPools/${poolId}`);
+        }   
+    }
+
     return (
         <div>
-            
         <table>
             <thead>
                 <tr>
@@ -110,8 +118,8 @@ const PoolTable = ({checkBoxForAll}) =>
             </thead>
             <tbody>
                 {pools?.map((pool) => (
-                    <tr key={pool.id}>
-                        <td><input checked={pool.checked} onChange={() => handleCheckboxChange(pool.id)} type="checkbox" name="checkboxAll" id={`checkbox-${pool.id}`} /></td>
+                    <tr key={pool.id} onClick={(event) => GoQuestionsPage(event, pool.id)}>
+                        <td><input checked={pool.checked} onChange={(event) => handleCheckboxChange(event, pool.id)} type="checkbox" name="checkboxAll" id={`checkbox-${pool.id}`} /></td>
                         <td className="name">{pool.name == null ? ("no data") : (pool.name)}</td>
                         <td className="subject">{pool.subjectId == null ? ("no data") : pool.subjectId}</td>
                         <td className="question_count">{pool.question_count == null ? ("no data") : (pool.question_count)}</td>
@@ -120,13 +128,14 @@ const PoolTable = ({checkBoxForAll}) =>
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />
                                 <div className="buttons-container">
-                                    <span onClick={() =>
+                                    <span onClick={(event) =>
                                     {
+                                        event.stopPropagation();
                                         setPoolToDelete(pool);
                                         setOpenDeleteModal(true)
                                     }
                                     }><img src={RowDeleteBtn} alt="" /></span>
-                                    <span onClick={() => {setOpenModal(true); setMode(1); console.log(mode);setPoolId(pool.id)}}><img src={RowEditBtn} alt="" /></span>
+                                    <span onClick={(event) => {event.stopPropagation();setOpenModal(true); setMode(1); console.log(mode);setPoolId(pool.id)}}><img src={RowEditBtn} alt="" /></span>
                                 </div>
                             </div>
                         </td>

@@ -6,4 +6,6 @@
 .main_content {
     padding-left: 15px;
     padding-top: 25px;
+    padding-right: 35px;
+    width: 100vw;
 }

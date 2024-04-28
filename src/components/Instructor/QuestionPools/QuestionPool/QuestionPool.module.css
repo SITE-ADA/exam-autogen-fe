@@ -1,0 +1,108 @@
+.question_pools_header {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    height: 100px;
+    flex-direction: row;
+}
+
+.search_panel {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 740px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.search_panel > .search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    column-gap: 10px;
+    height: 40px;
+
+}
+
+.search_icon {
+    width: 20px;
+    height: 20px;
+}
+
+.input {
+    width: 80%;
+    outline: none;
+    border: none;
+    font-size: 15px;
+}
+
+.dropdown_list{
+    margin-left: 10px;
+}
+
+/* Style the container if desired */
+select {
+    background-color: #F6F6F6;
+    width: 90px; /* Adjust as needed */
+    padding: 7px 12px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    /* Hide the default arrow */
+
+  }
+  
+  /* Adding a custom arrow */
+  select::after {
+    content: url('../../../../icons/vector.svg'); /* Unicode character for a down arrow */
+    position: absolute;
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Make the arrow unclickable */
+    color: #0832DE;
+  }
+
+  select:hover {
+    cursor: pointer;
+  }
+
+  .add_question_btn {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    width: 190px;
+    padding-left: 32px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: #4340DA;
+    color: #FFFFFF;
+    column-gap: 10px;
+    transition: transform 0.1s ease-in-out;
+  }
+
+  .add_question_btn:hover
+  {
+    cursor: pointer;
+  }
+
+  .add_question_btn:active
+  {
+    transform: scale(0.95);
+  }
+
+  .add_instructor_btn .user_icon {
+    width: 16px;
+    height: 16px;
+  }

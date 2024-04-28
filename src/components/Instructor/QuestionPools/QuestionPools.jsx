@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { msQuestionApi } from "../../../Services/AxiosService";
 import { usePoolContext } from "../../../Context/PoolsContext";
 import { useSubjectContext } from "../../../Context/SubjectsContext";
+import { useMySubjectsContext } from "../../../Context/MySubjectsContext";
 const QuestionPools = () =>
 {
     const [searchValue, setSearchValue] = useState("");
@@ -20,9 +21,8 @@ const QuestionPools = () =>
     const [mode, setMode] = useState(null);
     const [poolId, setPoolId] = useState(0);
     const {pools} = usePoolContext();
-    const {subjects} = useSubjectContext();
+    const {mySubjects} = useMySubjectsContext();
     const poolCount = pools.length;
-    const subjectCount = subjects.length;
     const [questionCount, setQuestionCount] = useState(0);
 
     useEffect(() => 
@@ -49,7 +49,7 @@ const QuestionPools = () =>
 
     return (
         <div>
-            <Breadcrumbs questionPoolName={"Question Pool #1"} questionId={null} />
+            <Breadcrumbs />
 
             <div className={styles.quantities_info}>
                 <div className={styles.count_info}>
@@ -58,7 +58,7 @@ const QuestionPools = () =>
                     <p>Question Pools</p>
                 </div>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>{subjectCount}</span></h1>
+                    <h1 className="count"><span>{mySubjects.length}</span></h1>
                     <br />
                     <p>Subjects</p>
                 </div>
@@ -104,10 +104,10 @@ const QuestionPools = () =>
             <PoolTable checkBoxForAll={true}/>
 
             <CreateEditPoolModal 
-            open={openModal} 
-            onClose={() => setOpenModal(false)} 
-            poolId={poolId}
-            mode={mode}
+                open={openModal} 
+                onClose={() => setOpenModal(false)} 
+                poolId={poolId}
+                mode={mode}
             />
         </div>
     );

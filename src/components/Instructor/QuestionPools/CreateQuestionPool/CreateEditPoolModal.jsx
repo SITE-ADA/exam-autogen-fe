@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import styles from './CreateEditPoolModal.module.css';
-import { createQuestionPool, getPoolById } from "../../../../Services/ms_question/QuestionService";
+import { createQuestionPool, getPoolById } from "../../../../Services/ms_question/QuestionPoolService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -110,7 +110,7 @@ const CreateEditPoolModal = ({ open, onClose, mode, id }) =>
                 else {
                 try {
                     const pool = responsePool.data;
-                    setPoolName(pool.name); 
+                    setPoolName(pool.name);
                     setDescription(pool.description);
                     const responseSubject = (await getSubjectById(pool.subjectId));
                     if(responseSubject.status === 401 || responseSubject.status === 400 || responseSubject.status === 403 || responseSubject.status === 404)
@@ -223,26 +223,7 @@ const CreateEditPoolModal = ({ open, onClose, mode, id }) =>
         }
     }
 
-    
-    
-    // console.log(useParams());
-    // true - Create, false - Edit 
     const isCreateOrEdit = mode === 0 ? true : false;
-
-    const getPool = async() =>
-        {
-            /*const response = await getPoolById(poolId);
-            const pool = response.data;
-            setPoolName(pool.name);
-            setDescription(pool.description);
-            setSubject(pool.subjectId);
-            setUser(pool.userId); */    
-        }
-
-    if(!isCreateOrEdit)
-    {
-        getPool();
-    }
 
     const stopPropagation = (e) => {
         e.stopPropagation();
