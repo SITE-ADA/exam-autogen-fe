@@ -16,8 +16,11 @@ import QuestionPoolWhite from "../../icons/tab-icons/questionpoolswhite.svg";
 import QuestionPoolBlack from "../../icons/tab-icons/questionpoolsblack.svg";
 import ArrowDownBlack from '../../icons/tab-icons/arrow_down_black.svg';
 import ArrowDownWhite from '../../icons/tab-icons/arrow_down_white.svg';
+import TestIconBlack from '../../icons/tab-icons/testsicon.svg';
+import TestsIconWhite from '../../icons/tab-icons/testiconwhite.svg';
 import { NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function Sidebar() {
@@ -35,8 +38,16 @@ export default function Sidebar() {
   const user = JSON.parse(localStorage.getItem("user")).user;
   const userTypeId = user?.userTypeId;
   const username = user?.username;
+  const mainEndpoint = userTypeId == 1 ? "Admin" : (userTypeId == 2 ? "InstitutionRepresentative" : (userTypeId == 5 ? "Instructor" : '' ));
+  const navLinkStyle = {
+    textDecoration: 'none', // Remove underline
+    color: 'inherit', // Inherit the color from parent
+    // Add more styles as needed
+  };
+const queryClient = useQueryClient();
   const handleLogOutBtn = () =>
   {
+    queryClient.clear();
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/Login');
@@ -64,10 +75,15 @@ export default function Sidebar() {
     <div className={styles.admin}>
 
       <div className={styles.sidebar}>
-
         <div className={styles.user_info}>
           <img src={Img} alt="aze-flag" width={39} height={39} />
-          <span className={styles.admin_name}>{username}</span>
+          <NavLink
+            to={`/${mainEndpoint}/Profile`}
+            onClick={() => handleTabClick(`/${mainEndpoint}/Profile`)}
+            style={navLinkStyle}
+          >
+            <span className={styles.username_link}>{username}</span>
+          </NavLink>
         </div>
 
         <div className={styles.tabs}>
@@ -161,6 +177,22 @@ export default function Sidebar() {
         {(user && user.userTypeId === 5) && (
           <>
         
+        <NavLink
+            to="/Instructor/Tests"
+            className={`${styles.tab} ${styles.question_pool_tab} ${(activeTab.includes("/Instructor/Tests") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? styles.active : ""}`}
+            onClick={() => handleTabClick("/Instructor/Tests")}
+          >
+              <img
+                className={styles.icon}
+                src={(activeTab.includes("/Instructor/Tests") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? TestsIconWhite : TestIconBlack}
+                alt="QuestionsPool"
+                width={24}
+                height={24}
+              />
+              <span className={styles.name}>Tests</span>
+              
+          </NavLink>
+          
           <NavLink
             to="/Instructor/QuestionPools"
             className={`${styles.tab} ${styles.question_pool_tab} ${(activeTab.includes("/Instructor/QuestionPools") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? styles.active : ""}`}

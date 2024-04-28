@@ -8,7 +8,9 @@ import { PoolProvider } from './Context/PoolsContext';
 import { SubjectProvider } from './Context/SubjectsContext';
 import { UserProvider } from './Context/UsersContext';
 import { InstitutionProvider } from './Context/InstitutionsContext';
-
+import { MySubjectsProvider } from './Context/MySubjectsContext';
+import { InstructorsProvider } from './Context/InstructorsContext';
+//import { CurrentUserProvider } from './Context/CurrentUserContext';
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,9 +20,15 @@ root.render(
             <UserProvider>
               <PoolProvider>
                 <InstitutionProvider>
-                  <SubjectProvider>
-                      <App />
-                  </SubjectProvider>
+                  <MySubjectsProvider>
+                    <SubjectProvider>
+                      <InstructorsProvider>
+                        <UserProvider>
+                        <App />
+                        </UserProvider>
+                      </InstructorsProvider>
+                    </SubjectProvider>
+                  </MySubjectsProvider>
                 </InstitutionProvider>
               </PoolProvider>
             </UserProvider>

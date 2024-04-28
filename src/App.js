@@ -11,11 +11,15 @@ import InstRepSubject from "./components/InstRep-Subjects/InstRepSubject";
 import AdminInstitution from "./components/Admin-Institutions/AdminInstitution";
 import NotAuthorized from "./components/NotAuthorized/NotAuthorized";
 import Instructor from "./components/Instructor/Instructor";
-import Subjects from "./components/Instructor/Subjects/Subjects";
 import QuestionPools from "./components/Instructor/QuestionPools/QuestionPools";
 import QuestionPool from './components/Instructor/QuestionPools/QuestionPool/QuestionPool';
 import CreateEditQuestion from "./components/Instructor/QuestionPools/QuestionPool/CreateQuestion/CreateEditQuestion";
 import RequestedPageNotFound from "./components/NotFound/RequestedPageNotFound";
+import InstructorSubjects from "./components/Instructor/Instructor-Subjects/InstructorSubjects";
+import { Profile } from "./components/Profile/Profile";
+import { Tests } from "./components/Instructor/MsTests/Tests";
+import { Test } from "./components/Instructor/MsTests/Test/Test";
+import { AddQuestionBucket } from "./components/Instructor/MsTests/QuestionBucket/AddQuestionBucket/AddQuestionBucket";
 
 function App() {
 
@@ -38,34 +42,40 @@ function App() {
           <Route path="/Login" element={<LoginForm />} />
 
           <Route element={<RequireAuth allowedRole={UserTypes.ADMIN}/>} >
-          <Route path="/Admin" element={<Admin/>}> 
-              <Route path="" element={<AdminGeneral/>}/>
-              <Route path="General" element={<AdminGeneral />}/>
-              <Route path="Settings" element={<AdminSettings />} />
-              <Route path="Institutions" element={<AdminInstitution />} />
-          </Route>
+            <Route path="/Admin" element={<Admin/>}> 
+                <Route path="" element={<AdminGeneral/>}/>
+                <Route path="Profile" element={<Profile/>} />
+                <Route path="General" element={<AdminGeneral />}/>
+                <Route path="Settings" element={<AdminSettings />} />
+                <Route path="Institutions" element={<AdminInstitution />} />
+            </Route>
           </Route>
 
-          <Route element={<RequireAuth allowedRole={UserTypes.INSTITUTION_REPRESENTATIVE}/>}>
+          <Route element={<RequireAuth allowedRole={UserTypes.INSTITUTION_REPRESENTATIVE}/>} >
               <Route path="/InstitutionRepresentative" element={<InstitutionRepresentative />} >
                   <Route path="" element={<InstRepInstructor/>}/>
+                  <Route path="Profile" element={<Profile/>} />
                   <Route path="Instructors" element={<InstRepInstructor />}/>
                   <Route path="Subjects" element={<InstRepSubject />} />
               </Route>
           </Route>
 
-          <Route element={<RequireAuth allowedRole={UserTypes.INSTRUCTOR} />}>
+          <Route element={<RequireAuth allowedRole={UserTypes.INSTRUCTOR} />} >
             <Route path="/Instructor" element={<Instructor />} >
                 <Route path="" index element={<QuestionPools />} />
+                <Route path="Profile" element={<Profile/>} />
                 <Route path="QuestionPools" element={<QuestionPools />} >
                   <Route path="" index element={<QuestionPools />} />
                 </Route>
-                {/*<Route path="QuestionPools/CreateQuestionPool/:poolId" element={<CreateEditPool />} />
-                <Route path="QuestionPools/EditQuestionPool/:poolId" element={<CreateEditPool />} /> */}
-                <Route path="QuestionPools/:id"  element={<QuestionPool />} />
+                <Route path="QuestionPools/:questionPoolId"  element={<QuestionPool />} />
                 <Route path="QuestionPools/:id/CreateQuestion/0" element={<CreateEditQuestion />} />
                 <Route path="QuestionPools/:id/EditQuestion/:id" element={<CreateEditQuestion />} />
-                <Route path="Subjects" element={<Subjects />} />
+                <Route path="Subjects" element={<InstructorSubjects />} />
+                <Route path="Tests" element={<Tests />} >
+                  <Route path="" index element={<Tests />} />
+                </Route>
+                <Route path="Tests/:id" element={<Test />} />
+                <Route path="Tests/:id/AddQuestionBucket" element={<AddQuestionBucket />} />
             </Route>
 
           </Route>

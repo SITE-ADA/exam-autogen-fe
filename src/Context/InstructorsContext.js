@@ -20,6 +20,7 @@ export const InstructorsProvider = ({children}) => {
             try {
                 setInstitutionId(JSON.parse(localStorage.getItem("user"))?.user.institution.id);
                 const response = await getUsersByInstitution(institutionId, 5);
+                console.log(response)
                 return response.data;
             }catch(e)
             {

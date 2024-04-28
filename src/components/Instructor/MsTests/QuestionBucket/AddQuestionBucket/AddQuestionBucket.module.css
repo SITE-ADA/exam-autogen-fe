@@ -1,0 +1,260 @@
+.add_question_bucket {
+    height: 100%;
+}
+
+.add_question_bucket_heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.add_question_bucket_heading > h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.add_question_bucket_heading > .filter_btn {
+    margin-left: auto;
+    margin-right: 20px;
+    display: flex;
+    justify-content: flex-start;
+    background-color: black;
+    color: white;
+    line-height: 130%;
+    letter-spacing: 0.1px;
+    font-size: 16px;
+    padding-left: 6px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+    height: 30px;
+    width: 75px;
+}
+
+.filter_btn > span {
+    margin-left: 6px;
+}
+
+.main_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.main > .checkbox_op_panel {
+    margin-top: 10px;
+    font-size: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.checkbox_op_panel > :nth-child(1){
+    border-right: 1px #C4C4C4 solid;
+    padding-right: 12px;
+    color: #0832DE;
+}
+
+.checkbox_op_panel > :nth-child(2){
+    padding-left: 12px;
+    color: #0832DE;
+}
+
+.content {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.content > .question_pool {
+    width: 850px;
+
+}
+
+.content > .question_pool > h3 {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px #F1F1F1 solid;
+    width: 100%;
+    padding-bottom: 15px ;
+}
+
+.question {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    padding-top: 10px;
+    column-gap: 20px;
+}
+
+.question_info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px #F1F1F1 solid;
+    padding-bottom: 10px;
+}
+
+.question_info > .questionType {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.questionType > .score {
+    margin-left: auto;
+    margin-right: 20px;
+    width: 70px;
+    height: 35px;
+    background-color: #C4C4C4;
+    border: none;
+    border-radius: 16px;
+    color: #2B3134;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.questionType > img {
+    margin-right: 20px;
+}
+
+.questionType > p {
+    font-size: 24px;
+}
+
+.question_info > .questionText {
+    padding-top: 10px;
+}
+
+.main_content > .filter_criteria {
+    width: 20%;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+    height: 100%;
+    border-left: 1px #C4C4C4 solid;
+}
+
+.filter_criteria_main {
+    border-bottom: 1px #C4C4C4 solid;
+    padding-bottom: 13px;
+}
+
+.filter_criteria_main > :nth-child(2){
+    color: black;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.search {
+    padding-bottom: 13px;
+    border-bottom: 1px #C4C4C4 solid;
+}
+
+.search > h3 {
+    display: flex;
+    align-items: center;
+    padding-top: 11px;
+}
+
+h3 > span {
+    margin-left: auto
+}
+
+.search_input {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #c4c4c4;
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    column-gap: 10px;
+    height: 40px;
+}
+
+.input {
+    width: 80%;
+    outline: none;
+    border: none;
+    font-size: 15px;
+}
+
+.sources {
+    padding-top: 15px;
+}
+
+.sources > h3 {
+    display: flex;
+    align-items: center;
+}
+
+.sources > h3 > span {
+    margin-left: auto;
+}
+
+.question_pools {
+    padding-top: 11px;
+    padding-left: 20px;
+}
+
+.question_pools > .pools {
+    margin-top: 10px;
+}
+
+.questions_summary {
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F1F1F1;
+}
+
+.questions_info > h3 {
+    display: flex;
+    align-items: center;
+}
+
+.btn_container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 20px;
+}
+
+.btn_container > button {
+    width: 200px;
+    height: 40px;
+    border-radius: 8px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.btn_container > button:active {
+    transform: scale(0.95);
+}
+
+.btn_container > button:hover {
+    cursor: pointer;
+}
+
+.btn_container > .cancel_btn {
+    border: 1px red solid;
+    color: red;
+    background-color: white;
+}
+
+.btn_container > .add_btn {
+    border: none;
+    color: white;
+    background-color: #4340DA;
+}
