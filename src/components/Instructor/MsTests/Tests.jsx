@@ -3,6 +3,7 @@ import styles from './Tests.module.css';
 import { useState } from "react";
 import SearchIcon from '../../../icons/icon_search.svg';
 import CreateEditTest from "./CreateEditTest/CreateEditTest";
+import { TestsDataTable } from "./TestsDataTable/TestsDataTable";
 
 export const Tests = () => {
     const [searchValue, setSearchValue] = useState("");
@@ -62,6 +63,8 @@ export const Tests = () => {
                         <span>Create Test</span>
                 </button>
             </div>
+
+            <TestsDataTable />
 
             <CreateEditTest 
                 open={openModal} 

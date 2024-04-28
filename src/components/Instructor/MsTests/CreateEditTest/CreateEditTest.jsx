@@ -104,7 +104,7 @@ const CreateEditTest = ({open, onClose, mode, id}) => {
                         <span>{mode !== 1 ? "Create Test" : "Edit Test"}</span>
                     </div>
         
-                        <div className={mode !== 1 ? styles.content : styles.content_in_edit}>
+                        <div className={styles.content}>
                         
                             <div className={styles.input_area}>
                         
