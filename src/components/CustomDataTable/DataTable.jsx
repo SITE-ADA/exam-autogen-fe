@@ -21,8 +21,9 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null)
     const [mode, setMode] = useState(0);
-    const {users, setUsers} = useUserContext();
+    const {users, setUsers, refetchUsers, shouldRefetch, setShouldRefetch} = useUserContext();
     const [userId, setUserId] = useState(0);
+    const [rerender, setRerender] = useState(false);
 
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -51,6 +52,10 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
         setSelectAll(updatedInstReps.every(user => user.checked));
     };
 
+    useEffect(() =>{
+        setShouldRefetch(true);
+    }, [])
+
     return (
         <div>
         <table>
@@ -58,38 +63,37 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
                 <tr>
                     <th><input checked={selectAll} onChange={handleSelectAll} type="checkbox" name="checkboxAll" id="checkboxAll" /></th>
                     <th>Full Name</th>
-                    <th>Status</th>
-                    <th>Institution</th>
                     <th>Username</th>
+                    <th>Institution</th>
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                {users?.filter(user => user.userTypeId === 2).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
+                {users?.filter(user => user.userTypeId === 2).slice(indexOfFirstItem, indexOfLastItem).map((user) => 
+                    (
                     <tr key={user.id}>
                         <td><input checked={user.checked} onChange={() => handleCheckboxChange(user.id)} type="checkbox" name="checkboxAll" id={`checkbox-${user.id}`} /></td>
-                        <td className="user">{user.fullname == null ? ("no data") : (user.fullname)}</td>
-                        <td className="status">{user.status == null ? ("no data") : (user.status)}</td>
-                        <td className="institution">{user.institution == null ? ("no data") : (user.institution)}</td>
+                        <td className="user">{user.fullName == null ? ("no data") : (user.fullname)}</td>
                         <td className="username">{user.username == null ? ("no data") : user.username}</td>
+                        <td className="institution">{user.institution.institutionName == null ? ("no data") : (user.institution.institutionName)}</td> 
                         <td className="email">{user.email == null ? ("no data") : user.email}</td>
-                        <td className="phone">{user.phone == null ? ("no data") : user.phone}</td>
+                        <td className="phone">{user.phone == null ? ("no data") : user.phone}</td> 
                         <td className="actions">
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />
                                 <div className="buttons-container">
                                     <span onClick={() =>{setUserToDelete(user);setOpenDeleteModal(true)}}><img src={RowDeleteBtn} alt="" /></span>
-                                    <span onClick={() => {setOpenCreateEditModal(true); setMode(1); setUserId(user.id); }}><img src={RowEditBtn} alt="" /></span>
+                                    <span onClick={() => {setRerender(true);setOpenCreateEditModal(true); setMode(1); setUserId(user.id); }}><img src={RowEditBtn} alt="" /></span>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                ))}
+                    )
+                )}
             </tbody>
-            <tfoot>
-            </tfoot>
+        
         </table>
         <Pagination
                 totalItems={totalItems}
@@ -103,7 +107,13 @@ const DataTable = ({totalItems, checkBoxForAll}) => {
             onClose={() => setOpenDeleteModal(false)}
             />
 
-        <CreateEditInstRepModal open={openCreateEditModal} onClose={() => setOpenCreateEditModal(false)} mode={mode} id={userId}  />
+        <CreateEditInstRepModal 
+        rerender={rerender}
+        setRerender={setRerender}
+        open={openCreateEditModal} 
+        onClose={() => setOpenCreateEditModal(false)} 
+        mode={mode} 
+        id={userId}  /> 
         </div>
     );
 }

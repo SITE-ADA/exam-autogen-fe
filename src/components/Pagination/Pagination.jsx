@@ -6,12 +6,12 @@ const Pagination = ({totalItems, itemsPerPage, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const pageNumbersToShow = 5; // Number of page numbers to show before and after the current page
-
+  const {users} = useUserContext();
   useEffect(() =>
   {
     console.log("Pagination component " + totalItems)
-    setTotalPages(Math.ceil(totalItems / itemsPerPage))
-  }, [totalItems])
+    setTotalPages(Math.ceil(users?.length / itemsPerPage))
+  }, [users?.length])
 
   const goToPage = (page) => {
     setCurrentPage(page);

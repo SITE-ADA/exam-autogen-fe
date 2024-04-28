@@ -65,12 +65,12 @@ table {
       border-radius: 8px;
   }
   
-  .triple-dots {
+  .triple_dots {
     position: relative;
     display: inline-block;
   }
   
-  .triple-dots .buttons-container {
+  .triple_dots .buttons-container {
     position: absolute;
     top: 100%;
     left: 0;
@@ -82,25 +82,25 @@ table {
     display: none; /* Initially hide the buttons */
   }
   
-  .buttons-container > span {
+  .buttons_container > span {
     opacity: 0.05; /* Initial transparency */
     transition: opacity 0.3s ease; /* Smooth transition */
     position: relative; /* Ensure the buttons have a stacking context */
     z-index: 2; /* Ensure the buttons appear above the triple dots */
   }
 
-  .buttons-container img
+  .buttons_container img
   {
     width: 20px;
     height: 20px;
   }
   
 
-  .triple-dots {
+  .triple_dots {
     position: relative;
   }
   
-  .buttons-container {
+  .buttons_container {
     position: absolute;
     opacity: 1;
     z-index: 9999;
@@ -109,11 +109,11 @@ table {
     display: none; /* Initially hide the buttons */
   }
   
-  .buttons-container > span {
+  .buttons_container > span {
     opacity: 1;
   }
 
-  .triple-dots:hover .buttons-container {
+  .triple_dots:hover .buttons_container {
     display: flex; /* Show the buttons when triple dots are hovered over */
   }
 

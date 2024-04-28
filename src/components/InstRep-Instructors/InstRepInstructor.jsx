@@ -4,18 +4,24 @@ import SearchIcon from '../../icons/icon_search.svg';
 import UserIcon from '../../icons/usericon.svg';
 import TripleDots from '../../icons/dots_1.svg';
 import InstructorDataTable from "./InstructorsDataTable/InstructorsDataTable";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import { useUserContext } from "../../Context/UsersContext";
+import AddInstRepInstructorModal from "./AddInstRepInstructor/AddInstRepInstructorModal";
+import { useInstructorsContext } from "../../Context/InstructorsContext";
 const InstRepInstructor = () =>
 {
     const [searchValue, setSearchValue] = useState("");
     const {users} = useUserContext();
-    const instructorCount = users?.filter(user => user.userTypeId === 5).length;
+    const [openModal, setOpenModal] = useState(false);
+    const {instructors} = useInstructorsContext();
     return (
 
         <div className={styles.instructors_page}>
             <div className={styles.instructor_header}>
                 <div className={styles.instructor_count}>
-                    <h1 className={styles.count}>{instructorCount}</h1>
+                    <h1 className={styles.count}>{instructors.length}</h1>
                     <span>Instructors</span>
                 </div>
 
@@ -41,7 +47,7 @@ const InstRepInstructor = () =>
                     </div>
                     
                 </div>
-                <button className={styles.add_instructor_btn}>
+                <button onClick={() => {setOpenModal(true)}}  className={styles.add_instructor_btn}>
                         <img className="user_icon" src={UserIcon} alt="" />
                         <span>Add Instructor</span>
                 </button>
@@ -53,7 +59,10 @@ const InstRepInstructor = () =>
                     <InstructorDataTable />
                 </div>
             </main>
-            
+            <AddInstRepInstructorModal
+                open={openModal} 
+                onClose={() => setOpenModal(false)} 
+            />
         </div>
     )
 }

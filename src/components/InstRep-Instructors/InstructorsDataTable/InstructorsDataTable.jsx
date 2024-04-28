@@ -5,7 +5,13 @@ import RowEditBtn from '../../../icons/buttons-icons/rowedit.svg';
 import Pagination from '../../Pagination/Pagination';
 import DeleteModal from "../../Admin-General/Modals/DeleteModal/DeleteModal";
 import { useUserContext } from "../../../Context/UsersContext";
-
+import { useQuery } from '@tanstack/react-query';
+import { errorT } from "../../../Toasts/toasters";
+import { getUsersByInstitution } from "../../../Services/ms_auth/UserService";
+//import { useCurrentUserContext } from "../../../Context/CurrentUserContext";
+import { useEffect } from "react";
+import {useInstructorsContext} from '../../../Context/InstructorsContext';
+import DeleteInstructorModal from "../DeleteInstructorModal/DeleteInstructorModal";
 const InstructorDataTable = ({checkBoxForAll}) =>
 {
     const checkBoxForAllRows = checkBoxForAll;
@@ -16,12 +22,12 @@ const InstructorDataTable = ({checkBoxForAll}) =>
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null)
-
-    const {users, refetchUsers} = useUserContext();
-
+    //const {user} = useCurrentUserContext();
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const {instructors, shouldRefetch, setShouldRefetch} = useInstructorsContext();
+    //const {instructors, setInstructors} = useInstRepInstructorsContext();
 
     /* const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -31,22 +37,9 @@ const InstructorDataTable = ({checkBoxForAll}) =>
         }));
         setUsers(updatedInstReps);
     }; */
-
-    const handleCheckboxChange = (id) => {
-        const updatedInstReps = users.map(user => {
-            if (user.id === id) {
-                return {
-                    ...user,
-                    checked: !user.checked
-                };
-            }
-            return user;
-        });
-        // setUsers(updatedInstReps);
-        setSelectAll(updatedInstReps.every(user => user.checked));
-    };
-
-
+    useEffect(() => {
+        setShouldRefetch(true);
+    }, []);
 
     return (
 <div>
@@ -56,29 +49,27 @@ const InstructorDataTable = ({checkBoxForAll}) =>
                     <th><input checked={selectAll} type="checkbox" name="checkboxAll" id="checkboxAll" /></th>
                     <th>Full Name</th>
                     <th>Username</th>
-                    <th>Status</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Birth Date</th>
                 </tr>
             </thead>
             <tbody>
-                {users?.filter(user => user.userTypeId === 5).slice(indexOfFirstItem, indexOfLastItem).map((user) => (
-                    <tr key={user.id}>
-                        <td><input checked={user.checked} type="checkbox" name="checkboxAll" id={`checkbox-${user.id}`} /></td>
-                        <td className="full_name">{user.fullname == null ? ("no data") : (user.fullname)}</td>
-                        <td className="username">{user.username == null ? ("no data") : user.username}</td>
-                        <td className="status">{user.status == null ? ("no data") : (user.status)}</td>
-                        <td className="email">{user.email == null ? ("no data") : user.email}</td>
-                        <td className="phone">{user.phone == null ? ("no data") : user.phone}</td>
-                        <td className="birth_date">{user.dob == null ? ("no data") : (user.dob)}</td>
+                {instructors?.map((instructor) => (
+                    <tr key={instructor.instructorID}>
+                        <td><input   type="checkbox" name="checkboxAll" id={`checkbox-${instructor.instructorID}`} /></td>
+                        <td className="full_name">{instructor.fullName == null ? ("no data") : (instructor.fullName)}</td>
+                        <td className="username">{instructor.username == null ? ("no data") : instructor.username}</td>
+                        <td className="email">{instructor.contactDTO.primaryEmail == null ? ("no data") : instructor.contactDTO.primaryEmail }</td>
+                        <td className="phone">{instructor.contactDTO.primaryPhone == null ? ("no data") : instructor.contactDTO.primaryPhone}</td>
+                        <td className="birth_date">{instructor.birthDate == null ? ("no data") : (instructor.birthDate)}</td>
                         <td className="actions">
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />
                                 <div className="buttons-container">
                                     <span onClick={() =>
                                     {
-                                        setUserToDelete(user);
+                                        setUserToDelete(instructor);
                                         setOpenDeleteModal(true)
                                     }
                                     }><img src={RowDeleteBtn} alt="" /></span>
@@ -94,14 +85,14 @@ const InstructorDataTable = ({checkBoxForAll}) =>
         </table>
 
         <Pagination
-                totalItems={users.length}
+                totalItems={instructors.length}
                 itemsPerPage={itemsPerPage}
                 onPageChange={onPageChange}
             />
 
-        <DeleteModal 
+        <DeleteInstructorModal
             open={openDeleteModal}
-            user={userToDelete}
+            instructor={userToDelete}
             onClose={() => setOpenDeleteModal(false)}
         />
         </div>

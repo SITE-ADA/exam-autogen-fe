@@ -32,32 +32,36 @@ const Breadcrumbs = () => {
 
   return (
     <nav aria-label="breadcrumb">
-      <ol className="breadcrumb">
-        {/* Render Home breadcrumb only if it's not /Instructor/QuestionPools */}
-        {paths.map((path, index) => (
-          <React.Fragment key={index}>
-            {index > 0 && <span className={styles.breadcrumb_separator}> &gt; </span>}
-            {/* Display 'QuestionPools' as default if endpoint is /Instructor/ or /Instructor */}
-            {(paths.length === 1 && paths[0] === 'Instructor' && index === 0) ? (
-              <li className={styles.breadcrumb_item}>
-                <Link to="/Instructor/QuestionPools">Question Pools</Link>
-              </li> 
-            ) : 
-            (
-              <li className={styles.breadcrumb_item}>
-                <Link to={`/${paths.slice(0, index + 1).join('/')}`}>
+    <ol className="breadcrumb">
+      {/* Render Home breadcrumb only if it's not /Instructor/QuestionPools */}
+      {paths.map((path, index) => (
+        <React.Fragment key={index}>
+          {index > 0 && <span className={styles.breadcrumb_separator}> &gt; </span>}
+          {/* Display 'QuestionPools' as default if endpoint is /Instructor/ or /Instructor */}
+          {(paths.length === 1 && paths[0] === 'Instructor' && index === 0) ? (
+            <li className={styles.breadcrumb_item}>
+              <Link to="/Instructor/QuestionPools">Question Pools</Link>
+            </li> 
+          ) : (
+            <li className={styles.breadcrumb_item}>
+              <Link to={`/${paths.slice(0, index + 1).join('/')}`}>
+                {/* Display different breadcrumb text based on endpoint */}
                 {index === paths.length - 1 && !isNaN(path) && paths[index - 1] === 'QuestionPools' ? (
-        questionPoolName || path // Display question pool name if available, otherwise display parameter
-      ) : (
-        path
-      )}
-                </Link>
-              </li>
-            )}
-          </React.Fragment>
-        ))}
-      </ol>
-    </nav>
+                  questionPoolName || path // Display question pool name if available, otherwise display parameter
+                ) : (
+                  path
+                )}
+                {/* Render 'Add Question' if last element is 'CreateQuestion' or 'EditQuestion' */}
+                {paths.length > 0 && (paths[paths.length - 1] === 'CreateQuestion' || paths[paths.length - 1] === 'EditQuestion') && index === paths.length - 1 && (
+                  <>Add Question</>
+                )}
+              </Link>
+            </li>
+          )}
+        </React.Fragment>
+      ))}
+    </ol>
+  </nav>
   );
 };
 

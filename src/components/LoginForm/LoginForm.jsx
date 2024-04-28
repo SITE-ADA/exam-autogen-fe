@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./LoginForm.module.css";
 import { FaLock, FaUserAlt } from "react-icons/fa";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { login } from "../../Services/ms_auth/UserService";
 const LoginForm = () => {
 
@@ -11,18 +11,10 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log("23234")
       const response = await login(username, password);
-      if(response.status === 400 || response.status === 401)
-        toast.error('Username or password entered is incorrect', {
-          position: "top-right",
-          autoClose: 2500,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light"
-      });
+      if(response.status === "401" || response.status === "400"){
+    }
       else {
       console.log(response.data);
 
@@ -55,7 +47,7 @@ const LoginForm = () => {
         draggable: true,
         progress: undefined,
         theme: "light"
-    });
+    }); 
     }
   };
 
@@ -96,6 +88,18 @@ const LoginForm = () => {
         </form>
 
       </div>
+      <ToastContainer
+                position="top-right"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
     </main>
   );
 };
