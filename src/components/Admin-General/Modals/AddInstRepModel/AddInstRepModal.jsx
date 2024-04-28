@@ -4,11 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useUserContext } from '../../../../Context/UsersContext';
-import { createUser } from '../../../../Services/ms_auth/UserService';
+import { createUser, getUserDetails } from '../../../../Services/ms_auth/UserService';
 import AsyncSelect from 'react-select/async';
 import { useInstitutionContext } from '../../../../Context/InstitutionsContext';
 import { getAllInstitutions } from '../../../../Services/ms_auth/InstitutionService';
 import { msAuthApi } from '../../../../Services/AxiosService';
+import { createAddress } from '../../../../Services/ms_auth/AddressService';
 
 const AddInstRepModal = ({ open, onClose }) => {
 
@@ -17,7 +18,11 @@ const AddInstRepModal = ({ open, onClose }) => {
     const [email, setEmail] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
     const [institution, setInstitution] = useState("");
-    const [institutions, setInstituions] = useState([])
+    const [institutions, setInstituions] = useState([]);
+    const [street, setStreet] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [zip, setZip] = useState("");
     const [password, setPassword] = useState("");
     const [repPassword, setRepPassword] = useState("");
     const [visible, setVisible] = useState(false);
@@ -106,12 +111,15 @@ const AddInstRepModal = ({ open, onClose }) => {
         try {
             const response = await createUser(username, email, phonenumber, password, 2, institution.id);
                 if (response.status === 200 || response.status === 201) {
+                    //const responseAddress = await createAddress(, city, stre)
+                    
+                    const responseDetails = await getUserDetails(response.data.id);
                     success();
                     setVisible(true);
                     refetchUsers();
                     setTimeout(() => {
                         setVisible(false);
-                    }, 3000); // Keep modal visible for 5 seconds
+                    }, 2500); // Keep modal visible for 5 seconds
                     setEmail("")
                     setInstitution("")
                     setPassword("")
@@ -188,34 +196,66 @@ const AddInstRepModal = ({ open, onClose }) => {
                                            autoComplete="off"/>
                                 </div>
                        
-                            <div className={styles.area}>
-                                <label htmlFor={styles.email}>Email</label>
-                                <input placeholder="Email address"
-                                       className={styles.input}
-                                       type="email"
-                                       name='email'
-                                       id='email'
-                                       value={email}
-                                       onChange={(e) => {
-                                           setEmail(e.target.value);
-                                       }}
-                                       required
-                                       autoComplete="off"/>
+                            <div className={styles.group_usr_email}> 
+                                <div className={styles.area}>
+                                    <label htmlFor={styles.email}>Street</label>
+                                    <input placeholder="Street"
+                                        className={styles.input}
+                                        type="text"
+                                        name='street'
+                                        id='street'
+                                        value={street}
+                                        onChange={(e) => {
+                                            setStreet(e.target.value);
+                                        }}
+                                        required
+                                        autoComplete="off"/>
+                                </div>
+                                <div className={styles.area}>
+                                    <label htmlFor={styles.city}>City</label>
+                                    <input placeholder="City"
+                                        className={styles.input}
+                                        type="text"
+                                        name='city'
+                                        id='city'
+                                        value={city}
+                                        onChange={(e) => {
+                                            setCity(e.target.value);
+                                        }}
+                                        required
+                                        autoComplete="off"/>
+                                </div>
                             </div>
 
-                            <div className={styles.area}>
-                                <label htmlFor={styles.phone}>Phone Number</label>
-                                <input placeholder="Phone number"
-                                       className={styles.input}
-                                       type="text"
-                                       name='phonenumber'
-                                       id='phonenumber'
-                                       value={[phonenumber]}
-                                       onChange={(e) => {
-                                           setPhonenumber(e.target.value);
-                                       }}
-                                       required
-                                       autoComplete="off"/>
+                            <div className={styles.group_usr_email}> 
+                                <div className={styles.area}>
+                                    <label htmlFor={styles.email}>Email</label>
+                                    <input placeholder="Email"
+                                        className={styles.input}
+                                        type="text"
+                                        name='email'
+                                        id='email'
+                                        value={email}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                        }}
+                                        required
+                                        autoComplete="off"/>
+                                </div>
+                                <div className={styles.area}>
+                                    <label htmlFor={styles.email}>Phone</label>
+                                    <input placeholder="Phone Number"
+                                        className={styles.input}
+                                        type="text"
+                                        name='phonenumber'
+                                        id='phonenumber'
+                                        value={phonenumber}
+                                        onChange={(e) => {
+                                            setPhonenumber(e.target.value);
+                                        }}
+                                        required
+                                        autoComplete="off"/>
+                                </div>
                             </div>
 
                             <div className={styles.area}>

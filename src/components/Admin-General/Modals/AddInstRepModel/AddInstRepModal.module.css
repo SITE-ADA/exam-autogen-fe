@@ -18,8 +18,8 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 150px;
+    padding-right: 150px;
 }
 
 .content_in_edit {
@@ -84,7 +84,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    column-gap: 20px;
+    column-gap: 10px;
     text-align: left;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .btn_container{
-    margin-top: 30px;
+    margin-top: 20px;
     width: 100%;
     display: flex;
     flex-direction: row;

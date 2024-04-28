@@ -12,6 +12,7 @@ const DeleteModal = ({open, user, onClose}) => {
     const [visible, setVisible] = useState(false); 
     const username = user?.username;
     const userId = user?.id;
+    console.log(userId);
     const {refetchUsers} = useUserContext();
 
     const handleDeleteUser = async() =>
