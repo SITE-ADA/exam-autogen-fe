@@ -1,0 +1,165 @@
+.generated_test {
+    width: 100%;
+    height: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.generated_test > .hor_line {
+    width: 100%;
+    height: 1px;
+    background-color: #C4C4C4;
+}
+
+.generated_test_name_heading {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 10px;
+}
+
+.generated_test_name_heading img:hover {
+    cursor: pointer;
+}
+
+.input {
+    width: 20%;
+    outline: none;
+    border-radius: 8px;
+    border: none;
+    font-size: 30px;
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+}
+
+.input::placeholder {
+    color: #c4c4c4;
+    /* base/body 2 */
+    font-family: Roboto;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 19.5px */
+    letter-spacing: 0.1px;
+  }
+
+  .checkbox_op_panel {
+    margin-top: 10px;
+    font-size: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.checkbox_op_panel > :nth-child(1){
+    border-right: 1px #C4C4C4 solid;
+    padding-right: 12px;
+    color: #0832DE;
+}
+
+.checkbox_op_panel > :nth-child(2){
+    padding-left: 12px;
+    color: #0832DE;
+}
+
+.test_versions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.test_versions > .test_version {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    height: 100px;
+    column-gap: 20px;
+}
+
+.test_version > .version_info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 13px;
+    border-bottom: 1px #C4C4C4 solid;
+    padding-bottom: 13px;
+}
+
+.version_info > .version_info_main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.version_info > .version_download_state > p {
+    font-size: 15px;
+    font-family: 'Roboto';
+}
+
+.version_info_main > p:nth-child(1)
+{
+    font-size: 24px;
+    font-family: 'Roboto';
+}
+
+.version_info_main > .total_score {
+    margin-left: auto;
+    margin-right: 20px;
+    width: 80px;
+    height: 35px;
+    background-color: #C4C4C4;
+    border: none;
+    border-radius: 16px;
+    color: #2B3134;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.generated_test > .btn_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 40px;
+}
+
+.btn_container > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.btn_container > button:active{
+    transform: scale(0.95);
+}
+
+.btn_container > button:hover{
+    cursor: pointer;
+}
+
+.go_back_btn {
+    width: 200px;
+    background-color: #F6F6F6;
+    color: #4340DA;
+}
+
+.download_btn {
+    width: 300px;
+    background-color: #4340DA;
+    color: #FFFFFF;
+}

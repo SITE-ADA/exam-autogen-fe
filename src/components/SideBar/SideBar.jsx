@@ -176,6 +176,22 @@ const queryClient = useQueryClient();
 
         {(user && user.userTypeId === 5) && (
           <>
+
+        <NavLink
+            to="/Instructor/GeneratedTests"
+            className={`${styles.tab} ${styles.question_pool_tab} ${(activeTab.includes("/Instructor/GeneratedTests") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? styles.active : ""}`}
+            onClick={() => handleTabClick("/Instructor/GeneratedTests")}
+          >
+              <img
+                className={styles.icon}
+                src={(activeTab.includes("/Instructor/GeneratedTests") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? TestsIconWhite : TestIconBlack}
+                alt="QuestionsPool"
+                width={24}
+                height={24}
+              />
+              <span className={styles.name}>Generated Tests</span>
+              
+          </NavLink>
         
         <NavLink
             to="/Instructor/Tests"
