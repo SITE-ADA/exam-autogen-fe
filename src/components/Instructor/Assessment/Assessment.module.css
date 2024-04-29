@@ -62,3 +62,7 @@
     height: 1px;
     background-color: #C4C4C4;
 }
+
+.file_input {
+    display: none;
+}
