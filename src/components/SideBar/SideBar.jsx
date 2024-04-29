@@ -208,6 +208,22 @@ const queryClient = useQueryClient();
               <span className={styles.name}>Tests</span>
               
           </NavLink>
+
+          <NavLink
+            to="/Instructor/Assessment"
+            className={`${styles.tab} ${styles.question_pool_tab} ${(activeTab.includes("/Instructor/Assessment") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? styles.active : ""}`}
+            onClick={() => handleTabClick("/Instructor/Assessment")}
+          >
+              <img
+                className={styles.icon}
+                src={(activeTab.includes("/Instructor/Assessment") || activeTab === "/Instructor/" || activeTab === "/Instructor") ? TestsIconWhite : TestIconBlack}
+                alt="QuestionsPool"
+                width={24}
+                height={24}
+              />
+              <span className={styles.name}>Assessment</span>
+              
+          </NavLink>
           
           <NavLink
             to="/Instructor/QuestionPools"
