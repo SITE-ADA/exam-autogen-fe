@@ -22,6 +22,8 @@ import { Test } from "./components/Instructor/MsTests/Test/Test";
 import { AddQuestionBucket } from "./components/Instructor/MsTests/QuestionBucket/AddQuestionBucket/AddQuestionBucket";
 import { GeneratedTests } from "./components/Instructor/GeneratedTests/GeneratedTests";
 import { GeneratedTest } from "./components/Instructor/GeneratedTests/GeneratedTest/GeneratedTest";
+import { Assessment } from "./components/Instructor/Assessment/Assessment";
+import { Result } from "./components/Instructor/Assessment/Result/Result";
 
 function App() {
 
@@ -82,7 +84,10 @@ function App() {
                   <Route path="" index element={<GeneratedTests />} />
                 </Route>
                 <Route path="GeneratedTests/:id" element={<GeneratedTest />} />
-
+                <Route path="Assessment" element={<Assessment />} >
+                  <Route path="" index element={<Assessment />} />
+                </Route>
+                <Route path="Assessment/Result" element={<Result />} />
             </Route>
 
           </Route>

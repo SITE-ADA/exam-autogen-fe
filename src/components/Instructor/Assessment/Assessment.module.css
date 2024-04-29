@@ -1,0 +1,64 @@
+.assessment_page {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.assessment_info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.assessment_info > p:nth-child(1)
+{
+    font-size: 36px;
+    color: #343434;
+}
+
+.icon_horizontal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.left_line {
+    width: 100%;
+    background-color: #C4C4C4;
+    height: 1px;
+}
+
+.right_line {
+    width: 100%;
+    height: 1px;
+    background-color: #C4C4C4;
+}
+
+.icon_info {
+    color: #C4C4C4;
+}
+
+.test_create_icon {
+    width: 100px;
+    text-align: center;
+}
+
+.test_create_icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.test_create_icon:hover {
+    cursor: pointer;
+}
+
+.hor_line {
+    width: 100%;
+    height: 1px;
+    background-color: #C4C4C4;
+}
