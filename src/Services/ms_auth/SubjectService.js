@@ -1,12 +1,10 @@
 import axios from "axios";
 import { msQuestionApi } from "../AxiosService";
 
-
-
 // TO DO...
 export const getUserSubjects = async() => {
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
-    const response = await axios.get('http://localhost:8080/api/v1/user-subjects', {
+    const response = await axios.get('http://localhost:8083/api/v1/user-subjects', {
     headers: {
       'Authorization': `Bearer ${userToken}`,
       'Content-Type': 'application/json'

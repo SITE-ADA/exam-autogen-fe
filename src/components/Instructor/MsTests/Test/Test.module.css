@@ -90,7 +90,7 @@
 }
 
 .question_bucket_heading > .each_question_score {
-    width: 110px;
+    width: 130px;
     height: 35px;
     background-color: #C4C4C4;
     border: none;
@@ -100,7 +100,7 @@
     align-items: center;
     color: #2B3134;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 20px;
     margin-left: auto;
 }
 

@@ -7,10 +7,12 @@ import RowEditBtn from '../../../../icons/buttons-icons/rowedit.svg';
 import TripleDots from '../../../../icons/buttons-icons/tripledots.svg';
 import { CreateEditGenerateTestModal } from "../GeneratedTest/CreateEditGeneratedTestModal/CreateEditGenerateTestModal";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useGeneratedTestsContext } from "../../../../Context/GeneratedTestsContext";
 
 export const GeneratedTestsDataTable = () => {
 
-    const [gtests, setGTests] = useState([{id: 1, name: "Generated Test #1", test: {name: "test #1"}, nbVariants: 12}]);
+    const {gtests, refetchGTests} = useGeneratedTestsContext();
+    
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [gTestToDelete, setgTestToDelete] = useState(null);
     const [openEditModal, setOpenEditModal] = useState(false);

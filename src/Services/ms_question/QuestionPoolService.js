@@ -1,4 +1,5 @@
 import { msQuestionApi } from "../AxiosService";
+import { msTestApi } from "../AxiosService";
 
 export const deleteQuestionPool = (id) => msQuestionApi.delete(`/question-pool/${id}`);
 
@@ -13,3 +14,5 @@ export const editQuestionPool = async(poolId, name, description, subjectId) =>
 export const getPoolById = (id) => msQuestionApi.get(`/question-pool/${id}`);
 
 export const getQuestionCountByPool = async() => await msQuestionApi.get('/count-by-pool');
+
+export const getQuestionPoolsandQuestionByUserId = async(id) => msQuestionApi.get(`/poolByUserId/${id}`);

@@ -102,7 +102,6 @@ export const QuestionTable = ({checkBoxForAll}) => {
                     <th><input type="checkbox" name="checkboxAll" id="checkboxAll" /></th>
                     <th>Text</th>
                     <th>Type Name</th>
-                    <th>Tags</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,7 +111,6 @@ export const QuestionTable = ({checkBoxForAll}) => {
                         <td><input checked={question.checked} type="checkbox" name="checkboxAll" id={`checkbox-${question.id}`} /></td>
                         <td className="name">{question?.text == null ? ("no data") : (question?.text)}</td>
                         <td className="subject">{question.questionTypeName == null ? ("no data") : question.questionTypeName}</td>
-                        <td className="question_count">{question.tags == null ? ("no data") : (getTagsString(question))}</td>
                         <td className="actions">
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />
@@ -120,7 +118,7 @@ export const QuestionTable = ({checkBoxForAll}) => {
                                     <span onClick={(event) =>
                                     {
                                         console.log(question);
-                                        event.stopPropagation();
+                                        
                                         setQuestionToDelete(question);
                                         console.log(question.id)
                                         setOpenDeleteModal(true)

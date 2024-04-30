@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import styles from './CreateEditGenerateTestModal.module.css';
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import AsyncSelect from 'react-select/async';
+import { useTestsContext } from "../../../../../Context/TestsContext";
+import { createGeneratedTest } from "../../../../../Services/ms_test/TestService";
+import { useGeneratedTestsContext } from "../../../../../Context/GeneratedTestsContext";
 
 export const CreateEditGenerateTestModal = ({open, onClose, mode, id}) => {
     const [visible, setVisible] = useState(false);
     const [nbVariants, setNbVariants] = useState(0);
     const [nbExaminees, setNbExaminees] = useState(0);
     const [testName, setTestName] = useState("");
+    const [date, setDate] = useState("");
     const [inputValue, setValue] = useState('');
     const [selectedValue, setSelectedValue] = useState(null);
-
+    const {tests, refetchTests} = useTestsContext();
+    
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
-    const [sourceTest, setSourceTest] = useState({id: 1, name:"Test1"});
+    const [sourceTest, setSourceTest] = useState();
+    const {gtests, refetchGTests} = useGeneratedTestsContext();
 
     const customStyles = {
         menu: provided => ({
@@ -70,13 +76,65 @@ export const CreateEditGenerateTestModal = ({open, onClose, mode, id}) => {
         setValue(value);
     };
 
+    const fetchTests = async() => tests;
+
     const handleChange = value => {
         setSourceTest(value);
         setSelectedValue(value);
     }
 
-    const handleCreateGTest = () => {
+    const convertDateFormat = (dateString) => {
+        
+        const parts = dateString.split('-');
+      
+        const rearrangedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    
+        return rearrangedDate;
+    }
 
+    const success = () => {
+        toast.success('Generated test has successfully been created!', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
+    const errorT = () => {
+        toast.error('Error while creating the generated test!', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
+    const handleCreateGTest = async(event) => {
+        event.preventDefault();
+        try {
+            const response = await createGeneratedTest(testName, nbExaminees, nbVariants, sourceTest.id, convertDateFormat(date));
+            if(response.status === 201)
+            {
+                success();
+                setTimeout(() =>
+            {
+                refetchGTests();
+                onClose();
+            }, 1300);
+            }
+        }catch(e)
+        {
+
+        }
     }
 
     const handleEditGTest = () => {
@@ -109,22 +167,38 @@ export const CreateEditGenerateTestModal = ({open, onClose, mode, id}) => {
                                            required
                                            autoComplete="off"/>
                                 </div>
+ 
+                                <div className={styles.area}>
+                                    <label>Choose the test</label>
+                                    <AsyncSelect
+                                        defaultOptions
+                                        value={sourceTest}
+                                        getOptionLabel={e => e.name}
+                                        getOptionValue={e => e.id}
+                                        onInputChange={handleInputChange}
+                                        loadOptions={fetchTests}
+                                        onChange={handleChange}
+                                        styles={customStyles}
+                                        menuPortalTarget={document.body}
+                                        isClearable={true}
+                                        isRequired={true} 
+                                        />
+                                </div>
 
                             <div className={styles.area}>
-                                <label>Choose the test</label>
-                                <AsyncSelect
-                                    defaultOptions
-                                    value={sourceTest}
-                                    getOptionLabel={e => e.name}
-                                    getOptionValue={e => e.id}
-                                    onInputChange={handleInputChange}
-                                    onChange={handleChange}
-                                    styles={customStyles}
-                                    menuPortalTarget={document.body}
-                                    isClearable={true}
-                                    isRequired={true} 
-                                    />
-                            </div>
+                                        <label htmlFor={styles.email}>Date</label>
+                                        <input 
+                                            className={styles.input}
+                                            type="date"
+                                            name='date'
+                                            id='date'
+                                            value={date}
+                                            onChange={(e) => {
+                                                setDate(e.target.value);
+                                            }}
+                                            required
+                                            autoComplete="off"/>
+                                </div>
 
                             <div className={styles.group_usr_email}> 
                                 <div className={styles.area}>

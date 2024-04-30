@@ -4,24 +4,28 @@ import { useState } from "react";
 import SearchIcon from '../../../icons/icon_search.svg';
 import CreateEditTest from "./CreateEditTest/CreateEditTest";
 import { TestsDataTable } from "./TestsDataTable/TestsDataTable";
+import { useTestsContext } from "../../../Context/TestsContext";
+import { useMySubjectsContext } from "../../../Context/MySubjectsContext";
 
 export const Tests = () => {
     const [searchValue, setSearchValue] = useState("");
     const [mode, setMode] = useState(0);
     const [openModal, setOpenModal] = useState(false);
     const [testId, setTestId] = useState(0);
+    const {tests, refetchTests} = useTestsContext();
+    const {mySubjects} = useMySubjectsContext();
     return (
         <div>
             <h1>Tests</h1>
 
             <div className={styles.quantities_info}>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>0</span></h1>
+                    <h1 className="count"><span>{tests.length}</span></h1>
                     <br />
                     <p>Tests</p>
                 </div>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>0</span></h1>
+                    <h1 className="count"><span>{mySubjects.length}</span></h1>
                     <br />
                     <p>Subjects</p>
                 </div>

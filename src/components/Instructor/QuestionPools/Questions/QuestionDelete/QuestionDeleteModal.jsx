@@ -8,7 +8,7 @@ export const QuestionDeleteModal = ({open, question, onClose}) =>
 {
     const [visible, setVisible] = useState(false);
     const questionName = question?.text;
-    const questionId = question?.Id;
+    const questionId = question?.id;
     console.log(questionId);
 
 

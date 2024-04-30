@@ -113,7 +113,6 @@ const PoolTable = ({checkBoxForAll}) =>
                     <th>Name</th>
                     <th>Subject</th>
                     <th>Number of Questions</th>
-                    <th>Last Edited</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,9 +120,8 @@ const PoolTable = ({checkBoxForAll}) =>
                     <tr key={pool.id} onClick={(event) => GoQuestionsPage(event, pool.id)}>
                         <td><input checked={pool.checked} onChange={(event) => handleCheckboxChange(event, pool.id)} type="checkbox" name="checkboxAll" id={`checkbox-${pool.id}`} /></td>
                         <td className="name">{pool.name == null ? ("no data") : (pool.name)}</td>
-                        <td className="subject">{pool.subjectId == null ? ("no data") : pool.subjectId}</td>
-                        <td className="question_count">{pool.question_count == null ? ("no data") : (pool.question_count)}</td>
-                        <td className="last_edited">{pool.last_edited == null ? ("no data") : pool.last_edited}</td> 
+                        <td className="subject">{pool.subject == null ? ("no data") : pool.subject.name}</td>
+                        <td className="question_count">{pool.numOfQuestions == null ? ("no data") : (pool.numOfQuestions)}</td>
                         <td className="actions">
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />

@@ -74,9 +74,14 @@
 .content > .question_pool > h3 {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     border-bottom: 1px #F1F1F1 solid;
     width: 100%;
-    padding-bottom: 15px ;
+}
+
+.question_pool > img {
+    width: 40px;
+
 }
 
 .question {
@@ -106,7 +111,7 @@
 .questionType > .score {
     margin-left: auto;
     margin-right: 20px;
-    width: 70px;
+    width: 90px;
     height: 35px;
     background-color: #C4C4C4;
     border: none;

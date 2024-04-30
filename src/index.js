@@ -10,6 +10,11 @@ import { UserProvider } from './Context/UsersContext';
 import { InstitutionProvider } from './Context/InstitutionsContext';
 import { MySubjectsProvider } from './Context/MySubjectsContext';
 import { InstructorsProvider } from './Context/InstructorsContext';
+import { TestsProvider } from './Context/TestsContext';
+import { GeneratedTest } from './components/Instructor/GeneratedTests/GeneratedTest/GeneratedTest';
+import { GeneratedTestsProvider } from './Context/GeneratedTestsContext';
+import { QuestionPoolsandQuestionsProvider } from './Context/QuestionPoolsandQuestionsContext';
+import { QuestionBucketProvider } from './Context/QuestionBucketsContext';
 //import { CurrentUserProvider } from './Context/CurrentUserContext';
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,8 +28,17 @@ root.render(
                   <MySubjectsProvider>
                     <SubjectProvider>
                       <InstructorsProvider>
-                        <UserProvider>
-                        <App />
+                          <UserProvider>
+                            <TestsProvider>
+                              <GeneratedTestsProvider>
+                                <QuestionPoolsandQuestionsProvider>
+                                  <QuestionBucketProvider>
+                                    <QuestionBucketProvider></QuestionBucketProvider>
+                                <App />
+                                </QuestionBucketProvider>
+                                </QuestionPoolsandQuestionsProvider>
+                              </GeneratedTestsProvider>
+                          </TestsProvider>
                         </UserProvider>
                       </InstructorsProvider>
                     </SubjectProvider>

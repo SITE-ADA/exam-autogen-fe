@@ -38,6 +38,7 @@ const LoginForm = () => {
     }
       // Add more conditions for other user types if needed
     } catch (error) {
+      console.log("dwad")
       toast.error('Username or password entered is incorrect', {
         position: "top-right",
         autoClose: 2500,

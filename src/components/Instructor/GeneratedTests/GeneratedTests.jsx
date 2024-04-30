@@ -4,31 +4,47 @@ import SearchIcon from '../../../icons/icon_search.svg';
 import LibraryBook from '../../../icons/buttons-icons/library-books.svg';
 import { GeneratedTestsDataTable } from "./GeneratedTestsDataTable/GeneratedTestsDataTable";
 import { CreateEditGenerateTestModal } from "./GeneratedTest/CreateEditGeneratedTestModal/CreateEditGenerateTestModal";
-
+import { useGeneratedTestsContext } from "../../../Context/GeneratedTestsContext";
 export const GeneratedTests = () => {
 
     const [searchValue, setSearchValue] = useState();
     const generatedTestsLength = 1;
     const [openGTestCreateEditModal, setOpenGTestCreateEditModal] = useState(false);
     const [mode, setMode] = useState(0);
-    
+    const {gtests, refetchGTests} = useGeneratedTestsContext();
+
+    const calculateTotalVariant = () => {
+        let sum = 0;
+        for(let i = 0; i < gtests.length; i++)
+            sum = sum + gtests[i].nbVariants;
+        
+        return sum;
+    }
+
+    const calculateTotalExaminee = () => {
+        let sum = 0;
+        for(let i = 0; i < gtests.length; i++)
+            sum = sum + gtests[i].nbExaminees;
+        return sum;
+    }
+
     return (
         <div>
             <h1>Generated Tests</h1>
 
             <div className={styles.quantities_info}>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>0</span></h1>
+                    <h1 className="count"><span>{gtests.length}</span></h1>
                     <br />
                     <p>Generated Tests</p>
                 </div>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>0</span></h1>
+                    <h1 className="count"><span>{calculateTotalExaminee()}</span></h1>
                     <br />
                     <p>Number of Total Examinees</p>
                 </div>
                 <div className={styles.count_info}>
-                    <h1 className="count"><span>0</span></h1>
+                    <h1 className="count"><span>{calculateTotalVariant()}</span></h1>
                     <br />
                     <p>Number of Total Variants</p>
                 </div>

@@ -5,16 +5,17 @@ import RowEditBtn from '../../../../icons/buttons-icons/rowedit.svg'
 import { DeleteTestModal } from "../DeleteTestModal/DeleteTestModal";
 import CreateEditTest from "../CreateEditTest/CreateEditTest";
 import { useNavigate } from "react-router-dom";
+import { useTestsContext } from "../../../../Context/TestsContext";
 
 export const TestsDataTable = () => {
-    const [tests, setTests] = useState([{id: 1, name: "fewefwwe", subject: "efwwefwfe", nb_questions: 21}]);
+
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [testToDelete, setTestToDelete] = useState(null);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [mode, setMode] = useState(0);
     const [editId, setEditId] = useState(0);
     const navigate = useNavigate();
-
+    const {tests, refetchTests} = useTestsContext();
     const handleRowClick = (id) => {
         navigate(window.location.pathname + '/' + id);
     }
@@ -41,7 +42,6 @@ export const TestsDataTable = () => {
                         <th><input type="checkbox" name="checkboxAll" id="checkboxAll" /></th>
                         <th>Name</th>
                         <th>Subject</th>
-                        <th>Number of Questions</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -50,8 +50,7 @@ export const TestsDataTable = () => {
                         <tr key={test.id} onClick={() => handleRowClick(test.id)}>
                             <td><input checked={test.checked} type="checkbox" name="checkboxAll" id={`checkbox-${test.id}`} /></td>
                             <td className="user">{test.name == null ? "no data" : test.name}</td>
-                            <td className="username">{test.subject == null ? "no data" : test.subject}</td>
-                            <td className="institution">{test.nb_questions == null ? "no data" : test.nb_questions}</td> 
+                            <td className="username">{test.subject == null ? "no data" : test.subject.name}</td>
                             <td className="actions">
                                 <div className="triple-dots">
                                     <img src={TripleDots} alt="" />
@@ -72,7 +71,7 @@ export const TestsDataTable = () => {
 
             <DeleteTestModal 
                 open={openDeleteModal}
-                test={setTestToDelete}
+                test={testToDelete}
                 onClose={() => setOpenDeleteModal(false)} />
 
             <CreateEditTest open={openEditModal} onClose={() => setOpenEditModal(false)} mode={1} id={editId}/>

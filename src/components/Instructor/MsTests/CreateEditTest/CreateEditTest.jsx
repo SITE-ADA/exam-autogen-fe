@@ -1,9 +1,11 @@
 import React from "react";
 import styles from './CreateEditTest.module.css';
 import { useState, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useMySubjectsContext } from "../../../../Context/MySubjectsContext";
 import AsyncSelect from 'react-select/async';
+import { useTestsContext } from "../../../../Context/TestsContext";
+import { createTest } from "../../../../Services/ms_test/TestService";
 
 const CreateEditTest = ({open, onClose, mode, id}) => {
     const [visible, setVisible] = useState(false);
@@ -17,14 +19,30 @@ const CreateEditTest = ({open, onClose, mode, id}) => {
     const [selectedValue, setSelectedValue] = useState(null);
 
     const {mySubjects} = useMySubjectsContext();
+    const {refetchTests} = useTestsContext();
 
 
     const handleEditTest = () => {
-
+        // TO DO...
     }
 
-    const handleCreateTest = () => {
-
+    const handleCreateTest = async(event) => {
+        event.preventDefault();
+        try {
+            const response = await createTest(testName, notes, instructions, maxScore, subject.id);
+            if(response.status === 201)
+            {
+                success();
+                setTimeout(() =>
+            {
+                refetchTests();
+                onClose();
+            }, 1300);
+            }
+        }catch(e)
+        {
+            errorT();
+        }
     }
 
     const getSubjects = async() => mySubjects;
@@ -41,6 +59,32 @@ const CreateEditTest = ({open, onClose, mode, id}) => {
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
+
+    const success = () => {
+        toast.success('Test has been successfully created!', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
+    const errorT = () => {
+        toast.error('Error while creating the test', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
 
     const customStyles = {
         menu: provided => ({
@@ -91,6 +135,8 @@ const CreateEditTest = ({open, onClose, mode, id}) => {
         }),
         indicatorSeparator: () => ({ display: 'none' }), // Remove the indicator separator
       };
+
+
 
       if (!open)
       return null;

@@ -1,16 +1,66 @@
 import React from "react";
 import styles from './DeleteTestModal.module.css';
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { deleteTest } from "../../../../Services/ms_test/TestService";
+import { useTestsContext } from "../../../../Context/TestsContext";
 
 export const DeleteTestModal = ({open, test, onClose}) =>
 {
     const [visible, setVisible] = useState(false); 
-
+    const {tests, refetchTests} = useTestsContext();
     const stopPropagation = (e) =>
     {
         e.stopPropagation();
     }
+
+    console.log(test);
+
+    const handleDeleteTest = async() => {
+        try {
+            const response = await deleteTest(test.id);
+            console.log(response);
+            if(response.status === 200)
+            {
+                success();
+                setTimeout(() =>
+            {
+                refetchTests();
+                onClose();
+            }, 1300);
+            }
+        }catch(e)
+        {
+            errorT();
+        }
+    }
+
+    const success = () => {
+        toast.success('Test has been successfully deleted!', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
+    const errorT = () => {
+        toast.error('Error while deleting the test', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+        });
+    }
+
 
     if(!open)
     return null;
@@ -25,7 +75,7 @@ export const DeleteTestModal = ({open, test, onClose}) =>
                     
                     <div className={styles.btn_container}>
             
-                        <button className={styles.add_btn}>
+                        <button onClick={() => handleDeleteTest()} className={styles.add_btn}>
                             <span>Confirm</span>
                         </button>
                         <button onClick={onClose} className={styles.cancel_btn}>
