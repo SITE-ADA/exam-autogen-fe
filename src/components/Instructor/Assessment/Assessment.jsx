@@ -17,25 +17,26 @@ export const Assessment = () => {
     const handleFileUpload = async(event) => {
         const file = event.target.files[0]; // Assuming single file upload
         if (file) {
-            const reader = new FileReader();
+            const formData = new FormData();
+            formData.append('file', file); // Append the file object to FormData
+    
+            try {
+                const response = await getStudentReport(formData);
+                console.log(response.data);
+                setOmrResponse(response.data);
+                
+                navigate('/Instructor/Assessment/Result');
 
-            reader.onload = async() => {
-                const base64String = reader.result;
-                setImageBase64(base64String);
-                setFileName(file.name); // Set the file name here
-                console.log(base64String);
-
-                //const response = await getStudentReport(base64String);
-
-                setOmrResponse("Hello");
-
-                navigate(window.location.pathname + "/Result");
-
-            };
-
-            reader.readAsDataURL(file);
+                // Clear the file input field after successfully uploading
+                event.target.value = null; // Reset the value of the file input field
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     };
+    
+
+    
 
 
 

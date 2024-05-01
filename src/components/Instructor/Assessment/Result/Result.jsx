@@ -1,61 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './Result.module.css';
+import { useAssessmentContext } from "../../../../Context/AssessmentContext";
 
 export const Result = () => {
-
+    const { omrResponse } = useAssessmentContext();
     const [testVariant, setTestVariant] = useState("");
+    const scores = omrResponse ? JSON.parse(omrResponse.scoresJson) : {}; // Parse scoresJson to object
 
     return (
         <div className={styles.result_page}>
             <h3>Result</h3>
-            
-            <div className={styles.main}> 
+
+            <div className={styles.main}>
                 <div className={styles.result_card}>
                     <p>Result</p>
-                    <p className={styles.student_id}>Student ID <span>13986</span></p>
-                    <p className={styles.full_name}>Aslan Ibadullayev</p>
+                    <p className={styles.student_id}>Student ID <span>{omrResponse && omrResponse.studentId}</span></p>
+                    <p className={styles.full_name}>{omrResponse && omrResponse.firstName} {omrResponse && omrResponse.lastName}</p>
                     <div className={styles.fields_container}>
                         <div className={styles.test_variant}>
                             <label htmlFor="">Test Variant</label>
                             <div>
-                                <span>5</span>
+                                <span>{omrResponse && omrResponse.testVariant}</span>
                             </div>
                         </div>
                         <div className={styles.assessment_id}>
                             <label htmlFor="">Assessment ID</label>
                             <div>
-                                <span>5</span>
+                                <span>{omrResponse && omrResponse.assessmentId}</span>
                             </div>
                         </div>
                     </div>
-                    <p className={styles.exam_score}>Exam Score: <span>5</span></p>
+                    <p className={styles.exam_score}>Exam Score: <span>{omrResponse && omrResponse.examScore}</span></p>
                     <p className={styles.sheet}><strong>Answer Sheet:</strong></p>
                     <div className={styles.answer_sheet}>
-                            <span>1. True</span>
-                            <span>2. False</span>
-                            <span>3. True</span>
-                            <span>4. True</span>
-                            <span>5. False</span>
-                            <span>6. False</span>
-                            <span>7. True</span>
-                            <span>8. True</span>
-                            <span>9. False</span>
-                            <span>10. True</span>
-                            <span>11. True</span>                            <span>1. True</span>
-                            <span>2. False</span>
-                            <span>3. True</span>
-                            <span>4. True</span>
-                            <span>5. False</span>
-                            <span>6. False</span>
-                            <span>7. True</span>
-                            <span>8. True</span>
-                            <span>9. False</span>
-                            <span>10. True</span>
-                            <span>1. True</span>
-                            <span>2. False</span>
-                            
-                         
-                            
+                        {Object.entries(scores).map(([key, value]) => (
+                            <p key={key}>
+                                {key}: <span className={value === true ? styles.correct : styles.wrong}>{value ? 'True' : 'False'}</span>
+                            </p>
+                        ))}
                     </div>
                 </div>
             </div>

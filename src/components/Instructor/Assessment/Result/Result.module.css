@@ -123,3 +123,11 @@
     font-size: 12px;
     width: 100px;
 }
+
+.correct {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
