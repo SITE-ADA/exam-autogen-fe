@@ -9,6 +9,8 @@ export const getUserSubjects = async() => {
       'Authorization': `Bearer ${userToken}`,
       'Content-Type': 'application/json'
     }}); 
+
+    console.log("User subjects" + response);
     return response;
 }
 

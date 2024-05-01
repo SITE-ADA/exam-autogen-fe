@@ -15,6 +15,7 @@ import { GeneratedTest } from './components/Instructor/GeneratedTests/GeneratedT
 import { GeneratedTestsProvider } from './Context/GeneratedTestsContext';
 import { QuestionPoolsandQuestionsProvider } from './Context/QuestionPoolsandQuestionsContext';
 import { QuestionBucketProvider } from './Context/QuestionBucketsContext';
+import { AssessmentProvider } from './Context/AssessmentContext';
 //import { CurrentUserProvider } from './Context/CurrentUserContext';
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -33,9 +34,10 @@ root.render(
                               <GeneratedTestsProvider>
                                 <QuestionPoolsandQuestionsProvider>
                                   <QuestionBucketProvider>
-                                    <QuestionBucketProvider></QuestionBucketProvider>
-                                <App />
-                                </QuestionBucketProvider>
+                                    <AssessmentProvider>
+                                      <App />
+                                    </AssessmentProvider>
+                                  </QuestionBucketProvider>
                                 </QuestionPoolsandQuestionsProvider>
                               </GeneratedTestsProvider>
                           </TestsProvider>

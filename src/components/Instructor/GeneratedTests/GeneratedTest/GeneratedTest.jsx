@@ -12,6 +12,7 @@ import { useQuestionBookletsContext } from "../../../../Context/QuestionBooklets
 import { getGTestById } from "../../../../Services/ms_test/TestService";
 import { useEffect } from "react";
 import { createBookletDownloadLink } from "../../../../Services/ms_assessment/AssessmentService";
+import JSZip from "jszip";
 export const GeneratedTest = () => {
 
     const [gtestName, setGTestName] = useState("");
@@ -49,14 +50,14 @@ export const GeneratedTest = () => {
         }
     })
 
-    const downloadAllBooklets = async(e) => {
-        e.preventDefault();
-        console.log(bookletIds)
+    const downloadAllBooklets = async (e) => {
         const response = await createBookletDownloadLink(bookletIds);
-        console.log(response.data);
+        console.log(response);
+        
+        
+    
         
     }
-
     
 
     const SetInputRef = () => {

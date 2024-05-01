@@ -1,6 +1,6 @@
 import { msTestApi } from "../AxiosService";
 
-export const getAllQBooklets = async() => await msTestApi('/question-booklets');
+export const getAllQBooklets = async() => await msTestApi.get('/question-booklets');
 
 export const getAllBookletsByTestId = async(id) => 
 {
