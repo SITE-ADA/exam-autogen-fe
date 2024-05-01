@@ -398,6 +398,8 @@ const CreateEditQuestion = () =>
           const responseCorrectAnswer = await createCorrectAnswers(qId, correctAnswerId);
           console.log(responseCorrectAnswer);
           console.log(responseCorrectAnswer.data);
+
+          
       } catch (error) {
           // Handle errors
           console.error(error);
@@ -469,19 +471,19 @@ const CreateEditQuestion = () =>
 
                     <div className={styles.answer}>
                         <input type="checkbox" checked={checkedStatus.answer1} onChange={() => handleCheckboxChange('answer1', 1)} />
-                        <input className={styles.input} type="text" placeholder="answer1" value={answer1} onChange={(e) => setAnswer1(e.target.value)} />
+                        <input className={styles.input} type="text" placeholder="answer1" value={answer1} onChange={(e) => setAnswer1(e.target.value)} required/>
                     </div>
                     <div className={styles.answer}>
                         <input type="checkbox" checked={checkedStatus.answer2} onChange={() => handleCheckboxChange('answer2', 2)}/>
-                        <input className={styles.input} type="text" placeholder="answer2" value={answer2} onChange={(e) => setAnswer2(e.target.value)} />
+                        <input className={styles.input} type="text" placeholder="answer2" value={answer2} onChange={(e) => setAnswer2(e.target.value)} required/>
                     </div>
                     <div className={styles.answer}>
                         <input type="checkbox" checked={checkedStatus.answer3} onChange={() => handleCheckboxChange('answer3', 3)}/>
-                        <input className={styles.input} type="text" placeholder="answer3" value={answer3} onChange={(e) => setAnswer3(e.target.value)} />
+                        <input className={styles.input} type="text" placeholder="answer3" value={answer3} onChange={(e) => setAnswer3(e.target.value)} required/>
                     </div>
                     <div className={styles.answer}>
                         <input type="checkbox" checked={checkedStatus.answer4} onChange={() => handleCheckboxChange('answer4', 4)} />
-                        <input className={styles.input} type="text" placeholder="answer4" value={answer4} onChange={(e) => setAnswer4(e.target.value)} />
+                        <input className={styles.input} type="text" placeholder="answer4" value={answer4} onChange={(e) => setAnswer4(e.target.value)} required/>
                     </div>
                 </div>
 

@@ -12,6 +12,7 @@ import { useQuestionBookletsContext } from "../../../../Context/QuestionBooklets
 import { getGTestById } from "../../../../Services/ms_test/TestService";
 import { useEffect } from "react";
 import { createBookletDownloadLink } from "../../../../Services/ms_assessment/AssessmentService";
+import axios from "axios";
 import JSZip from "jszip";
 export const GeneratedTest = () => {
 
@@ -50,12 +51,38 @@ export const GeneratedTest = () => {
         }
     })
 
-    const downloadAllBooklets = async (e) => {
-        const response = await createBookletDownloadLink(bookletIds);
-        console.log(response);
-        
-        
+    const downloadFile = async () => {
+        try {
+            const response = await axios({
+                url: 'http://localhost:8087/api/v1/tests/question-booklets/create-docs', // Endpoint to generate/download the file
+                method: 'POST',
+                responseType: 'blob', // Important to handle binary data files
+                data: bookletIds
+            });
+
     
+            return response.data;
+        } catch (error) {
+            console.error('Download error:', error);
+            throw error;
+        }
+    };
+
+    const triggerDownload = (blob, filename) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename); // Set the filename
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link); // Clean up
+        window.URL.revokeObjectURL(url); // Free up memory
+    };
+
+    const downloadAllBooklets = async (e) => {
+        const fileBlob = await downloadFile();
+        console.log(fileBlob);
+        triggerDownload(fileBlob, 'question-booklet.zip');
         
     }
     
