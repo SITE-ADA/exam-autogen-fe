@@ -21,7 +21,7 @@ const InstructorDataTable = ({checkBoxForAll}) =>
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [userToDelete, setUserToDelete] = useState(null)
+    const [userToDelete, setUserToDelete] = useState({})
     //const {user} = useCurrentUserContext();
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -57,12 +57,12 @@ const InstructorDataTable = ({checkBoxForAll}) =>
             <tbody>
                 {instructors?.map((instructor) => (
                     <tr key={instructor.instructorID}>
-                        <td><input   type="checkbox" name="checkboxAll" id={`checkbox-${instructor.instructorID}`} /></td>
-                        <td className="full_name">{instructor.fullName == null ? ("no data") : (instructor.fullName)}</td>
-                        <td className="username">{instructor.username == null ? ("no data") : instructor.username}</td>
-                        <td className="email">{instructor.contactDTO.primaryEmail == null ? ("no data") : instructor.contactDTO.primaryEmail }</td>
-                        <td className="phone">{instructor.contactDTO.primaryPhone == null ? ("no data") : instructor.contactDTO.primaryPhone}</td>
-                        <td className="birth_date">{instructor.birthDate == null ? ("no data") : (instructor.birthDate)}</td>
+                        <td><input   type="checkbox" name="checkboxAll" id={`checkbox-${instructor?.instructorID}`} /></td>
+                        <td className="full_name">{instructor?.fullName == null ? ("no data") : (instructor?.fullName)}</td>
+                        <td className="username">{instructor?.username == null ? ("no data") : instructor?.username}</td>
+                        <td className="email">{instructor?.contactDTO?.primaryEmail == null ? ("no data") : instructor?.contactDTO?.primaryEmail }</td>
+                        <td className="phone">{instructor?.contactDTO?.primaryPhone == null ? ("no data") : instructor?.contactDTO?.primaryPhone}</td>
+                        <td className="birth_date">{instructor?.dob == null ? ("no data") : (instructor?.dob)}</td>
                         <td className="actions">
                             <div className="triple-dots">
                                 <img src={TripleDots} alt="" />
