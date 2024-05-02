@@ -56,11 +56,10 @@ export const GeneratedTest = () => {
             const response = await axios({
                 url: 'http://localhost:8087/api/v1/tests/question-booklets/create-docs', // Endpoint to generate/download the file
                 method: 'POST',
-                responseType: 'blob', // Important to handle binary data files
+                responseType: 'blob',
                 data: bookletIds
             });
 
-    
             return response.data;
         } catch (error) {
             console.error('Download error:', error);

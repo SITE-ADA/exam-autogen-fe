@@ -399,6 +399,9 @@ const CreateEditQuestion = () =>
           console.log(responseCorrectAnswer);
           console.log(responseCorrectAnswer.data);
 
+          successs("Question successfully created!");
+
+          
           
       } catch (error) {
           // Handle errors
@@ -428,6 +431,33 @@ const CreateEditQuestion = () =>
     const goBack = () => {
         navigate(`/Instructor/QuestionPools/${questionPoolId}`);
     }
+    const successs = (message) => {
+      toast.success(message, {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+      });
+  }
+
+  const errorr = (message) => {
+      toast.error(message, {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+      });
+  }
+
+    
 
     return(
         <div className={styles.add_question_tag_page}>
@@ -506,6 +536,18 @@ const CreateEditQuestion = () =>
                     </button>
                 </div>
             </form>
+            <ToastContainer
+                position="top-right"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     );
 }

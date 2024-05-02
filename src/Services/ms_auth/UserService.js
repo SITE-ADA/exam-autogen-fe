@@ -23,4 +23,6 @@ export const patchUser = async(id, username, institution_id) =>
 
 export const getUserDetails = async(id) => 
                     await msAuthApi.get(`/user-details/${id}`)
+
+export const patchUserDetails = async(id, {}) => await msAuthApi.patch();
         

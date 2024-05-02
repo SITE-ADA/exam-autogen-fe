@@ -120,7 +120,7 @@ export const Test = () => {
             <div className={styles.hor_line}></div>
             <h3 className={styles.test_content}>Test Content</h3>
 
-            <div className={styles.question_buckets}>
+            <div className={styles.question_buckets} style={{ maxHeight: '500px', overflowY: 'auto' }}>
 
             { Object.entries(qBuckets).map(([key, value], index)=> (
                 <div key={key} className={styles.question_bucket}>
