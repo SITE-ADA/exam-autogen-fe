@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from './Result.module.css';
 import { useAssessmentContext } from "../../../../Context/AssessmentContext";
+import { useNavigate } from "react-router-dom";
 
 export const Result = () => {
     const { omrResponse } = useAssessmentContext();
     const [testVariant, setTestVariant] = useState("");
     const scores = omrResponse ? JSON.parse(omrResponse.scoresJson) : {}; // Parse scoresJson to object
+    const navigate = useNavigate();
+
+    const BackToAssessment = () => {
+        navigate('/Instructor/Assessment');
+    }
 
     return (
         <div className={styles.result_page}>
@@ -40,6 +46,11 @@ export const Result = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+            <div className={styles.btn_container}>
+                        <button onClick={() => BackToAssessment()} type='submit' className={styles.add_btn}>
+                            <span>New Assessment</span>
+                        </button>
             </div>
         </div>
     );

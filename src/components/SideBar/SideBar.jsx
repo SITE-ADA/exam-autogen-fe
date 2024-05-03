@@ -120,20 +120,7 @@ const queryClient = useQueryClient();
             <span className={styles.name}>Institutions</span>
           </NavLink>
 
-          <NavLink
-            to="/Admin/Settings"
-            className={`${styles.tab} ${activeTab === "/Admin/Settings" ? styles.active : ""}`}
-            onClick={() => handleTabClick("/Admin/Settings")}
-          >
-            <img
-              className={styles.icon}
-              src={activeTab === "/Admin/Settings" ? SettingsWhiteIcon : SettingsBlackIcon}
-              alt="Settings"
-              width={24}
-              height={24}
-            />
-            <span className={styles.name}>Settings</span>
-          </NavLink>
+          
 
         </>
         )}

@@ -14,6 +14,8 @@ const DeleteInstructorModal = ({open, instructor, onClose}) => {
     const username = instructor?.username;
     const userId = instructor?.instructorID;
     console.log(userId);
+
+    console.log(userId);
     const {refetchInstructors} = useInstructorsContext();
 
     const handleDeleteUser = async() =>
@@ -48,7 +50,7 @@ const DeleteInstructorModal = ({open, instructor, onClose}) => {
     }
 
     const success = () => {
-        toast.success('User has successfully been deleted!', {
+        toast.success('Instructor has successfully been deleted!', {
             position: "top-right",
             autoClose: 2500,
             hideProgressBar: true,

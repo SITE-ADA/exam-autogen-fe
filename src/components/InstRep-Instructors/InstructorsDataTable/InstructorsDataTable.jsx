@@ -21,7 +21,7 @@ const InstructorDataTable = ({checkBoxForAll}) =>
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [userToDelete, setUserToDelete] = useState({})
+    const [userToDelete, setUserToDelete] = useState(null);
     //const {user} = useCurrentUserContext();
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
